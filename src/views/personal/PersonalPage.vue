@@ -63,15 +63,19 @@
       <div class="div2">
         <img
           :src="require('@/assets/image.png')"
-          class="user_person1"
+          class="user_person"
           height="150px"
           width="150px"
         />
       </div>
 
       <div class="div3">
-        <p>huaufdhdsa</p>
+        <p id="userName">用户名</p>
+        <p id="id">ID:</p>
+        <p id="adress">IP:</p>
       </div>
+
+      <button id="button_concern">关注</button>
     </div>
   </el-row>
 </template>
@@ -117,26 +121,41 @@ export default {
 </script>
 
 <style>
+#userName {
+  font-weight: bolder;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+#id {
+  font-size: 1ch;
+}
+#adress {
+  font-size: 1ch;
+}
+#button_concern {
+  background-color: #017371;
+  color: #fff;
+  font-family: 微软雅黑；;
+  font-size: 1ch;
+}
 .div1 {
-  border: 5px solid red;
-
+  float: left;
   height: 150px;
-  width: 610px;
+  width: 550px;
   margin-top: 50px;
 }
 .div2 {
   width: 150px;
   height: 150px;
-  border: 5px solid red;
   margin-left: 0px;
   margin-top: 0px;
-  display: inline-block;
+  float: left;
 }
 .div3 {
-  display: inline-block;
+  margin-left: 50px;
+  float: left;
   width: 100px;
   height: 100px;
-  border: 5px solid red;
 }
 .user_person {
   height: 150px;
@@ -162,7 +181,6 @@ button {
   cursor: pointer;
   outline: none;
   float: right;
-  z-index: 2;
 }
 
 .group {
@@ -211,12 +229,11 @@ input:hover {
 
 button:hover {
   background-color: #23c483;
-  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  /* box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4); */
   color: #fff;
-  transform: translateY(-7px);
 }
 
 button:active {
-  transform: translateY(-1px);
+  /* transform: translateY(-1px); */
 }
 </style>
