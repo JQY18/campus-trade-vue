@@ -46,6 +46,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -78,7 +79,7 @@ export default {
         self
           .$axios({
             method: "post",
-            url: "http://127.0.0.1:10520/api/user/login",
+            url: "http://localhost:8080/api/user/login",
             data: {
               email: self.form.useremail,
               password: self.form.userpwd,
