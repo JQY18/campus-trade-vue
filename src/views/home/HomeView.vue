@@ -1,10 +1,13 @@
 <template>
-  
   <el-row class="tac">
     <el-col :span="8">
-      
-<img :src="require('@/assets/logo3.png')" >
-      <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+      <img :src="require('@/assets/logo3.png')" />
+      <el-menu
+        default-active="2"
+        class="el-menu-vertical-demo"
+        @open="handleOpen"
+        @close="handleClose"
+      >
         <el-submenu index="1">
           <template v-slot:title>
             <i class="el-icon-location"></i>
@@ -26,64 +29,60 @@
         <el-menu-item index="2">
           <i class="el-icon-menu"></i>
           <template v-slot:title>
-          <span >导航二</span>
+            <span>导航二</span>
           </template>
         </el-menu-item>
-        <el-menu-item index="3" >
+        <el-menu-item index="3">
           <i class="el-icon-document"></i>
           <template v-slot:title>
-          <span >导航三</span>
+            <span>导航三</span>
           </template>
         </el-menu-item>
         <el-menu-item index="4">
           <i class="el-icon-setting"></i>
           <template v-slot:title>
-          <span >导航四</span>
+            <span>导航四</span>
           </template>
         </el-menu-item>
       </el-menu>
     </el-col>
     <div class="group">
-  <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
-    <g>
-      <path
-        d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
-      ></path>
-    </g>
-  </svg>
-  <input class="input" type="search" placeholder="Search" />
-  
-</div>
-<button> 登录
-</button>
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
+        <g>
+          <path
+            d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+          ></path>
+        </g>
+      </svg>
+      <input class="input" type="search" placeholder="Search" />
+    </div>
 
-
+    <router-link :to="{name: 'login'}"><button>登录</button></router-link>
+    
   </el-row>
-  
+
 </template>
+
+
 <script>
 export default {
   data() {
     return {
-      input: ''
-    }
+      input: "",
+    };
   },
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style>
-
-
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
@@ -145,8 +144,7 @@ button {
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
-  float:right;
-  
+  float: right;
 }
 
 button:hover {
