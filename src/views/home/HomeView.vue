@@ -57,10 +57,14 @@
       <input class="input" type="search" placeholder="Search" />
     </div>
 
-    <router-link :to="{name: 'login'}"><button>登录</button></router-link>
+    <router-link :to="{ name: 'login' }"><button>登录</button></router-link>
     
+    <router-link :to="isLogin ? '/login' : '/mine'">
+      <button @click="isLogin">
+        <img :src="require('@/assets/用户.png')" class="user" />
+      </button>
+    </router-link>
   </el-row>
-
 </template>
 
 
@@ -69,6 +73,7 @@ export default {
   data() {
     return {
       input: "",
+      isLogin: false,
     };
   },
   mounted() {},
@@ -86,6 +91,30 @@ export default {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
+}
+button {
+  padding: 1.3em 3em;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  float: right;
+  z-index: 2;
+}
+.user {
+  margin-right: 5px;
+  float: right;
+  height: 1.5em;
+  width: 1.5em;
+  z-index: 1;
 }
 .group {
   display: flex;
@@ -129,22 +158,6 @@ input:hover {
   fill: #9e9ea7;
   width: 1rem;
   height: 1rem;
-}
-button {
-  padding: 1.3em 3em;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-weight: 500;
-  color: #000;
-  background-color: #fff;
-  border: none;
-  border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease 0s;
-  cursor: pointer;
-  outline: none;
-  float: right;
 }
 
 button:hover {

@@ -13,6 +13,11 @@ const routes = [{
     name: 'login',
     component: () => import('../views/login/TryPage.vue')
   },
+  {
+    path: '/user',
+    name: 'user',
+    component: () => import('../views/personal/PersonalDiv.vue')
+  },
 
   // 首页
 
