@@ -1,6 +1,6 @@
 <template>
   <el-row class="tac">
-    <el-col :span="8">
+    <el-col :span="7">
       <img :src="require('@/assets/logo3.png')" />
       <el-menu
         default-active="2"
@@ -58,7 +58,20 @@
     </div>
 
     <router-link :to="{name: 'login'}"><button>登录</button></router-link>
-    
+    <div class="card">
+<el-col :span="4" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
+    <el-card :body-style="{ padding: '0px',margin:'10px'}">
+      <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+      <div style="padding: 14px;">
+        <span>好吃的汉堡</span>
+        <div class="bottom clearfix">
+          <time class="time">{{ currentDate }}</time>
+          <el-button type="text" class="button">操作按钮</el-button>
+        </div>
+      </div>
+    </el-card>
+  </el-col>
+</div>
   </el-row>
 
 </template>
@@ -69,6 +82,7 @@ export default {
   data() {
     return {
       input: "",
+      currentDate: new Date()
     };
   },
   mounted() {},
@@ -157,4 +171,36 @@ button:hover {
 button:active {
   transform: translateY(-1px);
 }
+.time {
+    font-size: 13px;
+    color: #999;
+  }
+  
+  .bottom {
+    margin-top: 13px;
+    line-height: 12px;
+  }
+
+  .button {
+    padding: 0;
+    float: right;
+  }
+
+  .image {
+    width: 100%;
+    display: block;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+      display: table;
+      content: "";
+  }
+  
+  .clearfix:after {
+      clear: both
+  }
+  .card{
+    margin-top:20px;
+  }
 </style>
