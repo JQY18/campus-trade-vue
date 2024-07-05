@@ -1,6 +1,6 @@
 <template>
   <el-row class="tac">
-    <el-col :span="12">
+    <el-col :span="8">
           <img :src="require('@/assets/logo3.png')" />
           <el-menu
             default-active="2"

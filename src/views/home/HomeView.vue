@@ -3,7 +3,7 @@
     <el-aside>
       <!-- 侧边导航菜单 -->
       <el-row class="tac">
-        <el-col :span="12">
+        <el-col :span="8">
           <img :src="require('@/assets/logo3.png')" />
           <el-menu
             default-active="2"
@@ -44,7 +44,7 @@
               <el-menu-item index="1-10">女装</el-menu-item>
               
             </el-submenu>
-            <el-menu-item index="3">
+            <el-menu-item index="3" @click="gotoPublish">
               <i class="el-icon-document"></i>
               <template v-slot:title>
                 <span>发布</span>
