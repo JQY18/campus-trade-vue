@@ -6,12 +6,12 @@
         <el-col :span="8">
           <img :src="require('@/assets/logo3.png')" />
           <el-menu
-            default-active="2"
+            default-active="1"
             class="el-menu-vertical-demo"
             @open="handleOpen"
             @close="handleClose"
           >
-          <el-menu-item index="1">
+          <el-menu-item index="1" @click="goTo('home')">
               <i class="el-icon-menu"></i>
               <template v-slot:title>
                 <span>发现</span>
@@ -44,7 +44,7 @@
               <el-menu-item index="1-10">女装</el-menu-item>
               
             </el-submenu>
-            <el-menu-item index="3" @click="gotoPublish">
+            <el-menu-item index="3" @click="goTo('publish')">
               <i class="el-icon-document"></i>
               <template v-slot:title>
                 <span>发布</span>
@@ -77,51 +77,61 @@
               ></path>
             </g>
           </svg>
-          <input class="input" type="search" placeholder="Search" />
+          <input
+            class="input"
+            type="search"
+            placeholder="Search"
+            v-model="search"
+          />
         </div>
-        <router-link :to="isLogin ? '/login' : 'mine'">
-          <button @click="isLogin">
+
+        <router-link :to="!isLogin ? '/mine' : '/login'">
+          <button>
             <img
               :src="require('@/assets/用户.png')"
               style="width: 20px; height: 20px"
             />
           </button>
         </router-link>
-        <router-link :to="{ name: 'login' }">
+
+        <router-link v-if="!isLogin" :to="{ name: 'login' }">
           <button>登录</button>
         </router-link>
         <!-- <router-link :to="{name:'login'}">登录</router-link> -->
         <!-- <router-link :to="{name:'login'}">登录</router-link> -->
         <!-- <router-link :to="{name:'login'}">登录</router-link> -->
       </el-header>
+
       <el-main>
-    <el-row :gutter="20">
-      <el-col :span="6" v-for="(image, index) in images" :key="index">
-        <div class="card-container">
-          <el-card :body-style="{ padding: '0px', margin: '10px' }">
-            <img :src="getImagePath(image)" class="image">
-            <div style="padding: 14px;">
-              <span>好吃的汉堡</span>
-              <div class="bottom clearfix">
-                <time class="time">{{ currentDate }}</time>
-                <el-button type="text" class="button">操作按钮</el-button>
-              </div>
+        <el-row :gutter="20">
+          <el-col :span="6" v-for="(image, index) in images" :key="index">
+            <div class="card-container">
+              <el-card :body-style="{ padding: '0px', margin: '10px' }">
+                <img :src="getImagePath(image)" class="image" />
+                <div style="padding: 14px">
+                  <span>好吃的汉堡</span>
+                  <div class="bottom clearfix">
+                    <time class="time">{{ currentDate }}</time>
+                    <el-button type="text" class="button">查看详情</el-button>
+                  </div>
+                </div>
+              </el-card>
             </div>
-          </el-card>
-        </div>
-      </el-col>
-    </el-row>
-  </el-main>
+          </el-col>
+        </el-row>
+      </el-main>
     </el-container>
   </el-container>
 </template>
 
 
 <script>
+import request from "@/utils/axiosInstance";
+
 export default {
   data() {
     return {
-      input: "",
+      search: "",
       images: [
         "Boghossian Kissing Air 帕拉伊巴钻石珠宝套装 (2).jpg",
         "Boucheron Chromatique 花朵珠宝套装 (1).jpg",
@@ -133,6 +143,16 @@ export default {
       ],
       currentDate: new Date(),
       isLogin: false,
+      dataList: [
+        {
+          id: "",
+          image: "",
+          title: "",
+          date: "",
+        },
+      ],
+      defaultDataList:[],
+      searchDataList: [],
     };
   },
   mounted() {},
@@ -147,6 +167,32 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
+    getData() {
+      request
+        .get("/posts/page")
+        .then((res) => {
+          this.dataList = res.data.data;
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    searchData() {
+      // 在这里实现搜索逻辑
+      request
+        .get("/posts/search", { params: { search: this.search } })
+        .then((res) => {
+          this.dataList = res.data.data;
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    goTo(name) {
+      this.$router.push({name: name}).catch(err => {err});
+    }
   },
 };
 </script>

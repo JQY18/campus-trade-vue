@@ -65,9 +65,17 @@ export default {
   },
   
   mounted() {
-    
+    const currentRoute = this.$route;
+    this.$router.push(currentRoute).catch(() => {}); 
   },
   methods: {
+    showMessage(msg,type) {
+      this.$message({
+        message: msg,
+        type: type, // 消息类型，可选值：success / warning / info / error
+        duration: 3 * 1000 // 显示时间，单位毫秒，默认是 3000
+      });
+    },
     changeType() {
       this.isLogin = !this.isLogin;
       this.form.nickname = "";
@@ -85,12 +93,12 @@ export default {
           .then((res) => {
             switch (res.data.code) {
               case 1:
-                alert("登陆成功！");
+                this.showMessage("登陆成功！", "success");
                 localStorage.setItem("token", res.data.data.token);
                 this.$router.push("/");
                 break;
               case 0:
-                alert(res.data.msg);
+                this.showMessage(res.data.msg, "error");
                 break;
             }
           })
@@ -98,7 +106,7 @@ export default {
             console.log(err);
           });
       } else {
-        alert("填写不能为空！");
+        this.showMessage("填写不能为空！", "warning");
       }
     },
     register() {
@@ -113,15 +121,15 @@ export default {
           .then((res) => {
             switch (res.data.code) {
               case 1:
-                alert("注册成功！");
+                this.showMessage("注册成功！","success");
                 this.isLogin = !this.isLogin;
                 break;
               case 0:
-                alert(res.data.msg);
+                this.showMessage(res.data.msg,"error");
                 break;
               case 2:
                 this.existed = true;
-                alert(res.data.msg);
+                this.showMessage(res.data.msg,"error");
                 break;
             }
           })
@@ -129,7 +137,7 @@ export default {
             console.log(err);
           });
       } else {
-        alert("填写不能为空！");
+        this.showMessage("填写不能为空！", "warning");
       }
     },
   },
