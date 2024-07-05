@@ -63,6 +63,10 @@ export default {
       },
     };
   },
+  
+  mounted() {
+    
+  },
   methods: {
     changeType() {
       this.isLogin = !this.isLogin;
@@ -82,17 +86,7 @@ export default {
             switch (res.data.code) {
               case 1:
                 alert("登陆成功！");
-
-                // 设置cookie过期时间
-                var date = new Date();
-                date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
-                document.cookie =
-                  "token=" +
-                  res.data.token +
-                  ";expires=" +
-                  date.toGMTString() +
-                  ";HttpOnly";
-
+                localStorage.setItem("token", res.data.data.token);
                 this.$router.push("/");
                 break;
               case 0:

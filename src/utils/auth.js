@@ -1,3 +1,5 @@
+import request from '../utils/axiosInstance'
+
 export function getToken() {
     // 获取token的逻辑
     return localStorage.getItem('token');
