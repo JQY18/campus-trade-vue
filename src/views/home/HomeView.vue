@@ -67,6 +67,11 @@
           <input class="input" type="search" placeholder="Search" />
           
         </div>
+        <router-link :to=" isLogin ? '/login':'mine'">
+          <button @click="isLogin">
+          <img :src="require('@/assets/用户.png')" style="width:20px;height:20px" />
+        </button>
+        </router-link>
         <router-link :to="{name:'login'}">
           <button>登录</button>
         </router-link>
@@ -77,9 +82,10 @@
      
       </el-header>
       <el-main>
-        
+        <el-col :span="4" v-for="(o) in 20" :key="o" :offset="(index%4)==0 ? 0 : 1" >
+        <div class="card2">
         <div class="card">
-          <el-col :span="4" v-for="(o) in 20" :key="o" :offset="(index%4)==0 ? 0 : 2">
+          
             <!-- :offset="index > 0 ? 2 : 0" -->
             <el-card :body-style="{ padding: '0px', margin: '10px' }">
               <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
@@ -92,8 +98,10 @@
                 </div>
               </div>
             </el-card>
-          </el-col>
+          
         </div>
+      </div>
+    </el-col>
       </el-main>
     </el-container>
   </el-container>
@@ -105,7 +113,8 @@ export default {
   data() {
     return {
       input: "",
-      currentDate: new Date()
+      currentDate: new Date(),
+      isLogin: false,
     };
   },
   mounted() { },
@@ -227,7 +236,28 @@ button:active {
   clear: both
 }
 
+
 .card {
   margin-top: 20px;
+ width: 190px;
+ height: 254px;
+ border-radius: 20px;
+ transition: all .3s;
+}
+
+.card2{
+ width: 190px;
+ height: 254px;
+ border-radius:20%;
+ transition: all .2s;
+}
+
+.card2:hover {
+ transform: scale(0.98);
+ border-radius: 20px;
+}
+
+.card:hover {
+ box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.30);
 }
 </style>
