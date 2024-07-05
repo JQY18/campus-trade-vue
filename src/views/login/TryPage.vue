@@ -5,14 +5,10 @@
         <div class="big-contain" key="bigContainLogin" v-if="isLogin">
           <div class="btitle">账户登录</div>
           <div class="bform">
-            <input type="email" placeholder="Email" v-model="form.useremail" />
-            <span class="errTips" v-if="emailError">* 邮箱填写错误 *</span>
-            <input
-              type="password"
-              placeholder="Password"
-              v-model="form.userpwd"
-            />
-            <span class="errTips" v-if="emailError">* 密码填写错误 *</span>
+            <input type="text" placeholder="用户名" v-model="form.username" />
+            <!-- <span class="errTips" v-if="usernameError">* 用户名填写错误 *</span> -->
+            <input type="password" placeholder="密码" v-model="form.password" />
+            <!-- <span class="errTips" v-if="passwordError">* 密码填写错误 *</span> -->
           </div>
           <button class="bbutton" @click="login">登录</button>
         </div>
@@ -20,19 +16,19 @@
         <div class="big-contain" key="bigContainRegister" v-else>
           <div class="btitle">创建账号</div>
           <div class="bform">
-            <input type="text" placeholder="Name" v-model="form.username" />
+            <input type="nickname" placeholder="昵称" v-model="form.nickname" />
+            <input type="text" placeholder="用户名" v-model="form.username" />
             <span class="errTips" v-if="existed">* 用户名已经存在！ *</span>
-            <input type="email" placeholder="Email" v-model="form.useremail" />
             <input
               type="password"
-              placeholder="Password"
-              v-model="form.userpwd"
+              placeholder="密码"
+              v-model="form.password"
             />
           </div>
           <button class="bbutton" @click="register">注册</button>
         </div>
       </div>
-
+      <!-- 登录和注册框的转换 -->
       <div class="small-box" :class="{ active: isLogin }">
         <div class="small-contain" key="smallContainRegister" v-if="isLogin">
           <div class="stitle">Hello，friend!</div>
@@ -50,50 +46,51 @@
 </template>
 
 <script>
+import request from "@/utils/axiosInstance";
+
 export default {
   name: "login-register",
   data() {
     return {
-      isLogin: false,
-      emailError: false,
+      isLogin: true,
+      usernameError: false,
       passwordError: false,
       existed: false,
       form: {
+        nickname: "",
         username: "",
-        useremail: "",
-        userpwd: "",
+        password: "",
       },
     };
+  },
+  
+  mounted() {
+    
   },
   methods: {
     changeType() {
       this.isLogin = !this.isLogin;
+      this.form.nickname = "";
       this.form.username = "";
-      this.form.useremail = "";
-      this.form.userpwd = "";
+      this.form.password = "";
     },
     login() {
       const self = this;
-      if (self.form.useremail != "" && self.form.userpwd != "") {
-        self
-          .$axios({
-            method: "post",
-            url: "http://localhost:8080/api/user/login",
-            data: {
-              email: self.form.useremail,
-              password: self.form.userpwd,
-            },
+      if (self.form.username != "" && self.form.password != "") {
+        request
+          .post("/user/login", {
+            username: self.form.username,
+            password: self.form.password,
           })
           .then((res) => {
-            switch (res.data) {
-              case 0:
-                alert("登陆成功！");
-                break;
-              case -1:
-                this.emailError = true;
-                break;
+            switch (res.data.code) {
               case 1:
-                this.passwordError = true;
+                alert("登陆成功！");
+                localStorage.setItem("token", res.data.data.token);
+                this.$router.push("/");
+                break;
+              case 0:
+                alert(res.data.msg);
                 break;
             }
           })
@@ -107,28 +104,24 @@ export default {
     register() {
       const self = this;
       if (
+        self.form.nickname != "" &&
         self.form.username != "" &&
-        self.form.useremail != "" &&
-        self.form.userpwd != ""
+        self.form.password != ""
       ) {
-        self
-          .$axios({
-            method: "post",
-            url: "http://127.0.0.1:10520/api/user/add",
-            data: {
-              username: self.form.username,
-              email: self.form.useremail,
-              password: self.form.userpwd,
-            },
-          })
+        request
+          .post("/user/register", self.form)
           .then((res) => {
-            switch (res.data) {
-              case 0:
+            switch (res.data.code) {
+              case 1:
                 alert("注册成功！");
-                this.login();
+                this.isLogin = !this.isLogin;
                 break;
-              case -1:
+              case 0:
+                alert(res.data.msg);
+                break;
+              case 2:
                 this.existed = true;
+                alert(res.data.msg);
                 break;
             }
           })
