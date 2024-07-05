@@ -1,6 +1,6 @@
 <template>
   <el-row class="tac">
-    <el-col :span="12">
+    <el-col :span="8">
           <img :src="require('@/assets/logo3.png')" />
           <el-menu
             default-active="2"
@@ -8,7 +8,7 @@
             @open="handleOpen"
             @close="handleClose"
           >
-          <el-menu-item index="1">
+          <el-menu-item index="1" @click="goTo('home')">
               <i class="el-icon-menu"></i>
               <template v-slot:title>
                 <span>发现</span>
@@ -41,7 +41,7 @@
               <el-menu-item index="1-10">女装</el-menu-item>
               
             </el-submenu>
-            <el-menu-item index="3">
+            <el-menu-item index="3" @click="goTo('publish')">
               <i class="el-icon-document"></i>
               <template v-slot:title>
                 <span>发布</span>
@@ -123,7 +123,11 @@ export default {
       },
     };
   },
-  methods: {},
+  methods: {
+    goTo(name) {
+      this.$router.push({name: name}).catch(err => {err});
+    }
+  },
   created() {},
   mounted() {},
 };
