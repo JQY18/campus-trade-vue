@@ -1,11 +1,16 @@
 <template>
   <el-container>
-    <el-aside >
+    <el-aside>
       <!-- 侧边导航菜单 -->
       <el-row class="tac">
         <el-col :span="12">
           <img :src="require('@/assets/logo3.png')" />
-          <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+          <el-menu
+            default-active="2"
+            class="el-menu-vertical-demo"
+            @open="handleOpen"
+            @close="handleClose"
+          >
             <el-submenu index="1">
               <template v-slot:title>
                 <i class="el-icon-location"></i>
@@ -47,7 +52,6 @@
       </el-row>
     </el-aside>
 
-    
     <!-- 主体部分 -->
     <el-container>
       <el-header style="height: 120px">
@@ -60,49 +64,45 @@
           <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
             <g>
               <path
-                d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
-              </path>
+                d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+              ></path>
             </g>
           </svg>
           <input class="input" type="search" placeholder="Search" />
-          
         </div>
-        <router-link :to=" isLogin ? '/login':'mine'">
+        <router-link :to="isLogin ? '/login' : 'mine'">
           <button @click="isLogin">
-          <img :src="require('@/assets/用户.png')" style="width:20px;height:20px" />
-        </button>
+            <img
+              :src="require('@/assets/用户.png')"
+              style="width: 20px; height: 20px"
+            />
+          </button>
         </router-link>
-        <router-link :to="{name:'login'}">
+        <router-link :to="{ name: 'login' }">
           <button>登录</button>
         </router-link>
         <!-- <router-link :to="{name:'login'}">登录</router-link> -->
         <!-- <router-link :to="{name:'login'}">登录</router-link> -->
         <!-- <router-link :to="{name:'login'}">登录</router-link> -->
-        
-     
       </el-header>
       <el-main>
-        <el-col :span="4" v-for="(o) in 20" :key="o" :offset="(index%4)==0 ? 0 : 1" >
-        <div class="card2">
-        <div class="card">
-          
-            <!-- :offset="index > 0 ? 2 : 0" -->
-            <el-card :body-style="{ padding: '0px', margin: '10px' }">
-              <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                class="image">
-              <div style="padding: 14px;">
-                <span>好吃的汉堡</span>
-                <div class="bottom clearfix">
-                  <time class="time">{{ currentDate }}</time>
-                  <el-button type="text" class="button">操作按钮</el-button>
-                </div>
+    <el-row :gutter="20">
+      <el-col :span="6" v-for="(image, index) in images" :key="index">
+        <div class="card-container">
+          <el-card :body-style="{ padding: '0px', margin: '10px' }">
+            <img :src="getImagePath(image)" class="image">
+            <div style="padding: 14px;">
+              <span>好吃的汉堡</span>
+              <div class="bottom clearfix">
+                <time class="time">{{ currentDate }}</time>
+                <el-button type="text" class="button">操作按钮</el-button>
               </div>
-            </el-card>
-          
+            </div>
+          </el-card>
         </div>
-      </div>
-    </el-col>
-      </el-main>
+      </el-col>
+    </el-row>
+  </el-main>
     </el-container>
   </el-container>
 </template>
@@ -113,12 +113,25 @@ export default {
   data() {
     return {
       input: "",
+      images: [
+        "Boghossian Kissing Air 帕拉伊巴钻石珠宝套装 (2).jpg",
+        "Boucheron Chromatique 花朵珠宝套装 (1).jpg",
+        "Boucheron Chromatique 花朵珠宝套装 (3).jpg",
+        "Chopard Floral 黑欧泊戒指.jpg",
+        "Dior Dentelle Satin Émeraude 祖母绿戒指.jpg",
+        "Van Cleef & Arpels 梵克雅宝 Panache Mystérieux 白金胸针.jpg",
+        "Van Cleef & Arpels 梵克雅宝 Secret des Amoureux 胸针.jpg",
+      ],
       currentDate: new Date(),
       isLogin: false,
     };
   },
-  mounted() { },
+  mounted() {},
   methods: {
+    getImagePath(image) {
+      // 使用 require 动态加载图片
+      return require(`@/assets/${image}`);
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -129,6 +142,12 @@ export default {
 };
 </script>
 <style>
+.card {
+  margin-bottom: 50px;
+}
+.card2 {
+  margin-bottom: 50px;
+}
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
@@ -218,7 +237,6 @@ button:active {
 
 .button {
   padding: 0;
-  
 }
 
 .image {
@@ -233,31 +251,30 @@ button:active {
 }
 
 .clearfix:after {
-  clear: both
+  clear: both;
 }
-
 
 .card {
   margin-top: 20px;
- width: 190px;
- height: 254px;
- border-radius: 20px;
- transition: all .3s;
+  width: 190px;
+  height: 254px;
+  border-radius: 20px;
+  transition: all 0.3s;
 }
 
-.card2{
- width: 190px;
- height: 254px;
- border-radius:20%;
- transition: all .2s;
+.card2 {
+  width: 190px;
+  height: 254px;
+  border-radius: 20%;
+  transition: all 0.2s;
 }
 
 .card2:hover {
- transform: scale(0.98);
- border-radius: 20px;
+  transform: scale(0.98);
+  border-radius: 20px;
 }
 
 .card:hover {
- box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.30);
+  box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.3);
 }
 </style>
