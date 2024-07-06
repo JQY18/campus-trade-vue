@@ -18,6 +18,12 @@ const routes = [{
     name: 'user',
     component: () => import('../views/personal/PersonalDiv.vue')
   },
+  {
+    path: '/publish',
+    name: 'publish',
+    component: () => import('../views/publish/PublishPage.vue')
+  },
+  
 
   // 首页
 
