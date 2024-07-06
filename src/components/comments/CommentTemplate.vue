@@ -74,7 +74,7 @@
   </div>
 </template>
   
-  <script>
+<script>
 import Vue from "vue";
 
 export default {
@@ -144,8 +144,8 @@ export default {
 };
 </script>
   
-  <style scoped lang="scss">
-@import "../../../public/scss/index";
+<style scoped lang="scss">
+@import "/public/scss/index.scss";
 
 .container {
   padding: 0 10px;
