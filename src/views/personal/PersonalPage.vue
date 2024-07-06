@@ -79,9 +79,10 @@
       </div>
 
       <div class="div3">
-        <p id="userName">用户名</p>
-        <p id="id">ID:</p>
-        <p id="adress">IP:</p>
+        <p id="userName">用户名:{{ username }}</p>
+        <p id="nickname">昵称:{{ nickname }}</p>
+        <p id="school">学校:{{ school }}</p>
+
       </div>
 
       <button id="button_concern">关注</button>
@@ -94,32 +95,18 @@ export default {
   data() {
     return {
       information: {
+        //用户id
+        userId: "",
+        //用户名
+        username: "",
+        //学校
+        school: "",
         //头像url
         avatarUrl: "",
         //昵称
         nickName: "",
         //性别
         sex: "",
-        //生日
-        birthday: "",
-        //地区
-        area: "",
-        //个性签名
-        signature: "",
-        //关注
-        follow: "",
-        //粉丝
-        fans: "",
-        //收藏
-        collect: "",
-        //历史
-        history: "",
-        //浏览记录
-        browse: "",
-        //我的收藏
-        myCollect: "",
-        //我的分享
-        myShare: "",
       },
     };
   },

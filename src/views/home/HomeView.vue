@@ -169,7 +169,7 @@ export default {
     },
     getData() {
       request
-        .get("/posts/page")
+        .get("/post/page")
         .then((res) => {
           this.dataList = res.data.data;
           console.log(res);
@@ -181,7 +181,7 @@ export default {
     searchData() {
       // 在这里实现搜索逻辑
       request
-        .get("/posts/search", { params: { search: this.search } })
+        .get("/post/search", { params: { search: this.search } })
         .then((res) => {
           this.dataList = res.data.data;
           console.log(res);
@@ -331,5 +331,9 @@ button:active {
 
 .card:hover {
   box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.3);
+}
+
+.card-container{
+  margin-bottom: 20px;
 }
 </style>
