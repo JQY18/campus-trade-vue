@@ -3,7 +3,14 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-const routes = [{
+const routes = [
+  {
+    path: '/comments',
+    name: 'comments',
+    component: () => import('../components/comments/CommentsPage.vue')
+  },
+  // 首页
+  {
     path: '/',
     name: 'home',
     component: () => import('../views/home/HomeView.vue')
@@ -23,9 +30,22 @@ const routes = [{
     name: 'publish',
     component: () => import('../views/publish/PublishPage.vue')
   },
-  
-
-  // 首页
+  {
+    path: '/error404',
+    name: 'error404',
+    component: () => import('../components/error/ErrorPage404.vue')
+  },
+  {
+    path: '/error500',
+    name: 'error500',
+    component: () => import('../components/error/ErrorPage500.vue')
+  },
+  //详情页
+  {
+    path: '/detail',
+    name: 'detail',
+    component: () => import('../views/home/PostDetail.vue')
+  },
 
   // 个人主页
   {
