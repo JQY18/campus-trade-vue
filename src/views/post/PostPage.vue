@@ -102,6 +102,9 @@
           <p>原神玩家怎么你了</p><br>
         </span>
           <p>木叶飞舞之处，火亦生生不息</p>
+          <div class="hr">
+        <el-divider> 评论区 </el-divider>
+      </div>
           <comments-page></comments-page>
         </el-main>
       </el-container>
@@ -159,7 +162,9 @@ export default {
   position: relative;
   max-width: 490px;
 }
-
+.hr{
+  margin-top: 30px;
+}
 .input {
   width: 100%;
   height: 40px;
