@@ -57,28 +57,35 @@
 
 
         <el-main>
-            <form class="file-upload-form" style="float:right;">
-                <label for="file" class="file-upload-label">
-                    <div class="file-upload-design">
-                        <svg viewBox="0 0 640 512" height="1em">
-                            <path
-                                d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z">
-                            </path>
-                        </svg>
-                        <p>Drag and Drop</p>
-                        <p>or</p>
-                        <span class="browse-button">Browse file</span>
-                    </div>
-                    <input id="file" type="file" />
-                </label>
-            </form>
+
             <el-input type="textarea" autosize placeholder="请输入标题" v-model="textarea1" style="width: 400px;">
             </el-input>
             <div style="margin: 20px 0;"></div>
-            <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 6 }" placeholder="请输入内容" v-model="textarea2" style="width: 400px;">
+            <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 6 }" placeholder="请输入内容" v-model="textarea2"
+                style="width: 400px;">
             </el-input>
-
-
+            <el-upload action="#" list-type="picture-card" :auto-upload="false" :before-upload="beforeAvatarUpload">
+                <i slot="default" class="el-icon-plus"></i>
+                <div slot="file" slot-scope="{file}">
+                    <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
+                    <span class="el-upload-list__item-actions">
+                        <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
+                            <i class="el-icon-zoom-in"></i>
+                        </span>
+                        <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleDownload(file)">
+                            <i class="el-icon-download"></i>
+                        </span>
+                        <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
+                            <i class="el-icon-delete"></i>
+                        </span>
+                    </span>
+                </div>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+                <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
+            <el-button type="primary" class="btn">发布</el-button>
 
         </el-main>
 
@@ -90,12 +97,46 @@ export default {
     data() {
         return {
             textarea1: '',
-            textarea2: ''
+            textarea2: '',
+            dialogImageUrl: '',
+            dialogVisible: false,
+            disabled: false
+        }
+    },
+    methods: {
+        beforeAvatarUpload(file) {
+            const isJPG = file.type === 'image/jpeg';
+            const isLt2M = file.size / 1024 / 1024 < 2;
+
+            if (!isJPG) {
+                this.$message.error('上传头像图片只能是 JPG 格式!');
+            }
+            if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 2MB!');
+            }
+            return isJPG && isLt2M;
+        },
+        handleRemove(file) {
+            const index = this.files.indexOf(file);
+            if (index !== -1) {
+                this.files.splice(index, 1); // 从数据列表中移除文件
+            }
+            console.log('Deleting:', file);
+        },
+        handlePictureCardPreview(file) {
+            this.dialogImageUrl = file.url;
+            this.dialogVisible = true;
+        },
+        handleDownload(file) {
+            console.log('Downloading:', file);
         }
     }
 }
 </script>
 <style>
+.btn{
+    float: left;
+}
 .file-upload-form {
     width: fit-content;
     height: fit-content;
@@ -213,5 +254,32 @@ export default {
 .styled-input:focus {
     border-color: #3c4fe0;
     box-shadow: 0 1px 0 0 rgb(35 38 59 / 5%);
+}
+
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+}
+
+.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+}
+
+.avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
 }
 </style>
