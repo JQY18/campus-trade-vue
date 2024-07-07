@@ -29,6 +29,7 @@
       <div class="reply">
         <div class="item" v-for="reply in item.reply" :key="reply">
           <div class="reply-content">
+            <img class="avatar" :src="reply.replierAvatar" width="30" height="30" />
             <span class="from-name">{{ reply.replierNickname }}</span
             ><span>: </span>
             <span class="to-name">@{{ reply.commenterNickname }}</span>
@@ -227,6 +228,9 @@ export default {
           align-items: center;
           font-size: 14px;
           color: $text-main;
+          .avatar {
+            border-radius: 50%;
+          }
           .from-name {
             color: $color-main;
           }
@@ -282,7 +286,7 @@ export default {
         padding: 10px;
         .gray-bg-input,
         .el-input__inner {
-          /*background-color: #67C23A;*/
+          background-color: #67C23A;
         }
         .btn-control {
           display: flex;
