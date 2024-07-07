@@ -12,6 +12,7 @@ const comment = {
             commenterAvatar: 'http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg', //评论者头像
             like: 3, //点赞人数 == like
             content: '非常靠谱的程序员', //评论内容 == content
+            isLiked: true, //是否点赞 == isLiked
             reply: [ //回复，或子评论  == reply
                 {
                     id: '34523244545', //主键id == id
@@ -50,6 +51,7 @@ const comment = {
             commenterAvatar: 'http://ww1.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2q2p8pj30v90uzmzz.jpg',
             like: 3,
             content: '从没见过这么优秀的人',
+            isLiked: true,
             reply: []
         }
     ]

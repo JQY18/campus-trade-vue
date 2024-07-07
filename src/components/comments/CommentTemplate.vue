@@ -13,7 +13,7 @@
       <div class="control">
         <span
           class="like"
-          :class="{ active: item.isLike }"
+          :class="{ active: item.isLiked }"
           @click="likeClick(item)"
         >
           <i class="iconfont icon-like"></i>
@@ -98,16 +98,16 @@ export default {
      * 点赞
      */
     likeClick(item) {
-      if (item.isLike === null) {
+      if (item.isLiked === null) {
         Vue.$set(item, "isLike", true);
         item.likeNum++;
       } else {
-        if (item.isLike) {
+        if (item.isLiked) {
           item.like--;
         } else {
           item.like++;
         }
-        item.isLike = !item.isLike;
+        item.isLiked = !item.isLiked;
       }
     },
 
