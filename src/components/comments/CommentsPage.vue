@@ -10,7 +10,7 @@ import request from "@/utils/axiosInstance";
 export default {
   props: {//接收父组件的帖子id
     id: {
-      type: int,
+      type: Number,
       required: true,
     },
   },
@@ -25,7 +25,9 @@ export default {
   created() {
     this.commentData = CommentData.comment.data;
     // 根据帖子id查询帖子下的评论
-    request.get("/comments").then((res) => {
+    // request.get(`/comments/${this.id}`)
+    request.get("/comments/1")
+    .then((res) => {
       this.commentData = res.data.data;
     }).catch((err) => {
       console.log(err)

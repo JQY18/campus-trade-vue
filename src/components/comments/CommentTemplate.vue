@@ -3,10 +3,10 @@
   <div class="container">
     <div class="comment" v-for="item in comments" :key="item">
       <div class="info">
-        <img class="avatar" :src="item.fromAvatar" width="36" height="36" />
+        <img class="avatar" :src="item.commenterAvatar" width="36" height="36" />
         <div class="right">
-          <div class="name">{{ item.fromName }}</div>
-          <div class="date">{{ item.date }}</div>
+          <div class="name">{{ item.commenterNickname }}</div>
+          <div class="date">{{ item.createTime }}</div>
         </div>
       </div>
       <div class="content">{{ item.content }}</div>
@@ -18,7 +18,7 @@
         >
           <i class="iconfont icon-like"></i>
           <span class="like-num">{{
-            item.likeNum > 0 ? item.likeNum + "人赞" : "赞"
+            item.like > 0 ? item.like + "人赞" : "赞"
           }}</span>
         </span>
         <span class="comment-reply" @click="showCommentInput(item)">
@@ -29,13 +29,13 @@
       <div class="reply">
         <div class="item" v-for="reply in item.reply" :key="reply">
           <div class="reply-content">
-            <span class="from-name">{{ reply.fromName }}</span
+            <span class="from-name">{{ reply.replierNickname }}</span
             ><span>: </span>
-            <span class="to-name">@{{ reply.toName }}</span>
+            <span class="to-name">@{{ reply.commenterNickname }}</span>
             <span>{{ reply.content }}</span>
           </div>
           <div class="reply-bottom">
-            <span>{{ reply.date }}</span>
+            <span>{{ reply.createTime }}</span>
             <span class="reply-text" @click="showCommentInput(item, reply)">
               <i class="iconfont icon-comment"></i>
               <span>回复</span>
@@ -102,9 +102,9 @@ export default {
         item.likeNum++;
       } else {
         if (item.isLike) {
-          item.likeNum--;
+          item.like--;
         } else {
-          item.likeNum++;
+          item.like++;
         }
         item.isLike = !item.isLike;
       }
@@ -131,7 +131,7 @@ export default {
      */
     showCommentInput(item, reply) {
       if (reply) {
-        this.inputComment = "@" + reply.fromName + " ";
+        this.inputComment = "@" + reply.commenterNickname + " ";
       } else {
         this.inputComment = "";
       }
