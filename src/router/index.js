@@ -5,6 +5,16 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/manage',
+    name: 'manage',
+    component: () => import('../views/manage/ManageView.vue')
+  },
+  {
+    path: '/post',
+    name: 'post',
+    component: () => import('../views/post/PostPage.vue')
+  },
+  {
     path: '/comments',
     name: 'comments',
     component: () => import('../components/comments/CommentsPage.vue')
@@ -63,7 +73,8 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import( /* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+  },
+  
 ]
 
 const router = new VueRouter({
