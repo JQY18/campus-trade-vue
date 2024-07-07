@@ -28,6 +28,7 @@
               <el-menu-item index="1-1">鞋类</el-menu-item>
               <el-menu-item index="1-2">潮服</el-menu-item>
 
+
               <el-menu-item index="1-3">数码</el-menu-item>
 
               <el-submenu index="1-4">
@@ -40,6 +41,7 @@
               <el-menu-item index="1-8">配饰</el-menu-item>
               <el-menu-item index="1-9">潮玩</el-menu-item>
               <el-menu-item index="1-10">女装</el-menu-item>
+
             </el-submenu>
             <el-menu-item index="3" @click="goTo('publish')">
               <i class="el-icon-document"></i>
@@ -57,34 +59,35 @@
         </el-col>
       </el-row>
     </el-aside>
-    <el-container>
-      <el-header>
-        <div class="group">
-          <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
-            <g>
-              <path
+  <el-container>
+    <el-header>
+      <div class="group">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
+          <g>
+            <path
                 d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
               ></path>
-            </g>
-          </svg>
-          <input class="input" type="search" placeholder="Search" />
-        </div>
+          </g>
+        </svg>
+        <input class="input" type="search" placeholder="Search" />
+      </div>
 
-        <router-link :to="{ name: 'login' }"><button>登录</button></router-link>
+      <router-link :to="{ name: 'login' }"><button>登录</button></router-link>
 
-        <div class="div1">
-          <div class="div2">
+      <div class="div1">
+        <div class="div2">
             <img
               :src="require('@/assets/image.png')"
               class="user_person"
               height="150px"
               width="150px"
             />
-          </div>
-          <div class="div3">
-            <p id="userName">用户名:{{ username }}</p>
-            <p id="nickname">昵称:{{ nickname }}</p>
-            <p id="school">学校:{{ school }}</p>
+        </div>
+
+        <div class="div3">
+          <p id="userName">用户名:{{ username }}</p>
+          <p id="nickname">昵称:{{ nickname }}</p>
+          <p id="school">学校:{{ school }}</p>
           </div>
           <button id="button_concern">关注</button>
         </div>
@@ -95,27 +98,26 @@
       </div>
 
       <el-main style="margin-top: 30px">
-        <el-row :gutter="20">
-          <el-col :span="6" v-for="(image, index) in images" :key="index">
-            <div class="card-container">
-              <el-card :body-style="{ padding: '0px', margin: '10px' }">
-                <img :src="getImagePath(image)" class="image" />
-                <div style="padding: 14px">
+      <el-row :gutter="20">
+        <el-col :span="6" v-for="(image, index) in images" :key="index">
+          <div class="card-container">
+            <el-card :body-style="{ padding: '0px', margin: '10px' }">
+              <img :src="getImagePath(image)" class="image" />
+              <div style="padding: 14px">
                   <span>珠宝</span>
-                  <div class="bottom clearfix">
-                    <time class="time">{{ currentDate }}</time>
+                <div class="bottom clearfix">
+                  <time class="time">{{ currentDate }}</time>
                     <el-button type="text" class="button">查看详情</el-button>
-                  </div>
                 </div>
-              </el-card>
-            </div>
-          </el-col>
-        </el-row>
-      </el-main>
-
-
+              </div>
+            </el-card>
+          </div>
+        </el-col>
+      </el-row>
+    </el-main>
     </el-container>
   </el-container>
+
 </template>
 
 <script>
@@ -124,15 +126,15 @@ export default {
     return {
       information: {
         //用户id
-        userId: "",
+        userId: "123456",
         //用户名
-        username: "",
+        username: "陈剑锋",
         //学校
-        school: "",
+        school: "师专",
         //头像url
         avatarUrl: "",
         //昵称
-        nickName: "",
+        nickName: "杀我自动下载第五人格",
         //性别
         sex: "",
       },
@@ -149,18 +151,17 @@ export default {
     };
   },
   methods: {
+    
     goTo(name) {
-      this.$router.push({ name: name }).catch((err) => {
-        err;
-      });
+      this.$router.push({ name: name ,params:{information:this.information}}).catch(err => { err });
     },
     getImagePath(image) {
       // 使用 require 动态加载图片
       return require(`@/assets/${image}`);
     },
   },
-  created() {},
-  mounted() {},
+  created() { },
+  mounted() { },
 };
 </script>
 
@@ -329,6 +330,7 @@ button {
   transition: transform 0.3s ease-in-out;
 }
 
+
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
@@ -434,6 +436,8 @@ button:active {
 .clearfix:after {
   clear: both;
 }
+
+
 
 .card-container {
   margin-bottom: 20px;

@@ -1,6 +1,6 @@
 <template>
-    <el-container>
-        <el-aside>
+  <el-container>
+    <el-aside>
       <!-- 侧边导航菜单 -->
       <el-row class="tac">
         <el-col :span="8">
@@ -55,8 +55,8 @@
         </el-col>
       </el-row>
     </el-aside>
-        <el-container>
-            <el-header style="height: 120px">
+    <el-container>
+      <el-header style="height: 120px">
         <!-- 头部搜索框 -->
         <!-- <el-aside>
        <img :src="require('@/assets/logo3.png')" />
@@ -86,58 +86,68 @@
         <!-- <router-link :to="{name:'login'}">登录</router-link> -->
         <!-- <router-link :to="{name:'login'}">登录</router-link> -->
       </el-header>
-        <el-container>
-            <el-aside style="width: 500px;  ">
-                <div >
-                <el-carousel :interval="5000" arrow="always" height="700px">
-                    <el-carousel-item v-for="item in 4" :key="item">
-                        <h3>{{ item }}</h3>
-                    </el-carousel-item>
-                </el-carousel>
-            </div>
-            </el-aside>
-            <el-main>
-                <comments-page></comments-page>
-            </el-main>
-        </el-container>
-        </el-container>
+      <el-container>
+        <el-aside style="width: 500px;  ">
+          <div>
+            <el-carousel :interval="5000" arrow="always" height="700px">
+              <el-carousel-item v-for="item in 4" :key="item">
+                <h3>{{ item }}</h3>
+              </el-carousel-item>
+            </el-carousel>
+          </div>
+        </el-aside>
+        <el-main>
+          <span>
+          <img class="avatar" :src="require('@/assets/image.png')" alt="头像" width="46" height="46" />
+          <p>原神玩家怎么你了</p><br>
+        </span>
+          <p>木叶飞舞之处，火亦生生不息</p>
+          <div class="hr">
+        <el-divider> 评论区 </el-divider>
+      </div>
+          <comments-page></comments-page>
+        </el-main>
+      </el-container>
     </el-container>
+  </el-container>
 
 </template>
 <script>
 import CommentsPage from '@/components/comments/CommentsPage.vue';
 export default {
   components: { CommentsPage },
-    name: 'PostPage',
-    methods: {
-        handleOpen(key, keyPath) {
+  name: 'PostPage',
+  methods: {
+    handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-        goTo(path) {
-            this.$router.push(path)
-        }
+    goTo(path) {
+      this.$router.push(path)
     }
+  }
 }
 </script>
 <style>
-
+.avatar {
+  border-radius: 50%;
+}
 .el-carousel__item h3 {
-    color: #475669;
-    font-size: 18px;
-    opacity: 0.75;
-    line-height: 300px;
-    margin: 0;
+  color: #475669;
+  font-size: 18px;
+  opacity: 0.75;
+  line-height: 300px;
+  margin: 0;
 }
 
 .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
+  background-color: #99a9bf;
 }
 
 .el-carousel__item:nth-child(2n+1) {
-    background-color: #d3dce6;
+  background-color: #d3dce6;
 }
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
@@ -152,7 +162,9 @@ export default {
   position: relative;
   max-width: 490px;
 }
-
+.hr{
+  margin-top: 30px;
+}
 .input {
   width: 100%;
   height: 40px;
@@ -241,8 +253,4 @@ button:active {
 .clearfix:after {
   clear: both;
 }
-
-
-
-
 </style>
