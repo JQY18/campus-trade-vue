@@ -63,10 +63,10 @@ export default {
       },
     };
   },
-  
+  created() {
+  },
   mounted() {
-    const currentRoute = this.$route;
-    this.$router.push(currentRoute).catch(() => {}); 
+ 
   },
   methods: {
     showMessage(msg,type) {
