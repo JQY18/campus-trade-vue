@@ -21,7 +21,7 @@
             <span class="errTips" v-if="existed">* 用户名已经存在！ *</span>
             <input type="password" placeholder="密码" v-model="form.password" />
           </div>
-          <button class="bbutton" @click="register">注册</button>
+          <button class="bbutton1" @click="register">注册</button>
         </div>
       </div>
       <!-- 登录和注册框的转换 -->
@@ -29,7 +29,7 @@
         <div class="small-contain" key="smallContainRegister" v-if="isLogin">
           <div class="stitle">Hello，friend!</div>
           <p class="scontent">开始注册，和我们一起旅行</p>
-          <button class="sbutton" @click="changeType">注册</button>
+          <button class="sbutton1" @click="changeType">注册</button>
         </div>
         <div class="small-contain" key="smallContainLogin" v-else>
           <div class="stitle">Welcome back!</div>

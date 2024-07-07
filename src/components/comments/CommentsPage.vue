@@ -27,7 +27,7 @@ export default {
     // let userId = sessionStorage.getItem("userId");
     // 根据帖子id查询帖子下的评论
     // request.get(`/comments/${this.id}`)
-    request.get("/comments/1",{params: {userId: 1}})
+    request.get("/comments/1",{params: {userId: 2}})
     .then((res) => {
       this.commentData = res.data.data;
     }).catch((err) => {
