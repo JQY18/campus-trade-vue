@@ -25,7 +25,7 @@
               v-model="form.password"
             />
           </div>
-          <button class="bbutton" @click="register">注册</button>
+          <button class="bbutton1" @click="register">注册</button>
         </div>
       </div>
       <!-- 登录和注册框的转换 -->
@@ -33,7 +33,7 @@
         <div class="small-contain" key="smallContainRegister" v-if="isLogin">
           <div class="stitle">Hello，friend!</div>
           <p class="scontent">开始注册，和我们一起旅行</p>
-          <button class="sbutton" @click="changeType">注册</button>
+          <button class="sbutton1" @click="changeType">注册</button>
         </div>
         <div class="small-contain" key="smallContainLogin" v-else>
           <div class="stitle">Welcome back!</div>
@@ -253,6 +253,17 @@ body {
   font-size: 0.9em;
   cursor: pointer;
 }
+.bbutton1 {
+  width: 20%;
+  height: 40px;
+  border-radius: 24px;
+  border: none;
+  outline: none;
+  background-color: rgb(57, 167, 176);
+  color: #fff;
+  font-size: 0.9em;
+  cursor: pointer;
+}
 .small-box {
   width: 30%;
   height: 100%;
@@ -296,7 +307,17 @@ body {
   font-size: 0.9em;
   cursor: pointer;
 }
-
+.sbutton1 {
+  width: 60%;
+  height: 40px;
+  border-radius: 24px;
+  border: 1px solid #fff;
+  outline: none;
+  background-color: transparent;
+  color: #fff;
+  font-size: 0.9em;
+  cursor: pointer;
+}
 .big-box.active {
   left: 0;
   transition: all 0.5s;
