@@ -19,11 +19,7 @@
             <input type="nickname" placeholder="昵称" v-model="form.nickname" />
             <input type="text" placeholder="用户名" v-model="form.username" />
             <span class="errTips" v-if="existed">* 用户名已经存在！ *</span>
-            <input
-              type="password"
-              placeholder="密码"
-              v-model="form.password"
-            />
+            <input type="password" placeholder="密码" v-model="form.password" />
           </div>
           <button class="bbutton" @click="register">注册</button>
         </div>
@@ -63,17 +59,14 @@ export default {
       },
     };
   },
-  created() {
-  },
-  mounted() {
- 
-  },
+  created() {},
+  mounted() {},
   methods: {
-    showMessage(msg,type) {
+    showMessage(msg, type) {
       this.$message({
         message: msg,
         type: type, // 消息类型，可选值：success / warning / info / error
-        duration: 3 * 1000 // 显示时间，单位毫秒，默认是 3000
+        duration: 3 * 1000, // 显示时间，单位毫秒，默认是 3000
       });
     },
     changeType() {
@@ -121,15 +114,15 @@ export default {
           .then((res) => {
             switch (res.data.code) {
               case 1:
-                this.showMessage("注册成功！","success");
+                this.showMessage("注册成功！", "success");
                 this.isLogin = !this.isLogin;
                 break;
               case 0:
-                this.showMessage(res.data.msg,"error");
+                this.showMessage(res.data.msg, "error");
                 break;
               case 2:
                 this.existed = true;
-                this.showMessage(res.data.msg,"error");
+                this.showMessage(res.data.msg, "error");
                 break;
             }
           })
@@ -140,6 +133,14 @@ export default {
         this.showMessage("填写不能为空！", "warning");
       }
     },
+    centerButtons() {
+    const buttons = document.querySelectorAll('.bbutton, .sbutton');
+    buttons.forEach(button => {
+      button.style.display = 'flex';
+      button.style.alignItems = 'center';
+      button.style.justifyContent = 'center';
+    });
+  },
   },
 };
 </script>
@@ -150,6 +151,37 @@ export default {
   box-shadow: 6px 6px 10px #d1d9e6, -6px -6px 10px #f9f9f9;
   transform: scale(0.985);
   transition: 0.25s;
+  vertical-align: center;
+}
+.sbutton {
+  width: 60%;
+  height: 40px;
+  border-radius: 24px;
+  border: 1px solid #fff;
+  outline: none;
+  background-color: transparent;
+  color: #fff;
+  font-size: 0.9em;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bbutton {
+  width: 20%;
+  height: 40px;
+  border-radius: 24px;
+  border: none;
+  outline: none;
+  background-color: rgb(57, 167, 176);
+  color: #fff;
+  font-size: 0.9em;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 body {
   width: 100%;
@@ -242,17 +274,7 @@ body {
 .bform input:focus {
   box-shadow: inset 4px 4px 4px #d1d9e6, inset -4px -4px 4px #f9f9f9;
 }
-.bbutton {
-  width: 20%;
-  height: 40px;
-  border-radius: 24px;
-  border: none;
-  outline: none;
-  background-color: rgb(57, 167, 176);
-  color: #fff;
-  font-size: 0.9em;
-  cursor: pointer;
-}
+
 .small-box {
   width: 30%;
   height: 100%;
@@ -284,17 +306,6 @@ body {
   text-align: center;
   padding: 2em 4em;
   line-height: 1.7em;
-}
-.sbutton {
-  width: 60%;
-  height: 40px;
-  border-radius: 24px;
-  border: 1px solid #fff;
-  outline: none;
-  background-color: transparent;
-  color: #fff;
-  font-size: 0.9em;
-  cursor: pointer;
 }
 
 .big-box.active {

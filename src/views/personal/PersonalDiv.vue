@@ -10,9 +10,9 @@
 </template>
 
 <style scoped>
-.div1{
-    width: 600px;
-    height: 300px;
+.div1 {
+  width: 600px;
+  height: 300px;
 }
 .user {
   width: 200px;
