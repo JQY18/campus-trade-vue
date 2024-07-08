@@ -5,7 +5,12 @@
       <el-row class="tac">
         <el-col :span="8">
           <img :src="require('@/assets/logo3.png')" />
-          <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+          <el-menu
+            default-active="1"
+            class="el-menu-vertical-demo"
+            @open="handleOpen"
+            @close="handleClose"
+          >
             <el-menu-item index="1" @click="goTo('home')">
               <i class="el-icon-menu"></i>
               <template v-slot:title>
@@ -21,9 +26,10 @@
               <!-- 无法选中的文字 -->
               <!-- <template v-slot:title>分组一</template> -->
               <!-- 可选的选项，如：精选，鞋类，潮服，数码，美妆，家居，手表，包袋，配饰，潮玩，女装 -->
-              <el-menu-item index="1-1">鞋类</el-menu-item>
+              <el-menu-item index="1-1" @click="goTo('home')"
+                >鞋类</el-menu-item
+              >
               <el-menu-item index="1-2">潮服</el-menu-item>
-
 
               <el-menu-item index="1-3">数码</el-menu-item>
 
@@ -37,7 +43,6 @@
               <el-menu-item index="1-8">配饰</el-menu-item>
               <el-menu-item index="1-9">潮玩</el-menu-item>
               <el-menu-item index="1-10">女装</el-menu-item>
-
             </el-submenu>
             <el-menu-item index="3" @click="goTo('publish')">
               <i class="el-icon-document"></i>
@@ -66,16 +71,24 @@
           <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
             <g>
               <path
-                d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
-              </path>
+                d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+              ></path>
             </g>
           </svg>
-          <input class="input" type="search" placeholder="Search" v-model="search" />
+          <input
+            class="input"
+            type="search"
+            placeholder="Search"
+            v-model="search"
+          />
         </div>
 
         <router-link :to="!isLogin ? '/mine' : '/login'">
           <button>
-            <img :src="require('@/assets/用户.png')" style="width: 20px; height: 20px" />
+            <img
+              :src="require('@/assets/用户.png')"
+              style="width: 20px; height: 20px"
+            />
           </button>
         </router-link>
 
@@ -87,37 +100,81 @@
         <!-- <router-link :to="{name:'login'}">登录</router-link> -->
       </el-header>
       <el-container>
-        <el-aside style="width: 500px;  ">
+        <el-aside style="width: 500px">
           <div>
             <el-carousel :interval="5000" arrow="always" height="700px">
-              <el-carousel-item v-for="item in 4" :key="item">
-                <h3>{{ item }}</h3>
+              <el-carousel-item v-for="(image, index) in images" :key="index">
+                <img :src="getImagePath(image)" class="image" style="width: 500px; height: 700px;"/>
               </el-carousel-item>
             </el-carousel>
           </div>
         </el-aside>
+
         <el-main>
           <span>
-          <img class="avatar" :src="require('@/assets/image.png')" alt="头像" width="46" height="46" />
-          <p>原神玩家怎么你了</p><br>
-        </span>
-          <p>木叶飞舞之处，火亦生生不息</p>
+            <img
+              class="avatar"
+              :src="this.ownerInfo.avatar"
+              alt="头像"
+              width="46"
+              height="46"
+            />
+            <p>{{ this.postItem.title }}</p>
+            <br />
+          </span>
+          <p>{{ this.postItem.content }}</p>
           <div class="hr">
-        <el-divider> 评论区 </el-divider>
-      </div>
+            <el-divider> 评论区 </el-divider>
+          </div>
           <comments-page></comments-page>
         </el-main>
       </el-container>
     </el-container>
   </el-container>
-
 </template>
 <script>
-import CommentsPage from '@/components/comments/CommentsPage.vue';
+import CommentsPage from "@/components/comments/CommentsPage.vue";
+import request from "@/utils/axiosInstance";
+
 export default {
+  data() {
+    return {
+      images: [
+        "Boghossian Kissing Air 帕拉伊巴钻石珠宝套装 (2).jpg",
+        "Boucheron Chromatique 花朵珠宝套装 (1).jpg",
+        "Boucheron Chromatique 花朵珠宝套装 (3).jpg",
+        "Chopard Floral 黑欧泊戒指.jpg",
+        "Dior Dentelle Satin Émeraude 祖母绿戒指.jpg",
+        "Van Cleef & Arpels 梵克雅宝 Panache Mystérieux 白金胸针.jpg",
+        "Van Cleef & Arpels 梵克雅宝 Secret des Amoureux 胸针.jpg",
+      ],
+    };
+  },
   components: { CommentsPage },
-  name: 'PostPage',
+  name: "PostPage",
+  data() {
+    return {
+      ownerInfo: {
+        nickname: "",
+        avatar: "",
+      },
+
+      //帖子对象
+      postItem: {
+        postId: -1, //帖子id
+        postUserId: -1, //当前帖子的用户的id
+        title: "", //标题
+        content: "", //内容
+        images: [], //图片列表
+        createTime: "", //创建时间
+      },
+    };
+  },
   methods: {
+    getImagePath(image) {
+      // 使用 require 动态加载图片
+      return require(`@/assets/${image}`);
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -125,10 +182,23 @@ export default {
       console.log(key, keyPath);
     },
     goTo(name) {
-      this.$router.push({name: name})
-    }
-  }
-}
+      this.$router.push({ name: name });
+    },
+    //初始化帖子所属用户的信息
+    async getUserInfo() {
+      try {
+        this.ownerInfo = await request.get(`/user/${this.item.postUserId}`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+  created() {
+    //获取到当前页面的帖子
+    this.postItem = this.$route.params.postItem;
+  },
+
+};
 </script>
 <style>
 .avatar {
@@ -146,7 +216,7 @@ export default {
   background-color: #99a9bf;
 }
 
-.el-carousel__item:nth-child(2n+1) {
+.el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
 }
 
@@ -162,7 +232,7 @@ export default {
   position: relative;
   max-width: 490px;
 }
-.hr{
+.hr {
   margin-top: 30px;
 }
 .input {
@@ -228,7 +298,6 @@ button:hover {
 button:active {
   transform: translateY(-1px);
 }
-
 
 .bottom {
   margin-top: 13px;

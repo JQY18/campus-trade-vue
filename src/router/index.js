@@ -5,6 +5,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/managelogin',
+    name: 'managelogin',
+    component: () => import('../views/manage/ManagerLogin.vue')
+  },
+  {
     path: '/manage',
     name: 'manage',
     component: () => import('../views/manage/ManageView.vue')
@@ -36,11 +41,7 @@ const routes = [
     name: 'post',
     component: () => import('../views/post/PostPage.vue')
   },
-  {
-    path: '/comments',
-    name: 'comments',
-    component: () => import('../components/comments/CommentsPage.vue')
-  },
+  
   // 首页
   {
     path: '/',
