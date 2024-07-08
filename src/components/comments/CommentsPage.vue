@@ -150,7 +150,7 @@ export default {
       }
 
       try {
-        const res = await request.post("/comments/add", {
+        await request.post("/comments/add", {
           content: this.myComment, //输入框的内容
           postId: this.postId, //当前帖子id
           commenterId: this.userId, //当前登录的用户id
