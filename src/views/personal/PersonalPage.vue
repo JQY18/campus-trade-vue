@@ -291,9 +291,7 @@ button:hover {
   color: #fff;
 }
 
-button:active {
-  /* transform: translateY(-1px); */
-}
+
 
 button {
   padding: 1.3em 3em;
