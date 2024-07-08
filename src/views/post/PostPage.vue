@@ -90,8 +90,8 @@
         <el-aside style="width: 500px;  ">
           <div>
             <el-carousel :interval="5000" arrow="always" height="700px">
-              <el-carousel-item v-for="item in 4" :key="item">
-                <h3>{{ item }}</h3>
+              <el-carousel-item v-for="(image, index) in images" :key="index">
+                <img :src="getImagePath(image)" class="image" style="width: 500px; height: 700px;"/>
               </el-carousel-item>
             </el-carousel>
           </div>
@@ -115,9 +115,26 @@
 <script>
 import CommentsPage from '@/components/comments/CommentsPage.vue';
 export default {
+  data() {
+    return {
+      images: [
+        "Boghossian Kissing Air 帕拉伊巴钻石珠宝套装 (2).jpg",
+        "Boucheron Chromatique 花朵珠宝套装 (1).jpg",
+        "Boucheron Chromatique 花朵珠宝套装 (3).jpg",
+        "Chopard Floral 黑欧泊戒指.jpg",
+        "Dior Dentelle Satin Émeraude 祖母绿戒指.jpg",
+        "Van Cleef & Arpels 梵克雅宝 Panache Mystérieux 白金胸针.jpg",
+        "Van Cleef & Arpels 梵克雅宝 Secret des Amoureux 胸针.jpg",
+      ],
+    };
+  },
   components: { CommentsPage },
   name: 'PostPage',
   methods: {
+    getImagePath(image) {
+      // 使用 require 动态加载图片
+      return require(`@/assets/${image}`);
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },

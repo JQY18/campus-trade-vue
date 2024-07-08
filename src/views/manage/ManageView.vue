@@ -2,24 +2,21 @@
   <el-container>
     <el-header>
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-        <el-menu-item index="1">处理中心</el-menu-item>
+        <el-menu-item index="1" disabled>处理中心</el-menu-item>
         <el-submenu index="2">
-          <template slot="title">我的工作台</template>
-          <el-menu-item index="2-1" @click="goTo('line')">选项1</el-menu-item>
-          <el-menu-item index="2-2" @click="goTo('column')">选项2</el-menu-item>
-          <el-menu-item index="2-3" @click="goTo('manage')">选项3</el-menu-item>
-          <el-menu-item index="2-4" @click="goTo('radar')">选项4</el-menu-item>
-          <el-menu-item index="2-5" @click="goTo('calendar')">选项5</el-menu-item>
+          <template slot="title">数据统计</template>
+          <el-menu-item index="2-1" @click="goTo('line')">日增用户数量</el-menu-item>
+          <el-menu-item index="2-2" @click="goTo('column')">每日帖子发布数量</el-menu-item>
+          <el-menu-item index="2-3" @click="goTo('manage')">用户占比分布</el-menu-item>
+          <el-menu-item index="2-4" @click="goTo('radar')">用户个性化倾向</el-menu-item>
+          <el-menu-item index="2-5" @click="goTo('calendar')">每月用户热点分布图</el-menu-item>
         </el-submenu>
         <el-menu-item index="3" disabled>消息中心</el-menu-item>
-        <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+        <el-menu-item index="4" disabled><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
       </el-menu>
     </el-header>
     <el-main>
-      <div>
-        
-        <div id="pieChart" style="width: 600px; height: 400px;"></div>
-      </div>
+      <div id="main" ref="main" style="width: 600px; height: 400px;"></div>
     </el-main>
   </el-container>
 </template>
@@ -28,21 +25,24 @@
 import * as echarts from 'echarts';
 
 export default {
+  data() {
+    return {
+      activeIndex: '2-1', // 设置默认激活项
+      option: null, // 定义 option 对象
+    };
+  },
   mounted() {
-    this.renderPieChart();
+    this.renderPieChart(); // 初始化图表
   },
   methods: {
     goTo(name) {
       this.$router.push({ name: name }).catch((err) => {
-        err;
+        console.error(err);
       });
     },
-    
     renderPieChart() {
-      var chartDom = document.getElementById('pieChart');
-      var myChart = echarts.init(chartDom);
-
-      var option = {
+      this.myChart = echarts.init(this.$refs.main);
+      this.option = {
         tooltip: {
           trigger: 'item'
         },
@@ -85,8 +85,7 @@ export default {
           }
         ]
       };
-
-      myChart.setOption(option);
+      this.myChart.setOption(this.option);
     }
   }
 };
