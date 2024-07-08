@@ -143,6 +143,19 @@ import CommentsPage from "@/components/comments/CommentsPage.vue";
 import request from "@/utils/axiosInstance";
 
 export default {
+  data() {
+    return {
+      images: [
+        "Boghossian Kissing Air 帕拉伊巴钻石珠宝套装 (2).jpg",
+        "Boucheron Chromatique 花朵珠宝套装 (1).jpg",
+        "Boucheron Chromatique 花朵珠宝套装 (3).jpg",
+        "Chopard Floral 黑欧泊戒指.jpg",
+        "Dior Dentelle Satin Émeraude 祖母绿戒指.jpg",
+        "Van Cleef & Arpels 梵克雅宝 Panache Mystérieux 白金胸针.jpg",
+        "Van Cleef & Arpels 梵克雅宝 Secret des Amoureux 胸针.jpg",
+      ],
+    };
+  },
   components: { CommentsPage },
   name: "PostPage",
   data() {
@@ -164,6 +177,10 @@ export default {
     };
   },
   methods: {
+    getImagePath(image) {
+      // 使用 require 动态加载图片
+      return require(`@/assets/${image}`);
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },

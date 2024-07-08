@@ -30,11 +30,8 @@
               <el-menu-item index="1-2">潮服</el-menu-item>
 
               <el-menu-item index="1-3">数码</el-menu-item>
-
-              <el-submenu index="1-4">
-                <template v-slot:title>美妆</template>
-                <!-- <el-menu-item index="1-4-1">选项1</el-menu-item> -->
-              </el-submenu>
+              <el-menu-item index="1-4">美妆</el-menu-item>
+              
               <el-menu-item index="1-5">家居</el-menu-item>
               <el-menu-item index="1-6">手表</el-menu-item>
               <el-menu-item index="1-7">包袋</el-menu-item>

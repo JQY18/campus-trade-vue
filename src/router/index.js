@@ -5,6 +5,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/managelogin',
+    name: 'managelogin',
+    component: () => import('../views/manage/ManagerLogin.vue')
+  },
+  {
     path: '/manage',
     name: 'manage',
     component: () => import('../views/manage/ManageView.vue')
