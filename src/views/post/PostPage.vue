@@ -124,8 +124,8 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-    goTo(path) {
-      this.$router.push(path)
+    goTo(name) {
+      this.$router.push({name: name})
     }
   }
 }
