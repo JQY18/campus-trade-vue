@@ -10,6 +10,28 @@ const routes = [
     component: () => import('../views/manage/ManageView.vue')
   },
   {
+    path: '/calendar',
+    name: 'calendar',
+    component: () => import('../views/manage/CalendarView.vue')
+  },
+  {
+    path: '/line',
+    name: 'line',
+    component: () => import('../views/manage/LineView.vue')
+  },
+  {
+    path: '/column',
+    name: 'column',
+    component: () => import('../views/manage/ColumnView.vue')
+  },
+  
+  {
+    path: '/radar',
+    name: 'radar',
+    component: () => import('../views/manage/RadarView.vue')
+  },
+  
+  {
     path: '/post',
     name: 'post',
     component: () => import('../views/post/PostPage.vue')
