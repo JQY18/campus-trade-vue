@@ -99,19 +99,24 @@
 
       <el-main>
         <el-row :gutter="20">
-          <el-col :span="6" v-for="(image, index) in images" :key="index">
+          <el-col :span="6" v-for="(item, index) in dataList" :key="index">
             <div class="card-container">
               <el-card
                 :body-style="{ padding: '0px', margin: '10px' }"
                 shadow="hover"
                 class="rounded-card"
               >
-                <img :src="getImagePath(image)" class="image" />
+                <img :src="item.images[0]" class="image" />
                 <div style="padding: 14px">
-                  <span>好吃的汉堡</span>
+                  <span>${{ item.title }}</span>
                   <div class="bottom clearfix">
-                    <time class="time">{{ currentDate }}</time>
-                    <el-button type="text" class="button">查看详情</el-button>
+                    <time class="time">{{ item.createTime }}</time>
+                    <el-button
+                      type="text"
+                      class="button"
+                      @click="toDetail(item)"
+                      >查看详情</el-button
+                    >
                   </div>
                 </div>
               </el-card>
@@ -141,12 +146,15 @@ export default {
       ],
       currentDate: new Date(),
       isLogin: false,
+      //帖子列表
       dataList: [
         {
-          id: "",
-          image: "",
-          title: "",
-          date: "",
+          id: "", //帖子的主键id
+          userId: "", //帖子的主人id
+          title: "", //帖子标题
+          content: "", //内容
+          createTime: "", //发布时间
+          images: [], //图片
         },
       ],
       defaultDataList: [],
@@ -155,6 +163,9 @@ export default {
     };
   },
   mounted() {},
+  created() {
+    this.getData();
+  },
   methods: {
     getImagePath(image) {
       // 使用 require 动态加载图片
@@ -166,9 +177,19 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
+    // 点击详情页，进行跳转
+    toDetail(item) {
+      // this.$router.push({name:"post",params:{postItem: item}});
+      this.$router.push({
+        name: "post",
+        params: {
+          postItem: item,
+        },
+      });
+    },
     getData() {
       request
-        .get("/post/page")
+        .get("/post/all")
         .then((res) => {
           this.dataList = res.data.data;
           console.log(res);
