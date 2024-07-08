@@ -86,11 +86,7 @@
             </el-input>
             <div class="btn-control">
               <span class="cancel" @click="cancel">取消</span>
-              <el-button
-                class="btn"
-                type="success"
-                round
-                @click="submitReply(item.id, item.commenterId)"
+              <el-button class="btn" type="success" round @click="submitReply"
                 >确定</el-button
               >
             </div>
@@ -100,20 +96,32 @@
     </div>
   </div>
 </template>
-    
-  <script>
+  
+<script>
+import Vue from "vue";
 import request from "@/utils/axiosInstance";
 
 export default {
+  props: {
+    commentsData: {
+      // 评论列表
+      type: Array,
+      required: true,
+    },
+    postId: {
+      // 帖子id
+      type: Number,
+      required: true,
+    },
+  },
   components: {},
   data() {
     return {
       comments: [],
-      postId: 1,
-      userId: 2, //当前登录的用户的主键id
-      myComment: "", //评论框内容
-      inputComment: "", //回复框内容
-      showItemId: "", //展示回复框的评论的id(点击回复会显示)
+      userId: 2,
+      myComment: "",
+      inputComment: "",
+      showItemId: "",
     };
   },
   computed: {},
@@ -121,20 +129,17 @@ export default {
     /**
      * 点赞
      */
-    async likeClick(item) {
-      try {
-        await request.post("/comments/like", {
-          commentId: item.id, //当前评论id
-          likerId: this.userId, //当前登录的用户id
-        });
+    likeClick(item) {
+      if (item.isLiked === null) {
+        Vue.$set(item, "isLike", true);
+        item.likeNum++;
+      } else {
         if (item.isLiked) {
           item.like--;
         } else {
           item.like++;
         }
         item.isLiked = !item.isLiked;
-      } catch (err) {
-        console.error(err);
       }
     },
 
@@ -149,26 +154,23 @@ export default {
      * 提交评论
      */
     async submitComment() {
-      //内容为空直接返回
       if (!this.myComment.trim()) {
         this.$message.warning("评论内容不能为空！");
         return;
       }
 
       try {
-        await request.post("/comments/add", {
-          content: this.myComment, //输入框的内容
-          postId: this.postId, //当前帖子id
-          commenterId: this.userId, //当前登录的用户id
+        const res = await request.post("/comments/add", {
+          content: this.myComment,
+          postId: this.postId,
+          commenterId: this.userId,
         });
         this.$message.success("评论成功");
         this.myComment = ""; // 清空输入框
-        this.fresh(); // 刷新评论列表
-        /* this.$nextTick(() => {
-          //this.comments.unshift(res.data.data); // 在列表的最前面添加新评论
+        this.$nextTick(() => {
+          this.comments.unshift(res.data.data); // 在列表的最前面添加新评论
           //this.$set(this.comments, -1, res.data.data); // 使用 Vue.set 更新数组中的第一个元素
-          this.fresh(); // 刷新评论列表
-        }); */
+        });
       } catch (err) {
         console.error(err);
         this.myComment = ""; // 清空输入框
@@ -181,28 +183,8 @@ export default {
     /**
      * 提交回复
      */
-    async submitReply(fatherId, commenterId) {
-      if (!this.inputComment.trim()) {
-        this.$message.warning("评论内容不能为空！");
-        return;
-      }
-      try {
-        await request.post("/reply/add", {
-          fatherId: fatherId, //当前大评论id
-          commenterId: commenterId, //被回复的人的id
-          replierId: this.userId, //当前登录的用户id
-          content: this.inputComment, //输入框的内容
-        });
-        this.$message.success("回复成功");
-        this.inputComment = ""; // 清空输入框
-        this.fresh(); // 刷新评论列表
-      } catch (err) {
-        console.error(err);
-        this.inputComment = ""; // 清空输入框
-        this.$message.error("回复失败");
-      } finally {
-        this.showItemId = ""; // 清除任何可能影响后续交互的状态
-      }
+    submitReply() {
+      console.log(this.inputComment);
     },
     /**
      * 点击评论按钮显示输入框
@@ -217,28 +199,21 @@ export default {
       }
       this.showItemId = item.id;
     },
-    // 刷新评论区
-    fresh() {
-      request
-        .get("/comments/1", { params: { userId: 2 } })
-        .then((res) => {
-          this.comments = res.data.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
   },
   created() {
     // this.userId = sessionStorage.getItem("userId");
     this.userId = 2;
-    this.postId = 1;
-    this.fresh();
+    this.comments = this.commentsData.slice(); // 使用 slice() 创建新的数组副本，避免引用问题
+  },
+  watch: {
+    commentsData(newVal) {
+      this.comments = newVal.slice(); // 使用 slice() 创建新的数组副本，避免引用问题
+    },
   },
   mounted() {},
 };
 </script>
-    
+  
 <style scoped lang="scss">
 @import "/public/scss/index.scss";
 
@@ -405,4 +380,4 @@ export default {
   }
 }
 </style>
-    
+  
