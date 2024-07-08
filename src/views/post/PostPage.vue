@@ -103,15 +103,15 @@
         <el-aside style="width: 500px">
           <div>
             <el-carousel :interval="5000" arrow="always" height="700px">
-              <el-carousel-item v-for="item in 4" :key="item">
-                <h3>{{ item }}</h3>
+              <el-carousel-item v-for="item in postItem.images" :key="item">
+                <img :src="item" alt="图片" width="500" height="700" />
               </el-carousel-item>
             </el-carousel>
           </div>
         </el-aside>
 
         <el-main>
-          <span>
+          <div class="user-info">
             <img
               class="avatar"
               :src="this.ownerInfo.avatar"
@@ -119,6 +119,12 @@
               width="46"
               height="46"
             />
+            <div class="right">
+              <div class="name">昵称：{{ this.ownerInfo.nickname }}</div>
+              <div class="date">发布时间：{{ this.postItem.createTime }}</div>
+            </div>
+          </div>
+          <span>
             <p>{{ this.postItem.title }}</p>
             <br />
           </span>
@@ -170,7 +176,10 @@ export default {
     //初始化帖子所属用户的信息
     async getUserInfo() {
       try {
-        this.ownerInfo = await request.get(`/user/${this.item.postUserId}`);
+        const response = await request.get("/user/info", {
+          params: { postUserId: 1 },
+        });
+        this.ownerInfo = response.data.data;
       } catch (err) {
         console.log(err);
       }
@@ -179,11 +188,36 @@ export default {
   created() {
     //获取到当前页面的帖子
     this.postItem = this.$route.params.postItem;
+    this.getUserInfo();
   },
-
 };
 </script>
 <style>
+.info {
+  display: flex;
+  align-items: center;
+}
+.info .avatar {
+  border-radius: 50%;
+}
+.info .right {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.info .right .name {
+  font-size: 16px;
+  color: #303133;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.info .right .date {
+  font-size: 12px;
+  color: #909399;
+}
+
 .avatar {
   border-radius: 50%;
 }

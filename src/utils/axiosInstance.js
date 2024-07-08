@@ -22,7 +22,7 @@ instance.interceptors.response.use(
               case 401:
                   // 未授权
                   localStorage.removeItem('token');
-                  return router.push({name: 'Login'});
+                  return router.push({name: 'login'});
               case 404:
                   // 资源未找到
                   break;

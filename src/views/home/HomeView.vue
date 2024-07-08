@@ -111,7 +111,7 @@
               >
                 <img :src="item.images[0]" class="image" />
                 <div style="padding: 14px">
-                  <span>${{ item.title }}</span>
+                  <span>{{ item.title }}</span>
                   <div class="bottom clearfix">
                     <time class="time">{{ item.createTime }}</time>
                     <el-button
@@ -138,17 +138,6 @@ export default {
   data() {
     return {
       search: "",
-      images: [
-        "Boghossian Kissing Air 帕拉伊巴钻石珠宝套装 (2).jpg",
-        "Boucheron Chromatique 花朵珠宝套装 (1).jpg",
-        "Boucheron Chromatique 花朵珠宝套装 (3).jpg",
-        "Chopard Floral 黑欧泊戒指.jpg",
-        "Dior Dentelle Satin Émeraude 祖母绿戒指.jpg",
-        "Van Cleef & Arpels 梵克雅宝 Panache Mystérieux 白金胸针.jpg",
-        "Van Cleef & Arpels 梵克雅宝 Secret des Amoureux 胸针.jpg",
-      ],
-      currentDate: new Date(),
-      isLogin: false,
       //帖子列表
       dataList: [
         {
