@@ -17,11 +17,7 @@
       </el-header>
       <el-main>
         <div>
-          <h1>用户个性化倾向</h1>
-          <p>这里展示的是用户个性化倾向</p>
-          <el-button type="primary" @click="goTo('manage')">返回</el-button>
-          <el-divider></el-divider>
-          <div id="main" ref="main" style="width: 600px; height: 400px;"></div>
+          <div id="main" ref="main" style="width: 720px; height: 640px;"></div>
           
         </div>
       </el-main>
@@ -39,19 +35,19 @@ export default {
       myChart: null,
       option: {
         title: {
-          text: 'Basic Radar Chart'
+          text: '不同性别用户的购物倾向 '
         },
         legend: {
-          data: ['Allocated Budget', 'Actual Spending']
+          data: ['女', '男']
         },
         radar: {
           indicator: [
-            { name: 'Sales', max: 6500 },
-            { name: 'Administration', max: 16000 },
-            { name: 'Information Technology', max: 30000 },
-            { name: 'Customer Support', max: 38000 },
-            { name: 'Development', max: 52000 },
-            { name: 'Marketing', max: 25000 }
+            { name: '学习资料', max: 6500 },
+            { name: '运动装备', max: 16000 },
+            { name: '文具手帐', max: 30000 },
+            { name: '宿舍好物', max: 38000 },
+            { name: '交通工具', max: 52000 },
+            { name: '课外书籍', max: 25000 }
           ]
         },
         series: [
@@ -59,8 +55,8 @@ export default {
             name: 'Budget vs spending',
             type: 'radar',
             data: [
-              { value: [4200, 3000, 20000, 35000, 50000, 18000], name: 'Allocated Budget' },
-              { value: [5000, 14000, 28000, 26000, 42000, 21000], name: 'Actual Spending' }
+              { value: [5000, 3000, 28000, 35000, 42000, 18000], name: '女' },
+              { value: [4200, 14000, 20000, 26000, 42000, 21000], name: '男' }
             ]
           }
         ]

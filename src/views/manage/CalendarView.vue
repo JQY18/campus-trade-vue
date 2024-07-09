@@ -18,10 +18,6 @@
       <el-main>
         <div>
           <h1>活跃用户热点分布图</h1>
-          <p>这里展示的是活跃用户热点分布</p>
-          <el-button type="primary" @click="goTo('manage')">返回</el-button>
-          <el-divider></el-divider>
-          
           <div id="main" ref="main" style="width: 800px; height: 600px;"></div>
         </div>
       </el-main>

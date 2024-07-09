@@ -14,26 +14,41 @@
       </div>
     </div>
     <div class="box" :class="{ open: isActive }">
-      <i class="iconfont icon-qq" @mouseover="showText('队长，火影玩家')" @mouseleave="resetText">江启越</i>
-      <i class="iconfont icon-youtube" @mouseover="showText('瓦洛兰特职业选手，高玩')" @mouseleave="resetText">陈剑锋</i>
-      <i class="iconfont icon-wechat" @mouseover="showText('生存游戏爱好者')" @mouseleave="resetText">任鹏宇</i>
+      <i
+        class="iconfont icon-qq"
+        @mouseover="showText('队长，火影玩家')"
+        @mouseleave="resetText"
+        >江启越</i
+      >
+      <i
+        class="iconfont icon-youtube"
+        @mouseover="showText('瓦洛兰特职业选手，高玩')"
+        @mouseleave="resetText"
+        >陈剑锋</i
+      >
+      <i
+        class="iconfont icon-wechat"
+        @mouseover="showText('生存游戏爱好者')"
+        @mouseleave="resetText"
+        >任鹏宇</i
+      >
       <div v-if="hoverText" class="hover-text">{{ hoverText }}</div>
     </div>
+    <router-link to="/static-page">我们的制作日志</router-link>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-  return {
-    isActive: false,
-    hoverText: '',
-    defaultBackground: '',
-    hoverBackground: '@/assets/卡卡西.png', // 作为字符串处理
-    backgroundImage: ''
-  };
-}
-,
+    return {
+      isActive: false,
+      hoverText: "",
+      defaultBackground: "",
+      hoverBackground: "@/assets/卡卡西.png", // 作为字符串处理
+      backgroundImage: "",
+    };
+  },
   methods: {
     toggleActive() {
       this.isActive = !this.isActive;
@@ -43,14 +58,16 @@ export default {
       this.backgroundImage = this.hoverBackground;
     },
     resetText() {
-      this.hoverText = '';
+      this.hoverText = "";
       this.backgroundImage = this.defaultBackground;
-    }
+    },
   },
   mounted() {
-    this.defaultBackground = window.getComputedStyle(document.body).backgroundImage;
+    this.defaultBackground = window.getComputedStyle(
+      document.body
+    ).backgroundImage;
     this.backgroundImage = this.defaultBackground;
-  }
+  },
 };
 </script>
 
@@ -335,7 +352,7 @@ body {
   transform: translateX(-50%);
   padding: 5px 10px;
   font-size: 100px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   color: #ffffff;
   border-radius: 50px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -343,11 +360,9 @@ body {
   white-space: nowrap;
   opacity: 1;
   background-color: rgba(255, 255, 255, 0); /* 背景颜色设置为完全透明 */
-  background-image: url('@/assets/卡卡西.png'); /* 使用正确的路径 */
+  background-image: url("@/assets/卡卡西.png"); /* 使用正确的路径 */
   background-size: cover; /* 使背景图片覆盖整个元素 */
   background-position: center; /* 将背景图片居中 */
   z-index: -1;
 }
-
-
 </style>
