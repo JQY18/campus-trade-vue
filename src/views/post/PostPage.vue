@@ -143,9 +143,12 @@ import CommentsPage from "@/components/comments/CommentsPage.vue";
 import request from "@/utils/axiosInstance";
 
 export default {
+  
+  components: { CommentsPage },
+  name: "PostPage",
   data() {
     return {
-      images: [
+    images: [
         "Boghossian Kissing Air 帕拉伊巴钻石珠宝套装 (2).jpg",
         "Boucheron Chromatique 花朵珠宝套装 (1).jpg",
         "Boucheron Chromatique 花朵珠宝套装 (3).jpg",
@@ -154,12 +157,6 @@ export default {
         "Van Cleef & Arpels 梵克雅宝 Panache Mystérieux 白金胸针.jpg",
         "Van Cleef & Arpels 梵克雅宝 Secret des Amoureux 胸针.jpg",
       ],
-    };
-  },
-  components: { CommentsPage },
-  name: "PostPage",
-  data() {
-    return {
       ownerInfo: {
         nickname: "",
         avatar: "",

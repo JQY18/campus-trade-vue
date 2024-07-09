@@ -39,16 +39,18 @@
               <el-menu-item index="1-9">潮玩</el-menu-item>
               <el-menu-item index="1-10">女装</el-menu-item>
             </el-submenu>
+
             <el-menu-item index="3" @click="goTo('publish')">
               <i class="el-icon-document"></i>
               <template v-slot:title>
                 <span>发布</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="4">
+
+            <el-menu-item index="4" @click="goTo('judge')">
               <i class="el-icon-setting"></i>
               <template v-slot:title>
-                <span>设置</span>
+                <span>作者</span>
               </template>
             </el-menu-item>
           </el-menu>
