@@ -34,7 +34,8 @@
       >
       <div v-if="hoverText" class="hover-text">{{ hoverText }}</div>
     </div>
-    <router-link to="/static-page">我们的制作日志</router-link>
+    <router-link to="/static-page"><button>我们的制作日志</button></router-link>
+    
   </div>
 </template>
 
@@ -75,6 +76,12 @@ export default {
 * {
   padding: 0;
   margin: 0;
+}
+
+.button{
+  border: #000000;
+  background-color: #ffffff;
+  border-radius: 20%;
 }
 
 body {
@@ -345,9 +352,9 @@ body {
 
 .hover-text {
   position: absolute;
-  width: 100vw; /* 宽度使用视窗宽度 */
-  height: 100vh; /* 高度使用视窗高度 */
-  bottom: -450px;
+  width: 100vw;
+  height: 100vh;
+  bottom: -300px;
   left: -60%;
   transform: translateX(-50%);
   padding: 5px 10px;
@@ -359,10 +366,23 @@ body {
   transition: opacity 0.3s;
   white-space: nowrap;
   opacity: 1;
-  background-color: rgba(255, 255, 255, 0); /* 背景颜色设置为完全透明 */
+  background-color: rgba(255, 255, 255, 0); /* 保持背景颜色透明 */
+  z-index: -1;
+  overflow: hidden; /* 确保伪元素不会溢出 */
+}
+
+.hover-text::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-image: url("@/assets/卡卡西.png"); /* 使用正确的路径 */
   background-size: cover; /* 使背景图片覆盖整个元素 */
   background-position: center; /* 将背景图片居中 */
-  z-index: -1;
+  opacity: 0.5; /* 调整不透明度，0.5为50%透明度 */
+  z-index: -1; /* 确保伪元素在文本后面 */
 }
+
 </style>

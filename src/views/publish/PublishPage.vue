@@ -5,31 +5,28 @@
                 <el-col :span="12">
                     <img :src="require('@/assets/logo3.png')" />
                     <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-                        <el-menu-item index="1">
+
+                        <el-menu-item index="1" @click="goTo('home')">
                             <i class="el-icon-menu"></i>
                             <template v-slot:title>
                                 <span>发现</span>
                             </template>
                         </el-menu-item>
+
                         <el-submenu index="2">
                             <template v-slot:title>
                                 <i class="el-icon-location"></i>
                                 <span>分类</span>
                             </template>
-                            <!-- <el-menu-item-group> -->
-                            <!-- 无法选中的文字 -->
-                            <!-- <template v-slot:title>分组一</template> -->
-                            <!-- 可选的选项，如：精选，鞋类，潮服，数码，美妆，家居，手表，包袋，配饰，潮玩，女装 -->
+
                             <el-menu-item index="1-1">鞋类</el-menu-item>
                             <el-menu-item index="1-2">潮服</el-menu-item>
-
-
                             <el-menu-item index="1-3">数码</el-menu-item>
 
                             <el-submenu index="1-4">
                                 <template v-slot:title>美妆</template>
-                                <!-- <el-menu-item index="1-4-1">选项1</el-menu-item> -->
                             </el-submenu>
+
                             <el-menu-item index="1-5">家居</el-menu-item>
                             <el-menu-item index="1-6">手表</el-menu-item>
                             <el-menu-item index="1-7">包袋</el-menu-item>
@@ -44,12 +41,14 @@
                                 <span>发布</span>
                             </template>
                         </el-menu-item>
-                        <el-menu-item index="4">
+
+                        <el-menu-item index="4" @click="goTo('judge')">
                             <i class="el-icon-setting"></i>
                             <template v-slot:title>
-                                <span>设置</span>
+                                <span>作者</span>
                             </template>
                         </el-menu-item>
+
                     </el-menu>
                 </el-col>
             </el-row>
@@ -129,7 +128,12 @@ export default {
         },
         handleDownload(file) {
             console.log('Downloading:', file);
-        }
+        },
+        goTo(name) {
+      this.$router.push({ name: name }).catch((err) => {
+        err;
+      });
+    },
     }
 }
 </script>

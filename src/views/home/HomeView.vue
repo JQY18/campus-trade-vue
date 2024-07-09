@@ -31,7 +31,7 @@
 
               <el-menu-item index="1-3">数码</el-menu-item>
               <el-menu-item index="1-4">美妆</el-menu-item>
-              
+
               <el-menu-item index="1-5">家居</el-menu-item>
               <el-menu-item index="1-6">手表</el-menu-item>
               <el-menu-item index="1-7">包袋</el-menu-item>
@@ -53,6 +53,7 @@
                 <span>作者</span>
               </template>
             </el-menu-item>
+            
           </el-menu>
         </el-col>
       </el-row>
@@ -83,7 +84,7 @@
         </div>
 
         <router-link :to="!isLogin ? '/mine' : '/login'">
-          <button>
+          <button class="userbtn">
             <img
               :src="require('@/assets/用户.png')"
               style="width: 20px; height: 20px"
@@ -92,11 +93,8 @@
         </router-link>
 
         <router-link v-if="!isLogin" :to="{ name: 'login' }">
-          <button>登录</button>
+          <button class="loginbtn">登录</button>
         </router-link>
-        <!-- <router-link :to="{name:'login'}">登录</router-link> -->
-        <!-- <router-link :to="{name:'login'}">登录</router-link> -->
-        <!-- <router-link :to="{name:'login'}">登录</router-link> -->
       </el-header>
 
       <el-main>
@@ -210,6 +208,15 @@ export default {
 };
 </script>
 <style>
+.userbtn,
+.loginbtn {
+  width: 110px;
+  height: 40px;
+  margin-right: 10px;
+  padding: 0px;
+  font-size: 1.5ch;
+}
+
 .rounded-card {
   border-radius: 50px; /* Adjust the border-radius as per your design */
 }
