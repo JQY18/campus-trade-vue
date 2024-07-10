@@ -5,6 +5,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/other',
+    name: 'other',
+    component: () => import('../views/OtherView.vue')
+  },
+  {
     path: '/profile',
     name: 'profile',
     component: () => import('../views/personal/ProfileView.vue')

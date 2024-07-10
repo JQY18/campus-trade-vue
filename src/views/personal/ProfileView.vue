@@ -53,6 +53,7 @@
           :on-change="handleChange"
           :file-list="files"
           :on-remove="handleRemoveFromComponent"
+          :on-error="handleExceed"
           :limit="1"
         >
           <i slot="default" class="el-icon-plus"></i>
@@ -189,6 +190,7 @@ export default {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
     handleExceed(files, fileList) {
+      console.log("jj", files, fileList);
       this.$message.warning("只能上传一张图片！");
     },
     updatePassword() {
@@ -205,8 +207,8 @@ export default {
       }
       // 执行保存逻辑
       console.log("头像已保存:", this.files[0]);
-    }
-  }
+    },
+  },
 };
 </script>
 
