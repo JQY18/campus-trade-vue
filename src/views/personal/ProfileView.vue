@@ -189,6 +189,7 @@ export default {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
     handleExceed(files, fileList) {
+      console.log("Exceed limit:", files, fileList);
       this.$message.warning("只能上传一张图片！");
     },
     updatePassword() {

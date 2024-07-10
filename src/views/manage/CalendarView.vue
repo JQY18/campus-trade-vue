@@ -82,7 +82,7 @@ export default {
               nameMap: 'cn'
             },
             cellSize: 40,
-            range: '2017-02'
+            range: '2024-05'
           },
           {
             orient: 'vertical',
@@ -94,7 +94,7 @@ export default {
             },
             cellSize: 40,
             left: 460,
-            range: '2017-01'
+            range: '2024-04'
           },
           {
             orient: 'vertical',
@@ -106,7 +106,7 @@ export default {
             },
             cellSize: 40,
             top: 350,
-            range: '2017-03'
+            range: '2024-06'
           },
           {
             orient: 'vertical',
@@ -124,7 +124,7 @@ export default {
             cellSize: 40,
             top: 350,
             left: 460,
-            range: '2017-04'
+            range: '2024-07'
           }
         ],
         series: [
@@ -140,7 +140,7 @@ export default {
           {
             type: 'heatmap',
             coordinateSystem: 'calendar',
-            data: this.getVirtualData('2017')
+            data: this.getVirtualData('2024')
           },
           {
             type: 'effectScatter',
@@ -149,7 +149,7 @@ export default {
             symbolSize: function (val) {
               return val[1] / 40;
             },
-            data: this.getVirtualData('2017')
+            data: this.getVirtualData('2024')
           },
           {
             type: 'scatter',
@@ -158,13 +158,13 @@ export default {
             symbolSize: function (val) {
               return val[1] / 60;
             },
-            data: this.getVirtualData('2017')
+            data: this.getVirtualData('2024')
           },
           {
             type: 'heatmap',
             coordinateSystem: 'calendar',
             calendarIndex: 3,
-            data: this.getVirtualData('2017')
+            data: this.getVirtualData('2024')
           }
         ]
       }
