@@ -171,9 +171,7 @@ export default {
       // this.$router.push({name:"post",params:{postItem: item}});
       this.$router.push({
         name: "post",
-        params: {
-          postItem: item,
-        },
+        query: { id: item.id },
       });
     },
     getData() {

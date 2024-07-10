@@ -111,7 +111,7 @@
         </el-aside>
 
         <el-main>
-          <div class="user-info">
+          <div class="info">
             <img
               class="avatar"
               :src="this.ownerInfo.avatar"
@@ -124,15 +124,15 @@
               <div class="date">发布时间：{{ this.postItem.createTime }}</div>
             </div>
           </div>
+          <br />
           <span>
-            <p>{{ this.postItem.title }}</p>
-            <br />
+            <p>标题：{{ this.postItem.title }}</p>
           </span>
-          <p>{{ this.postItem.content }}</p>
+          <p>描述：{{ this.postItem.content }}</p>
           <div class="hr">
             <el-divider> 评论区 </el-divider>
           </div>
-          <comments-page></comments-page>
+          <comments-page :id="postItem.postId"></comments-page>
         </el-main>
       </el-container>
     </el-container>
@@ -143,20 +143,11 @@ import CommentsPage from "@/components/comments/CommentsPage.vue";
 import request from "@/utils/axiosInstance";
 
 export default {
-  
   components: { CommentsPage },
   name: "PostPage",
   data() {
     return {
-    images: [
-        "Boghossian Kissing Air 帕拉伊巴钻石珠宝套装 (2).jpg",
-        "Boucheron Chromatique 花朵珠宝套装 (1).jpg",
-        "Boucheron Chromatique 花朵珠宝套装 (3).jpg",
-        "Chopard Floral 黑欧泊戒指.jpg",
-        "Dior Dentelle Satin Émeraude 祖母绿戒指.jpg",
-        "Van Cleef & Arpels 梵克雅宝 Panache Mystérieux 白金胸针.jpg",
-        "Van Cleef & Arpels 梵克雅宝 Secret des Amoureux 胸针.jpg",
-      ],
+      //帖子用户的id
       ownerInfo: {
         nickname: "",
         avatar: "",
@@ -165,7 +156,7 @@ export default {
       //帖子对象
       postItem: {
         postId: -1, //帖子id
-        postUserId: -1, //当前帖子的用户的id
+        userId: -1, //当前帖子的用户的id
         title: "", //标题
         content: "", //内容
         images: [], //图片列表
@@ -174,10 +165,6 @@ export default {
     };
   },
   methods: {
-    getImagePath(image) {
-      // 使用 require 动态加载图片
-      return require(`@/assets/${image}`);
-    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -188,24 +175,39 @@ export default {
       this.$router.push({ name: name });
     },
     //初始化帖子所属用户的信息
-    async getUserInfo() {
-      try {
-        const response = await request.get("/user/info", {
-          params: { postUserId: 1 },
+    getUserInfo(id) {
+      request
+        .get("/user/info", { params: { postUserId: id } })
+        .then((response) => {
+          this.ownerInfo = response.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        this.ownerInfo = response.data.data;
-      } catch (err) {
-        console.log(err);
-      }
+    },
+    //根据id获取帖子内容
+    getPostInfo() {
+      request
+        .get("/post", { params: { id: this.postItem.postId } })
+        .then((response) => {
+          this.postItem = response.data.data;
+          this.getUserInfo(this.postItem.userId);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
   created() {
     //获取到当前页面的帖子
-    this.postItem = this.$route.params.postItem;
-    this.getUserInfo();
+    // this.postItem = this.$route.params.postItem;
+    this.postItem.postId = this.$route.query.id;
+    //根据帖子id获取帖子内容
+    this.getPostInfo();
   },
 };
 </script>
+
 <style>
 .info {
   display: flex;
