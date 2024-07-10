@@ -4,7 +4,7 @@
       <!-- 侧边导航菜单 -->
       <el-row class="tac">
         <el-col :span="8">
-          <img :src="require('@/assets/logo3.png')" />
+          <img :src="require('@/assets/logo3.png')" alt="logo"/>
           <el-menu
             default-active="1"
             class="el-menu-vertical-demo"
@@ -85,8 +85,8 @@
               class="avatar"
               :src="this.ownerInfo.avatar"
               alt="头像"
-              width="46"
-              height="46"
+              width="46px"
+              height="46px"
               @click="clickAvatar"
             />
             <div class="right">
@@ -183,7 +183,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped="scoped">
 .el-select .el-input {
   width: 130px;
 }

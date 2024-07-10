@@ -176,7 +176,7 @@ export default {
         });
     },
     goTo(name) {
-      this.$router.push({ name: name }).catch((err) => {
+      this.$router.replace({ name: name }).catch((err) => {
         err;
       });
     },
