@@ -22,7 +22,7 @@
       >
       <i
         class="iconfont icon-youtube"
-        @mouseover="showText('瓦洛兰特职业选手，高玩')"
+        @mouseover="showText('瓦洛兰特选手')"
         @mouseleave="resetText"
         >陈剑锋</i
       >
@@ -35,7 +35,6 @@
       <div v-if="hoverText" class="hover-text">{{ hoverText }}</div>
     </div>
     <router-link to="/static-page"><button>我们的制作日志</button></router-link>
-    
   </div>
 </template>
 
@@ -78,7 +77,7 @@ export default {
   margin: 0;
 }
 
-.button{
+.button {
   border: #000000;
   background-color: #ffffff;
   border-radius: 20%;
@@ -365,6 +364,12 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: opacity 0.3s;
   white-space: nowrap;
+
+  position: fixed;
+  width: 100vh;
+  height: 100vh;
+  background-image: url("@/assets/preview.jpg"); /* 使用正确的路径 */
+
   opacity: 1;
   background-color: rgba(255, 255, 255, 0); /* 保持背景颜色透明 */
   z-index: -1;
@@ -373,16 +378,13 @@ body {
 
 .hover-text::before {
   content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("@/assets/卡卡西.png"); /* 使用正确的路径 */
+  position: fixed;
+  width: 100vh;
+  height: 100vh;
+  /* background-image: url("@/assets/preview.jpg");  */
   background-size: cover; /* 使背景图片覆盖整个元素 */
   background-position: center; /* 将背景图片居中 */
   opacity: 0.5; /* 调整不透明度，0.5为50%透明度 */
   z-index: -1; /* 确保伪元素在文本后面 */
 }
-
 </style>
