@@ -225,7 +225,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .btn {
   float: left;
 }

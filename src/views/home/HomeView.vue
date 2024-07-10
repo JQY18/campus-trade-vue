@@ -176,14 +176,14 @@ export default {
         });
     },
     goTo(name) {
-      this.$router.replace({ name: name }).catch((err) => {
+      this.$router.push({ name: name }).catch((err) => {
         err;
       });
     },
   },
 };
 </script>
-<style>
+<style scoped>
 .el-select .el-input {
   width: 130px;
 }
