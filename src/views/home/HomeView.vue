@@ -6,12 +6,7 @@
       <el-row class="tac">
         <el-col :span="8">
           <img :src="require('@/assets/logo3.png')" />
-          <el-menu
-            default-active="1"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
-          >
+          <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
             <el-menu-item index="1" @click="goTo('home')">
               <i class="el-icon-menu"></i>
               <template v-slot:title>
@@ -46,35 +41,20 @@
       </el-aside>
       <el-main> -->
         <div style="margin-top: 15px; width: 600px">
-          <el-input
-            placeholder="请输入内容"
-            v-model="search"
-            class="input-with-select"
-          >
-            <el-select
-              v-model="select"
-              slot="prepend"
-              placeholder="请选择"
-              @change="handleChange"
-            >
-              <el-option label="餐厅名" value="1"></el-option>
-              <el-option label="订单号" value="2"></el-option>
-              <el-option label="用户电话" value="3"></el-option>
+          <el-input placeholder="请输入内容" v-model="search" class="input-with-select">
+            <el-select v-model="select" slot="prepend" placeholder="请选择" @change="handleChange">
+              <!-- 选择类别 -->
+              <el-option v-for="(item, index) in Category[0].category" :key="index" :label="item"
+                :value="index+1"></el-option>
+              
             </el-select>
-            <el-button
-              slot="append"
-              icon="el-icon-search"
-              @click="searchData"
-            ></el-button>
+            <el-button slot="append" icon="el-icon-search" @click="searchData"></el-button>
           </el-input>
         </div>
 
         <router-link :to="!isLogin ? '/mine' : '/login'">
           <button class="userbtn">
-            <img
-              :src="require('@/assets/用户.png')"
-              style="width: 20px; height: 20px"
-            />
+            <img :src="require('@/assets/用户.png')" style="width: 20px; height: 20px" />
           </button>
         </router-link>
 
@@ -87,22 +67,13 @@
         <el-row :gutter="20">
           <el-col :span="6" v-for="(item, index) in dataList" :key="index">
             <div class="card-container">
-              <el-card
-                :body-style="{ padding: '0px', margin: '10px' }"
-                shadow="hover"
-                class="rounded-card"
-              >
+              <el-card :body-style="{ padding: '0px', margin: '10px' }" shadow="hover" class="rounded-card">
                 <img :src="item.images[0]" class="image" />
                 <div style="padding: 14px">
                   <span>{{ item.title }}</span>
                   <div class="bottom clearfix">
                     <time class="time">{{ item.createTime }}</time>
-                    <el-button
-                      type="text"
-                      class="button"
-                      @click="toDetail(item)"
-                      >查看详情</el-button
-                    >
+                    <el-button type="text" class="button" @click="toDetail(item)">查看详情</el-button>
                   </div>
                 </div>
               </el-card>
@@ -116,10 +87,12 @@
 
 
 <script>
+import * as Category from "@/utils/category";
 import request from "@/utils/axiosInstance";
 export default {
   data() {
     return {
+      Category: [],
       selectedValue: "0",
       select: "",
       search: "",
@@ -140,7 +113,9 @@ export default {
       showModal: false,
     };
   },
-  mounted() {},
+  mounted() {
+    this.Category = Category.comment.data;
+  },
   created() {
     this.getData();
   },
@@ -163,7 +138,7 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-    // 点击详情页，进行跳转
+    // 点击详情页，进行跳转,并携带参数：点击的帖子的id
     toDetail(item) {
       // this.$router.push({name:"post",params:{postItem: item}});
       this.$router.push({
@@ -214,9 +189,11 @@ export default {
 .el-select .el-input {
   width: 130px;
 }
+
 .input-with-select .el-input-group__prepend {
   background-color: #fff;
 }
+
 .userbtn,
 .loginbtn {
   width: 110px;
@@ -227,7 +204,8 @@ export default {
 }
 
 .rounded-card {
-  border-radius: 50px; /* Adjust the border-radius as per your design */
+  border-radius: 50px;
+  /* Adjust the border-radius as per your design */
 }
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {

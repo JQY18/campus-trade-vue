@@ -17,7 +17,7 @@
                 <span>发现</span>
               </template>
             </el-menu-item>
-            
+
             <el-menu-item index="3" @click="goTo('publish')">
               <i class="el-icon-document"></i>
               <template v-slot:title>
@@ -25,9 +25,9 @@
               </template>
             </el-menu-item>
             <el-menu-item index="4">
-              <i class="el-icon-setting"></i>
+              <i class="el-icon-setting" @click="goTo('judge')"></i>
               <template v-slot:title>
-                <span>设置</span>
+                <span>作者</span>
               </template>
             </el-menu-item>
           </el-menu>
@@ -41,20 +41,15 @@
        <img :src="require('@/assets/logo3.png')" />
       </el-aside>
       <el-main> -->
-        <div class="group">
-          <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
-            <g>
-              <path
-                d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
-              ></path>
-            </g>
-          </svg>
-          <input
-            class="input"
-            type="search"
-            placeholder="Search"
-            v-model="search"
-          />
+        <div style="margin-top: 15px; width: 600px;">
+          <el-input placeholder="请输入内容" v-model="input3" class="input-with-select">
+            <el-select v-model="select" slot="prepend" placeholder="请选择">
+              <el-option label="餐厅名" value="1"></el-option>
+              <el-option label="订单号" value="2"></el-option>
+              <el-option label="用户电话" value="3"></el-option>
+            </el-select>
+            <el-button slot="append" icon="el-icon-search"></el-button>
+          </el-input>
         </div>
 
         <router-link :to="!isLogin ? '/mine' : '/login'">
@@ -92,6 +87,7 @@
               alt="头像"
               width="46"
               height="46"
+              @click="clickAvatar"
             />
             <div class="right">
               <div class="name">昵称：{{ this.ownerInfo.nickname }}</div>
@@ -121,7 +117,7 @@ export default {
   name: "PostPage",
   data() {
     return {
-      //帖子用户的id
+      //帖子用户的部分信息
       ownerInfo: {
         nickname: "",
         avatar: "",
@@ -149,7 +145,8 @@ export default {
       this.$router.push({ name: name });
     },
     //初始化帖子所属用户的信息
-    getUserInfo(id) {//
+    getUserInfo(id) {
+      //
       request
         .get("/user/info", { params: { postUserId: id } })
         .then((response) => {
@@ -159,7 +156,7 @@ export default {
           console.log(err);
         });
     },
-    //根据id获取帖子内容
+    //根据帖子id获取帖子内容
     getPostInfo() {
       request
         .get("/post", { params: { id: this.postItem.postId } })
@@ -171,11 +168,15 @@ export default {
           console.log(err);
         });
     },
+    //点击头像跳转当前帖子主人的主页
+    clickAvatar() {
+      this.$router.push({ name: "mine", query: { id: this.postItem.userId } });
+    },
   },
   created() {
     //获取到当前页面的帖子
     // this.postItem = this.$route.params.postItem;
-    this.postItem.postId = this.$route.query.id;//获取上个页面传过来的帖子id
+    this.postItem.postId = this.$route.query.id; //获取上个页面传过来的帖子id
     //根据帖子id获取帖子内容
     this.getPostInfo();
   },
@@ -183,6 +184,13 @@ export default {
 </script>
 
 <style>
+.el-select .el-input {
+  width: 130px;
+}
+
+.input-with-select .el-input-group__prepend {
+  background-color: #fff;
+}
 .info {
   display: flex;
   align-items: center;

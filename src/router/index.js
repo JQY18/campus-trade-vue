@@ -26,6 +26,7 @@ const routes = [
       window.location.href = '/static/index.html';
     }
   },
+  //作者
   {
     path: '/judge',
     name: 'judge',
@@ -74,7 +75,7 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('../views/login/TryPage.vue')
+    component: () => import('../views/login/LoginPage.vue')
   },
   {
     path: '/user',

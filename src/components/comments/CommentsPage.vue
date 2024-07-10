@@ -20,6 +20,7 @@
           :src="item.commenterAvatar"
           width="36"
           height="36"
+          @click="avatarClick(item.commenterId)"
         />
         <div class="right">
           <div class="name">{{ item.commenterNickname }}</div>
@@ -139,7 +140,7 @@ export default {
           commentId: item.id, //当前评论id
           likerId: this.userId, //当前登录的用户id
           to: item.like,
-          isLiked: item.isLiked?1:0,//点击完之后的状态
+          isLiked: item.isLiked ? 1 : 0, //点击完之后的状态
         });
       } catch (err) {
         console.error(err);
@@ -157,7 +158,7 @@ export default {
       const index = input.indexOf(" ");
       if (index !== -1) {
         return input.substring(index + 1);
-      } 
+      }
       return input;
     },
 
@@ -165,7 +166,6 @@ export default {
      * 提交评论
      */
     async submitComment() {
-
       const input = this.getReplyContent(this.myComment).trim();
 
       //内容为空直接返回
@@ -245,6 +245,11 @@ export default {
           console.log(err);
         });
     },
+
+    //点击评论者的头像可以进他的主页
+    avatarClick(id) {
+      this.$router.push({ name: "mine", query: { id: id } });
+    },
   },
   created() {
     // this.userId = sessionStorage.getItem("userId");
@@ -252,9 +257,7 @@ export default {
     this.postId = this.id;
     this.fresh();
   },
-  mounted() {
-  },
-
+  mounted() {},
 };
 </script>
     

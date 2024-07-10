@@ -23,10 +23,10 @@
                 <span>发布</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="4">
+            <el-menu-item index="4" @click="goTo('judge')">
               <i class="el-icon-setting"></i>
               <template v-slot:title>
-                <span>设置</span>
+                <span>作者</span>
               </template>
             </el-menu-item>
           </el-menu>
@@ -41,10 +41,14 @@
             v-model="search"
             class="input-with-select"
           >
-            <el-select v-model="select" slot="prepend" placeholder="请选择" @change="handleChange">
-              <el-option label="餐厅名" value="1"></el-option>
-              <el-option label="订单号" value="2"></el-option>
-              <el-option label="用户电话" value="3"></el-option>
+            <el-select
+              v-model="select"
+              slot="prepend"
+              placeholder="请选择"
+              @change="handleChange"
+            >
+            <el-option v-for="(item, index) in Category[0].category" :key="index" :label="item"
+            :value="index+1"></el-option>
             </el-select>
             <el-button
               slot="append"
@@ -59,7 +63,7 @@
         <div class="div1">
           <div class="div2">
             <img
-              :src="require('@/assets/image.png')"
+              :src="ownerInfo.avatar"
               class="user_person"
               height="150px"
               width="150px"
@@ -67,11 +71,16 @@
           </div>
 
           <div class="div3">
-            <p id="userName">用户名:{{ username }}</p>
-            <p id="nickname">昵称:{{ nickname }}</p>
-            <p id="school">学校:{{ school }}</p>
+            <p id="userName">用户名:</p>
+            &nbsp;&nbsp;&nbsp;{{ ownerInfo.username }}
+            <p id="nickname">昵称:{{ ownerInfo.nickname }}</p>
+            <p id="school">学校:{{ ownerInfo.school }}</p>
           </div>
-          <router-link :to="'/profile'">
+
+          <router-link
+            v-if="this.userId == this.ownerInfo.id"
+            :to="{ name: 'profile' }"
+          >
             <button id="button_concern">完善资料</button>
           </router-link>
         </div>
@@ -113,10 +122,13 @@
 </template>
 
 <script>
+import * as Category from "@/utils/category";
 import request from "@/utils/axiosInstance";
 export default {
   data() {
     return {
+      Category:[],
+      userId: 1, //当前会话的用户id
       search: "",
       select: "",
       selectedValue: "0",
@@ -131,8 +143,14 @@ export default {
           images: [], //图片
         },
       ],
-
-      currentDate: new Date(),
+      // 当前主页的主人的信息
+      ownerInfo: {
+        id: 1, //当前主页的主人的id
+        username: "user1",
+        nickname: "昵称1",
+        school: "学校1",
+        avatar: "",
+      },
     };
   },
   methods: {
@@ -144,12 +162,22 @@ export default {
       // 根据具体需求做相应的逻辑处理
       // 例如根据不同的选项值，展示不同的内容或者触发不同的操作
     },
-    goTo(name) {
-      this.$router
-        .push({ name: name, params: { information: this.information } })
+
+    //初始化主页所属用户的信息
+    getUserInfo(id) {
+      request
+        .get("/user/info", { params: { postUserId: id } })
+        .then((response) => {
+          this.ownerInfo = response.data.data;
+        })
         .catch((err) => {
-          err;
+          console.log(err);
         });
+    },
+    goTo(name) {
+      this.$router.push({ name: name }).catch((err) => {
+        err;
+      });
     },
     getImagePath(image) {
       // 使用 require 动态加载图片
@@ -178,7 +206,7 @@ export default {
       request
         .get("/post/search", {
           params: {
-            userId: this.userId,
+            userId: this.ownerInfo.id,
             category: this.selectedValue,
             title: this.search,
             content: this.search,
@@ -194,9 +222,17 @@ export default {
     },
   },
   created() {
+    //从查询串中获取当前主页的主人的id
+    this.ownerInfo.id = this.$route.query.id;
+    //this.userId = sessionStorage.getItem("userId");
+    this.userId = 1;
+    //this.ownerInfo.id = 1;
+    this.getUserInfo(this.ownerInfo.id);
     this.getData();
   },
-  mounted() {},
+  mounted() {
+    this.Category = Category.comment.data;
+  },
 };
 </script>
 
@@ -204,9 +240,11 @@ export default {
 .el-select .el-input {
   width: 130px;
 }
+
 .input-with-select .el-input-group__prepend {
   background-color: #fff;
 }
+
 #userName {
   font-weight: bolder;
   margin-top: 0px;

@@ -10,23 +10,23 @@
             @open="handleOpen"
             @close="handleClose"
           >
-            <el-menu-item index="1">
+            <el-menu-item index="1" @click="goTo('home')">
               <i class="el-icon-menu"></i>
               <template v-slot:title>
                 <span>发现</span>
               </template>
             </el-menu-item>
-            
-            <el-menu-item index="3">
+
+            <el-menu-item index="3" @click="goTo('publish')">
               <i class="el-icon-document"></i>
               <template v-slot:title>
                 <span>发布</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="4">
+            <el-menu-item index="4" @click="goTo('judge')">
               <i class="el-icon-setting"></i>
               <template v-slot:title>
-                <span>设置</span>
+                <span>作者</span>
               </template>
             </el-menu-item>
           </el-menu>
@@ -35,51 +35,33 @@
     </el-aside>
 
     <el-main>
-      <el-input
-        type="textarea"
-        autosize
-        placeholder="请输入标题"
-        v-model="title"
-        style="width: 400px"
-      >
+      
+      <el-input type="textarea" autosize placeholder="请输入标题" v-model="title" style="width: 400px">
       </el-input>
+      <el-select  v-model="select" placeholder="请选择" @change="handleChange1">
+        <!-- 选择类别 -->
+        <el-option v-for="(item, index) in Category[0].category" :key="index" :label="item" :value="index+1"></el-option>
+
+      </el-select>
       <div style="margin: 20px 0"></div>
-      <el-input
-        type="textarea"
-        :autosize="{ minRows: 5, maxRows: 6 }"
-        placeholder="请输入内容"
-        v-model="content"
-        style="width: 400px"
-      >
+      <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 6 }" placeholder="请输入内容" v-model="content"
+        style="width: 400px">
+
       </el-input>
+      
       <!-- 多文件上传 -->
-      <el-upload
-        ref="uploadRef"
-        list-type="picture-card"
-        :auto-upload="false"
-        :http-request="handlePublish"
-        :multiple="true"
-        :on-change="handleChange"
-        :file-list="files"
-        :on-submit="handleSubmit"
-        :on-remove="handleRemoveFromComponent"
-      >
+      <el-upload ref="uploadRef" list-type="picture-card" :auto-upload="false" :http-request="handlePublish"
+        :multiple="true" :on-change="handleChange" :file-list="files" :on-submit="handleSubmit"
+        :on-remove="handleRemoveFromComponent">
         <i slot="default" class="el-icon-plus"></i>
         <div slot="file" slot-scope="{ file }">
           <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
           <span class="el-upload-list__item-actions">
-            <span
-              class="el-upload-list__item-preview"
-              @click="handlePictureCardPreview(file)"
-            >
+            <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
               <i class="el-icon-zoom-in"></i>
             </span>
 
-            <span
-              v-if="!disabled"
-              class="el-upload-list__item-delete"
-              @click="handleRemove(file)"
-            >
+            <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
               <i class="el-icon-delete"></i>
             </span>
           </span>
@@ -91,27 +73,40 @@
       <el-dialog :visible.sync="dialogVisible">
         <img width="100%" :src="dialogImageUrl" alt="" />
       </el-dialog>
-      <el-button type="primary" class="btn" @click="handlePublish"
-        >发布</el-button
-      >
+      <el-button type="primary" class="btn" @click="handlePublish">发布</el-button>
     </el-main>
   </el-container>
 </template>
 <script>
+import * as Category from "@/utils/category";
 import request from "@/utils/axiosInstance";
 export default {
   data() {
     return {
+      Category: [],
       files: [], // 用于存储上传文件的信息
       userId: 2,
       title: "",
+      select: "",
       content: "",
       dialogImageUrl: "",
       dialogVisible: false,
       disabled: false,
+      selectedValue: "0",
     };
   },
+  mounted() {
+    this.Category = Category.comment.data;
+  },
   methods: {
+    handleChange1(value) {
+      console.log("选中的值为:", value);
+      // 可以将选中的值赋给组件中的一个变量
+      this.selectedValue = value;
+
+      // 根据具体需求做相应的逻辑处理
+      // 例如根据不同的选项值，展示不同的内容或者触发不同的操作
+    },
     showMessage(msg, type) {
       this.$message({
         message: msg,
@@ -184,7 +179,7 @@ export default {
       formData.append("userId", this.userId);
       formData.append("title", this.title);
       formData.append("content", this.content);
-
+      formData.append("category", this.selectedValue);
       // 发送请求到后端
       request
         .post("/post/addPost", formData, {
@@ -221,6 +216,11 @@ export default {
 
       console.log("File removed from component:", file);
     },
+    goTo(name) {
+      this.$router.push({ name: name }).catch((err) => {
+        err;
+      });
+    },
   },
 };
 </script>
@@ -229,6 +229,7 @@ export default {
 .btn {
   float: left;
 }
+
 .file-upload-form {
   width: fit-content;
   height: fit-content;
@@ -317,13 +318,13 @@ export default {
 }
 
 /* Input field:focus styles */
-.input-field:focus + .input-label {
+.input-field:focus+.input-label {
   top: -20px;
   font-size: 12px;
   color: #007bff;
 }
 
-.input-field:focus + .input-label + .input-highlight {
+.input-field:focus+.input-label+.input-highlight {
   width: 100%;
 }
 
