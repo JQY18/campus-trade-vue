@@ -14,14 +14,14 @@
               </template>
             </el-menu-item>
 
-            <el-menu-item index="3" @click="goTo('publish')">
+            <el-menu-item index="2" @click="goTo('publish')">
               <i class="el-icon-document"></i>
               <template v-slot:title>
                 <span>发布</span>
               </template>
             </el-menu-item>
 
-            <el-menu-item index="4" @click="goTo('judge')">
+            <el-menu-item index="3" @click="goTo('judge')">
               <i class="el-icon-setting"></i>
               <template v-slot:title>
                 <span>作者</span>
@@ -184,7 +184,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 .el-select .el-input {
   width: 130px;
 }

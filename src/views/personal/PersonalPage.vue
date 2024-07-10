@@ -192,7 +192,7 @@ export default {
     },
     getData() {
       request
-        .get("/post/all", { params: { userId: this.userId } })
+        .get("/post/all", { params: { userId: this.ownerInfo.id } })
         .then((res) => {
           this.dataList = res.data.data;
           console.log(res);

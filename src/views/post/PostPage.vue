@@ -24,8 +24,8 @@
                 <span>发布</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="4">
-              <i class="el-icon-setting" @click="goTo('judge')"></i>
+            <el-menu-item index="4" @click="goTo('judge')">
+              <i class="el-icon-setting"></i>
               <template v-slot:title>
                 <span>作者</span>
               </template>

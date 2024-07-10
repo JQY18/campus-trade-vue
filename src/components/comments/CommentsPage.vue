@@ -52,6 +52,7 @@
               :src="reply.replierAvatar"
               width="30"
               height="30"
+              @click="avatarClick(reply.replierId)"
             />
             <span class="from-name">{{ reply.replierNickname }}</span
             ><span>: </span>
