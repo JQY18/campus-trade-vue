@@ -63,6 +63,7 @@
             <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 6 }" placeholder="请输入内容" v-model="textarea2"
                 style="width: 400px;">
             </el-input>
+            
             <el-upload action="#" list-type="picture-card" :auto-upload="false" :before-upload="beforeAvatarUpload">
                 <i slot="default" class="el-icon-plus"></i>
                 <div slot="file" slot-scope="{file}">
