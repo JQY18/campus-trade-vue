@@ -119,6 +119,8 @@
 </template>
 
 <script>
+import request from "@/utils/axiosInstance";
+
 export default {
   data() {
     return {
@@ -186,6 +188,17 @@ export default {
     updateUserInfo() {
       console.log("用户信息已更新:", this.userInfo);
     },
+    //初始化主页所属用户的信息
+    getUserInfo(id) {
+      request
+        .get("/user/info", { params: { postUserId: id } })
+        .then((response) => {
+          this.ownerInfo = response.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     handleAvatarSuccess(response, file) {
       console.log("Avatar uploaded successfully:", response, file);
       this.imageUrl = URL.createObjectURL(file.raw);
@@ -209,6 +222,9 @@ export default {
       // 执行保存逻辑
       console.log("头像已保存:", this.files[0]);
     },
+  },
+  created() {
+    this.getUserInfo();
   },
 };
 </script>

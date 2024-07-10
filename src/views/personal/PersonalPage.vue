@@ -41,7 +41,12 @@
             v-model="search"
             class="input-with-select"
           >
-            <el-select v-model="select" slot="prepend" placeholder="请选择" @change="handleChange">
+            <el-select
+              v-model="select"
+              slot="prepend"
+              placeholder="请选择"
+              @change="handleChange"
+            >
               <el-option label="餐厅名" value="1"></el-option>
               <el-option label="订单号" value="2"></el-option>
               <el-option label="用户电话" value="3"></el-option>
@@ -59,7 +64,7 @@
         <div class="div1">
           <div class="div2">
             <img
-              :src="require('@/assets/image.png')"
+              :src="ownerInfo.avatar"
               class="user_person"
               height="150px"
               width="150px"
@@ -67,11 +72,13 @@
           </div>
 
           <div class="div3">
-            <p id="userName">用户名:{{ username }}</p>
-            <p id="nickname">昵称:{{ nickname }}</p>
-            <p id="school">学校:{{ school }}</p>
+            <p id="userName">用户名:</p>
+            &nbsp;&nbsp;&nbsp;{{ ownerInfo.username }}
+            <p id="nickname">昵称:{{ ownerInfo.nickname }}</p>
+            <p id="school">学校:{{ ownerInfo.school }}</p>
           </div>
-          <router-link :to="'/profile'">
+          
+          <router-link v-if="this.userId == this.ownerInfo.id" :to="{name:'profile'}">
             <button id="button_concern">完善资料</button>
           </router-link>
         </div>
@@ -117,6 +124,7 @@ import request from "@/utils/axiosInstance";
 export default {
   data() {
     return {
+      userId: 1, //当前会话的用户id
       search: "",
       select: "",
       selectedValue: "0",
@@ -131,8 +139,14 @@ export default {
           images: [], //图片
         },
       ],
-
-      currentDate: new Date(),
+      // 当前主页的主人的信息
+      ownerInfo: {
+        id: 1,    //当前主页的主人的id
+        username: "user1",
+        nickname: "昵称1",
+        school: "学校1",
+        avatar: "",
+      },
     };
   },
   methods: {
@@ -143,6 +157,18 @@ export default {
 
       // 根据具体需求做相应的逻辑处理
       // 例如根据不同的选项值，展示不同的内容或者触发不同的操作
+    },
+
+    //初始化主页所属用户的信息
+    getUserInfo(id) {
+      request
+        .get("/user/info", { params: { postUserId: id } })
+        .then((response) => {
+          this.ownerInfo = response.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     goTo(name) {
       this.$router
@@ -178,7 +204,7 @@ export default {
       request
         .get("/post/search", {
           params: {
-            userId: this.userId,
+            userId: this.ownerInfo.id,
             category: this.selectedValue,
             title: this.search,
             content: this.search,
@@ -194,6 +220,12 @@ export default {
     },
   },
   created() {
+    //从查询串中获取当前主页的主人的id
+    // this.ownerInfo.id = this.$route.query.userId;
+    //this.userId = sessionStorage.getItem("userId");
+    this.userId = 1;
+    this.ownerInfo.id = 1;
+    this.getUserInfo(this.ownerInfo.id);
     this.getData();
   },
   mounted() {},
@@ -208,7 +240,6 @@ export default {
   background-color: #fff;
 }
 #userName {
-  font-weight: bolder;
   margin-top: 0px;
   margin-bottom: 0px;
 }
