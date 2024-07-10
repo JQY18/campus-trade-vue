@@ -26,7 +26,7 @@
             <el-menu-item index="4" @click="goTo('judge')">
               <i class="el-icon-setting"></i>
               <template v-slot:title>
-                <span>设置</span>
+                <span>作者</span>
               </template>
             </el-menu-item>
           </el-menu>
@@ -38,9 +38,9 @@
       
       <el-input type="textarea" autosize placeholder="请输入标题" v-model="title" style="width: 400px">
       </el-input>
-      <el-select  placeholder="请选择">
+      <el-select  v-model="select" placeholder="请选择" @change="handleChange1">
         <!-- 选择类别 -->
-        <el-option v-for="(item, index) in Category[0].category" :key="index" :label="item" :value="index"></el-option>
+        <el-option v-for="(item, index) in Category[0].category" :key="index" :label="item" :value="index+1"></el-option>
 
       </el-select>
       <div style="margin: 20px 0"></div>
@@ -87,16 +87,26 @@ export default {
       files: [], // 用于存储上传文件的信息
       userId: 2,
       title: "",
+      select: "",
       content: "",
       dialogImageUrl: "",
       dialogVisible: false,
       disabled: false,
+      selectedValue: "0",
     };
   },
   mounted() {
     this.Category = Category.comment.data;
   },
   methods: {
+    handleChange1(value) {
+      console.log("选中的值为:", value);
+      // 可以将选中的值赋给组件中的一个变量
+      this.selectedValue = value;
+
+      // 根据具体需求做相应的逻辑处理
+      // 例如根据不同的选项值，展示不同的内容或者触发不同的操作
+    },
     showMessage(msg, type) {
       this.$message({
         message: msg,
@@ -169,7 +179,7 @@ export default {
       formData.append("userId", this.userId);
       formData.append("title", this.title);
       formData.append("content", this.content);
-
+      formData.append("category", this.selectedValue);
       // 发送请求到后端
       request
         .post("/post/addPost", formData, {

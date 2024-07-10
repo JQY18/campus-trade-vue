@@ -44,7 +44,7 @@
             <el-select v-model="select" slot="prepend" placeholder="请选择" @change="handleChange">
               <!-- 选择类别 -->
               <el-option v-for="(item, index) in Category[0].category" :key="index" :label="item"
-                :value="index"></el-option>
+                :value="index+1"></el-option>
               
             </el-select>
             <el-button slot="append" icon="el-icon-search" @click="searchData"></el-button>

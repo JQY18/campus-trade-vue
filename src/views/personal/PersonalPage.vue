@@ -48,7 +48,7 @@
               @change="handleChange"
             >
             <el-option v-for="(item, index) in Category[0].category" :key="index" :label="item"
-            :value="index"></el-option>
+            :value="index+1"></el-option>
             </el-select>
             <el-button
               slot="append"
