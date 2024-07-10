@@ -196,7 +196,7 @@ export default {
      * 提交回复
      */
     async submitReply(fatherId, commenterId) {
-      const input = this.getReplyContent(this.myComment).trim();
+      const input = this.getReplyContent(this.inputComment).trim();
 
       //内容为空直接返回
       if (!input) {

@@ -5,6 +5,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('../views/personal/ProfileView.vue')
+  },
+  {
     path: '/',
     name: 'home',
     component: () => import('../views/home/HomeView.vue')

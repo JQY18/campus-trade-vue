@@ -58,7 +58,7 @@
         list-type="picture-card"
         :auto-upload="false"
         :http-request="handlePublish"
-        multiple
+        :multiple="true"
         :on-change="handleChange"
         :file-list="files"
         :on-submit="handleSubmit"
@@ -142,18 +142,41 @@ export default {
       return isAllowedType && isLt2M;
     },
 
+    //clear
+    clearFiles() {
+      this.title = "";
+      this.content = "";
+      this.files = [];
+    },
+    //判空
+    checkEmpty() {
+      if (this.title == "" || this.content == "") {
+        this.showMessage("标题或内容不能为空", "warning");
+        return false;
+      }
+      return true;
+    },
+
     // 发布帖子
     handlePublish() {
+      if (!this.checkEmpty()) {
+        return;
+      }
+
       if (this.files.length == 0) {
         this.showMessage("请上传图片", "warning");
         return;
       }
       const formData = new FormData();
+      //alert(JSON.stringify(this.files));
 
       // 将文件添加到 FormData 中
       this.files.forEach((file) => {
         //alert(JSON.stringify(file))
-        if (!this.beforeAvatarUpload(file)) return false;
+        if (!this.beforeAvatarUpload(file)) {
+          this.clearFiles();
+          return false;
+        }
         formData.append("images", file.raw); // 注意：这里的 file.raw 是 Element UI 中的文件对象的原始 Blob/File 对象
       });
 
@@ -164,8 +187,14 @@ export default {
 
       // 发送请求到后端
       request
-        .post("/post/addPost", formData)
+        .post("/post/addPost", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((response) => {
+          this.clearFiles();
+          this.showMessage("发布成功", "success");
           console.log("Files uploaded successfully:", response.data);
         })
         .catch((error) => {

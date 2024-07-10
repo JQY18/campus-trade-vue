@@ -46,24 +46,26 @@
   </el-input>
 </div>
 
-      <router-link :to="{ name: 'login' }"><button>登录</button></router-link>
+        <router-link :to="{ name: 'login' }"><button>登录</button></router-link>
 
-      <div class="div1">
-        <div class="div2">
+        <div class="div1">
+          <div class="div2">
             <img
               :src="require('@/assets/image.png')"
               class="user_person"
               height="150px"
               width="150px"
             />
-        </div>
-
-        <div class="div3">
-          <p id="userName">用户名:{{ username }}</p>
-          <p id="nickname">昵称:{{ nickname }}</p>
-          <p id="school">学校:{{ school }}</p>
           </div>
-          <button id="button_concern">关注</button>
+
+          <div class="div3">
+            <p id="userName">用户名:{{ username }}</p>
+            <p id="nickname">昵称:{{ nickname }}</p>
+            <p id="school">学校:{{ school }}</p>
+          </div>
+          <router-link :to="'/profile'">
+            <button id="button_concern">完善资料</button>
+          </router-link>
         </div>
       </el-header>
 
@@ -100,7 +102,6 @@
     </el-main>
     </el-container>
   </el-container>
-
 </template>
 
 <script>
@@ -125,9 +126,12 @@ export default {
     };
   },
   methods: {
-    
     goTo(name) {
-      this.$router.push({ name: name ,params:{information:this.information}}).catch(err => { err });
+      this.$router
+        .push({ name: name, params: { information: this.information } })
+        .catch((err) => {
+          err;
+        });
     },
     getImagePath(image) {
       // 使用 require 动态加载图片
@@ -199,7 +203,7 @@ export default {
   font-size: 1ch;
 }
 
-.hr{
+.hr {
   margin-top: 300px;
 }
 
@@ -303,8 +307,6 @@ button:hover {
   color: #fff;
 }
 
-
-
 button {
   padding: 1.3em 3em;
   font-size: 12px;
@@ -339,7 +341,6 @@ button {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
 }
-
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
@@ -446,8 +447,6 @@ button:active {
 .clearfix:after {
   clear: both;
 }
-
-
 
 .card-container {
   margin-bottom: 20px;
