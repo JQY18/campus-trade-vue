@@ -105,6 +105,12 @@
 import request from "@/utils/axiosInstance";
 
 export default {
+  props: {
+    id: {
+      type: Number,
+      required: true,
+    },
+  },
   components: {},
   data() {
     return {
@@ -123,16 +129,18 @@ export default {
      */
     async likeClick(item) {
       try {
-        await request.post("/comments/like", {
-          commentId: item.id, //当前评论id
-          likerId: this.userId, //当前登录的用户id
-        });
         if (item.isLiked) {
           item.like--;
         } else {
           item.like++;
         }
         item.isLiked = !item.isLiked;
+        await request.post("/comments/like", {
+          commentId: item.id, //当前评论id
+          likerId: this.userId, //当前登录的用户id
+          to: item.like,
+          isLiked: item.isLiked?1:0,//点击完之后的状态
+        });
       } catch (err) {
         console.error(err);
       }
@@ -144,31 +152,37 @@ export default {
     cancel() {
       this.showItemId = "";
     },
+    // 舍弃inputComment从第一个字符到第一个空格字符以前的内容并且返回剩余内容
+    getReplyContent(input) {
+      const index = input.indexOf(" ");
+      if (index !== -1) {
+        return input.substring(index + 1);
+      } 
+      return input;
+    },
 
     /**
      * 提交评论
      */
     async submitComment() {
+
+      const input = this.getReplyContent(this.myComment).trim();
+
       //内容为空直接返回
-      if (!this.myComment.trim()) {
+      if (!input) {
         this.$message.warning("评论内容不能为空！");
         return;
       }
 
       try {
         await request.post("/comments/add", {
-          content: this.myComment, //输入框的内容
+          content: input, //输入框的内容
           postId: this.postId, //当前帖子id
           commenterId: this.userId, //当前登录的用户id
         });
         this.$message.success("评论成功");
         this.myComment = ""; // 清空输入框
         this.fresh(); // 刷新评论列表
-        /* this.$nextTick(() => {
-          //this.comments.unshift(res.data.data); // 在列表的最前面添加新评论
-          //this.$set(this.comments, -1, res.data.data); // 使用 Vue.set 更新数组中的第一个元素
-          this.fresh(); // 刷新评论列表
-        }); */
       } catch (err) {
         console.error(err);
         this.myComment = ""; // 清空输入框
@@ -182,7 +196,10 @@ export default {
      * 提交回复
      */
     async submitReply(fatherId, commenterId) {
-      if (!this.inputComment.trim()) {
+      const input = this.getReplyContent(this.myComment).trim();
+
+      //内容为空直接返回
+      if (!input) {
         this.$message.warning("评论内容不能为空！");
         return;
       }
@@ -191,7 +208,7 @@ export default {
           fatherId: fatherId, //当前大评论id
           commenterId: commenterId, //被回复的人的id
           replierId: this.userId, //当前登录的用户id
-          content: this.inputComment, //输入框的内容
+          content: input, //输入框的内容
         });
         this.$message.success("回复成功");
         this.inputComment = ""; // 清空输入框
@@ -211,16 +228,16 @@ export default {
      */
     showCommentInput(item, reply) {
       if (reply) {
-        this.inputComment = "@" + reply.commenterNickname + " ";
+        this.inputComment = "@" + reply.replierNickname + " ";
       } else {
-        this.inputComment = "";
+        this.inputComment = "@" + item.commenterNickname + " ";
       }
       this.showItemId = item.id;
     },
     // 刷新评论区
     fresh() {
       request
-        .get("/comments/1", { params: { userId: 2 } })
+        .get(`/comments/${this.postId}`, { params: { userId: 2 } })
         .then((res) => {
           this.comments = res.data.data;
         })
@@ -232,10 +249,12 @@ export default {
   created() {
     // this.userId = sessionStorage.getItem("userId");
     this.userId = 2;
-    this.postId = 1;
+    this.postId = this.id;
     this.fresh();
   },
-  mounted() {},
+  mounted() {
+  },
+
 };
 </script>
     

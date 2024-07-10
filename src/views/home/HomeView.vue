@@ -31,7 +31,7 @@
 
               <el-menu-item index="1-3">数码</el-menu-item>
               <el-menu-item index="1-4">美妆</el-menu-item>
-              
+
               <el-menu-item index="1-5">家居</el-menu-item>
               <el-menu-item index="1-6">手表</el-menu-item>
               <el-menu-item index="1-7">包袋</el-menu-item>
@@ -171,9 +171,7 @@ export default {
       // this.$router.push({name:"post",params:{postItem: item}});
       this.$router.push({
         name: "post",
-        params: {
-          postItem: item,
-        },
+        query: { id: item.id },
       });
     },
     getData() {
