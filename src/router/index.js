@@ -5,6 +5,23 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/',
+    name: 'home',
+    component: () => import('../views/home/HomeView.vue')
+  },
+  {
+    path: '/static-page',
+    name: 'StaticPage',
+    beforeEnter() {
+      window.location.href = '/static/index.html';
+    }
+  },
+  {
+    path: '/judge',
+    name: 'judge',
+    component: () => import('../views/JudgementView.vue')
+  },
+  {
     path: '/managelogin',
     name: 'managelogin',
     component: () => import('../views/manage/ManagerLogin.vue')
@@ -43,11 +60,7 @@ const routes = [
   },
   
   // 首页
-  {
-    path: '/',
-    name: 'home',
-    component: () => import('../views/home/HomeView.vue')
-  },
+  
   {
     path: '/login',
     name: 'login',

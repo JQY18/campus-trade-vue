@@ -16,7 +16,7 @@
       </el-menu>
     </el-header>
     <el-main>
-      <div id="main" ref="main" style="width: 600px; height: 400px;"></div>
+      <div id="main" ref="main" style="width: 900px; height: 600px;"></div>
     </el-main>
   </el-container>
 </template>
@@ -76,11 +76,11 @@ export default {
               show: false
             },
             data: [
-              { value: 1048, name: 'Search Engine' },
-              { value: 735, name: 'Direct' },
-              { value: 580, name: 'Email' },
-              { value: 484, name: 'Union Ads' },
-              { value: 300, name: 'Video Ads' }
+              { value: 1048, name: '湖南师大' },
+              { value: 735, name: '中南' },
+              { value: 580, name: '湖大' },
+              { value: 484, name: '长沙理工' },
+              { value: 300, name: '师大附中' }
             ]
           }
         ]
@@ -92,5 +92,9 @@ export default {
 </script>
 
 <style scoped>
-/* 可选的样式 */
+#main{
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+}
 </style>

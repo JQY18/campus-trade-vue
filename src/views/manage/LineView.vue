@@ -19,10 +19,8 @@
         <div>
 
           <h1>日增用户数量</h1>
-          <p>这里展示的是每日新增用户数量</p>
-          <el-button type="primary" @click="goTo('manage')">返回</el-button>
-          <el-divider></el-divider>
-          <div id="main" style="width: 600px; height: 400px;"></div>
+
+          <div id="main" style="width: 730px; height: 500px;"></div>
           
         </div>
       </el-main>
