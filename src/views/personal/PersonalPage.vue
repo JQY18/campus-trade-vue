@@ -23,10 +23,10 @@
                 <span>发布</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="4">
+            <el-menu-item index="4" @click="goTo('judge')">
               <i class="el-icon-setting"></i>
               <template v-slot:title>
-                <span>设置</span>
+                <span>作者</span>
               </template>
             </el-menu-item>
           </el-menu>
@@ -76,8 +76,11 @@
             <p id="nickname">昵称:{{ ownerInfo.nickname }}</p>
             <p id="school">学校:{{ ownerInfo.school }}</p>
           </div>
-          
-          <router-link v-if="this.userId == this.ownerInfo.id" :to="{name:'profile'}">
+
+          <router-link
+            v-if="this.userId == this.ownerInfo.id"
+            :to="{ name: 'profile' }"
+          >
             <button id="button_concern">完善资料</button>
           </router-link>
         </div>
@@ -142,7 +145,7 @@ export default {
       ],
       // 当前主页的主人的信息
       ownerInfo: {
-        id: 1,    //当前主页的主人的id
+        id: 1, //当前主页的主人的id
         username: "user1",
         nickname: "昵称1",
         school: "学校1",
@@ -172,11 +175,9 @@ export default {
         });
     },
     goTo(name) {
-      this.$router
-        .push({ name: name, params: { information: this.information } })
-        .catch((err) => {
-          err;
-        });
+      this.$router.push({ name: name }).catch((err) => {
+        err;
+      });
     },
     getImagePath(image) {
       // 使用 require 动态加载图片
@@ -222,10 +223,10 @@ export default {
   },
   created() {
     //从查询串中获取当前主页的主人的id
-    // this.ownerInfo.id = this.$route.query.userId;
+    this.ownerInfo.id = this.$route.query.id;
     //this.userId = sessionStorage.getItem("userId");
     this.userId = 1;
-    this.ownerInfo.id = 1;
+    //this.ownerInfo.id = 1;
     this.getUserInfo(this.ownerInfo.id);
     this.getData();
   },

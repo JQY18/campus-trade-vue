@@ -126,6 +126,7 @@ export default {
     return {
       activeMenu: "personalInfo",
       userInfo: {
+        id: 1,
         username: "",
         nickname: "",
         school: "",
@@ -185,15 +186,40 @@ export default {
       console.log("Selected key:", key);
       console.log("Key path:", keyPath);
     },
+
+    // 修改用户信息
     updateUserInfo() {
-      console.log("用户信息已更新:", this.userInfo);
+      //判断输入是否为空
+      if (
+        this.userInfo.username === "" ||
+        this.userInfo.nickname === "" ||
+        this.userInfo.school === ""
+      ) {
+        this.$message.error("请填写完整信息！");
+        return;
+      }
+      //发送请求
+      request
+        .post("/user/update", {
+          id: this.userInfo.id,
+          username: this.userInfo.username,
+          nickname: this.userInfo.nickname,
+          school: this.userInfo.school,
+        })
+        .then((response) => {
+          console.log("User info updated successfully:", response);
+          this.$message.success("信息更新成功！");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     //初始化主页所属用户的信息
     getUserInfo(id) {
       request
         .get("/user/info", { params: { postUserId: id } })
         .then((response) => {
-          this.ownerInfo = response.data.data;
+          this.userInfo = response.data.data;
         })
         .catch((err) => {
           console.log(err);
@@ -207,24 +233,69 @@ export default {
       console.log("Exceed limit:", files, fileList);
       this.$message.warning("只能上传一张图片！");
     },
-    updatePassword() {
-      if (this.passwordForm.newPassword !== this.passwordForm.confirmPassword) {
-        this.$message.error("新密码与确认新密码不一致!");
-        return;
-      }
-      console.log("密码已更新:", this.passwordForm);
-    },
+    //修改用户头像
     saveAvatar() {
       if (this.files.length === 0) {
         this.$message.error("请先上传图片！");
         return;
       }
       // 执行保存逻辑
-      console.log("头像已保存:", this.files[0]);
+      const formData = new FormData();
+      //添加用户id
+      formData.append("id", this.userInfo.id);
+
+      formData.append("avatar", this.files[0].raw);
+      request
+        .post("/user/avatar", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log("Avatar updated successfully:", response);
+          this.$message.success("头像更新成功！");
+        });
+    },
+    //修改用户密码
+    updatePassword() {
+      if (this.passwordForm.newPassword !== this.passwordForm.confirmPassword) {
+        this.$message.error("新密码与确认新密码不一致!");
+        return;
+      }
+      //新密码与旧密码不能相同
+      if (this.passwordForm.newPassword === this.passwordForm.currentPassword) {
+        this.$message.error("新密码与旧密码不能相同!");
+        return;
+      }
+      if (this.passwordForm.currentPassword === "") {
+        this.$message.error("请输入当前密码!");
+        return;
+      }
+      //发送请求
+      request
+        .post("/user/password", {
+          id: this.userInfo.id,
+          currentPassword: this.passwordForm.currentPassword,
+          newPassword: this.passwordForm.newPassword,
+        })
+        .then((response) => {
+          if (response.data.code === 1) {
+            this.$message.success("密码更新成功！");
+          } else {
+            this.$message.error("密码更新失败！");
+          }
+          console.log("Password updated successfully:", response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
   created() {
-    this.getUserInfo();
+    //从sesstionStorage中获取用户id
+    //this.userId = JSON.parse(sessionStorage.getItem("user")).id;
+    this.userInfo.id = 1;
+    this.getUserInfo(this.userInfo.id);
   },
 };
 </script>
