@@ -45,12 +45,15 @@
         <h2>修改头像</h2>
         <hr />
         <el-upload
-          action="#"
+          ref="uploadRef"
           list-type="picture-card"
           :auto-upload="false"
+          :http-request="handlePublish"
+          :multiple="false"
+          :on-change="handleChange"
+          :file-list="files"
+          :on-remove="handleRemoveFromComponent"
           :limit="1"
-          :before-upload="beforeAvatarUpload"
-          :on-exceed="handleExceed"
         >
           <i slot="default" class="el-icon-plus"></i>
           <div slot="file" slot-scope="{ file }">
@@ -66,6 +69,7 @@
               >
                 <i class="el-icon-zoom-in"></i>
               </span>
+
               <span
                 v-if="!disabled"
                 class="el-upload-list__item-delete"
@@ -76,9 +80,10 @@
             </span>
           </div>
           <div slot="tip" class="el-upload__tip">
-            只能上传jpg/png文件，且不超过500kb
+            只能上传jpg/png文件，且不超过2MB
           </div>
         </el-upload>
+        <el-button type="primary" @click="saveAvatar">保存</el-button>
       </div>
 
       <div v-if="activeMenu === 'changePassword'">
@@ -122,7 +127,7 @@ export default {
         nickname: "",
         school: "",
       },
-      imageUrl: "",
+      files: [], // 存储已上传的文件
       passwordForm: {
         currentPassword: "",
         newPassword: "",
@@ -131,49 +136,36 @@ export default {
     };
   },
   methods: {
-    handleSelect(key, keyPath) {
-      this.activeMenu = key;
-      console.log("Selected key:", key);
-      console.log("Key path:", keyPath);
-    },
-    updateUserInfo() {
-      // 处理更新个人信息的逻辑
-      console.log("用户信息已更新:", this.userInfo);
-    },
-    handleAvatarSuccess(response, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
+    handleChange(file, fileList) {
+      if (this.files.length >= 1) {
+        this.$message.error("只能上传一张图片！");
+        return;
+      }
+      this.files = fileList;
+      console.log("File list changed:", file);
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
+      const allowedTypes = ["jpeg", "jpg", "png"];
+      const fileType = file.name.split(".").pop().toLowerCase();
+      const isAllowedType = allowedTypes.includes(fileType);
       const isLt2M = file.size / 1024 / 1024 < 2;
 
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+      if (!isAllowedType) {
+        this.$message.error("上传图片只能是 JPG/JPEG、PNG 格式!");
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error("上传图片大小不能超过 2MB!");
       }
 
       // 清除之前的上传记录
-      this.$refs.upload.clearFiles();
+      this.$refs.uploadRef.clearFiles();
 
-      return isJPG && isLt2M;
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning("只能上传一张图片！");
-    },
-    updatePassword() {
-      // 处理更新密码的逻辑
-      if (this.passwordForm.newPassword !== this.passwordForm.confirmPassword) {
-        this.$message.error("新密码与确认新密码不一致!");
-        return;
-      }
-      console.log("密码已更新:", this.passwordForm);
+      return isAllowedType && isLt2M;
     },
     handleRemove(file) {
-      const index = this.files.indexOf(file);
+      const index = this.files.findIndex((f) => f.uid === file.uid);
       if (index !== -1) {
-        this.files.splice(index, 1); // 从数据列表中移除文件
+        this.files.splice(index, 1);
       }
       console.log("Deleting:", file);
     },
@@ -181,15 +173,40 @@ export default {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
-    handleDownload(file) {
-      console.log("Downloading:", file);
+    handleRemoveFromComponent(file, fileList) {
+      console.log("File removed from component:", fileList);
+      console.log("File removed from component:", file);
     },
-    goTo(name) {
-      this.$router.push({ name: name }).catch((err) => {
-        err;
-      });
+    handleSelect(key, keyPath) {
+      this.activeMenu = key;
+      console.log("Selected key:", key);
+      console.log("Key path:", keyPath);
     },
-  },
+    updateUserInfo() {
+      console.log("用户信息已更新:", this.userInfo);
+    },
+    handleAvatarSuccess(response, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning("只能上传一张图片！");
+    },
+    updatePassword() {
+      if (this.passwordForm.newPassword !== this.passwordForm.confirmPassword) {
+        this.$message.error("新密码与确认新密码不一致!");
+        return;
+      }
+      console.log("密码已更新:", this.passwordForm);
+    },
+    saveAvatar() {
+      if (this.files.length === 0) {
+        this.$message.error("请先上传图片！");
+        return;
+      }
+      // 执行保存逻辑
+      console.log("头像已保存:", this.files[0]);
+    }
+  }
 };
 </script>
 
@@ -242,4 +259,3 @@ h2 {
   display: block;
 }
 </style>
-    
