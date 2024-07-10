@@ -1,5 +1,10 @@
+
 <template>
   <div class="login-register">
+    <!-- 视频背景 -->
+    <video autoplay muted loop class="video-background">
+      <source src="@/assets/树屋.mp4" type="video/mp4" />
+    </video>
     <div class="contain">
       <div class="big-box" :class="{ active: isLogin }">
         <div class="big-contain" key="bigContainLogin" v-if="isLogin">
@@ -134,25 +139,36 @@ export default {
       }
     },
     centerButtons() {
-    const buttons = document.querySelectorAll('.bbutton, .sbutton');
-    buttons.forEach(button => {
-      button.style.display = 'flex';
-      button.style.alignItems = 'center';
-      button.style.justifyContent = 'center';
-    });
-  },
+      const buttons = document.querySelectorAll(".bbutton, .sbutton");
+      buttons.forEach((button) => {
+        button.style.display = "flex";
+        button.style.alignItems = "center";
+        button.style.justifyContent = "center";
+      });
+    },
   },
 };
 </script>
 
-<style scoped="scoped">
+<style scoped>
+/* 视频背景样式 */
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 确保视频填充整个容器 */
+  z-index: -1; /* 确保视频在背景层 */
+}
+
 .bbutton:hover,
 .sbutton:hover {
   box-shadow: 6px 6px 10px #d1d9e6, -6px -6px 10px #f9f9f9;
   transform: scale(0.985);
   transition: 0.25s;
-  vertical-align: center;
 }
+
 .sbutton {
   width: 60%;
   height: 40px;
@@ -192,28 +208,16 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 12px;
+  margin: 0; /* 确保页面没有默认边距 */
 }
+
 .login-register {
   width: 100vw;
   height: 100vh;
-  box-sizing: border-box;
-  padding: 25px;
-  border-radius: 12px;
+  position: relative;
   overflow: hidden;
-
-  position: fixed; /* 固定位置以覆盖全屏 */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("~@/assets/中和楼.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: -1; /* 确保背景图片在内容下方 */
-  /* 应用模糊效果 */
-  backdrop-filter: blur(1000px); /* 模糊程度可以根据需要调整 */
 }
+
 .contain {
   width: 60%;
   height: 60%;
@@ -221,10 +225,12 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.5); /* 使用半透明背景 */
   border-radius: 20px;
   box-shadow: 0 0 3px #f0f0f0, 0 0 6px #f0f0f0;
+
 }
+
 .big-box {
   width: 70%;
   height: 100%;
@@ -234,6 +240,7 @@ body {
   transform: translateX(0%);
   transition: all 1s;
 }
+
 .big-contain {
   width: 100%;
   height: 100%;
@@ -242,11 +249,13 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 .btitle {
   font-size: 2em;
   font-weight: bold;
   color: rgb(57, 167, 176);
 }
+
 .bform {
   width: 100%;
   height: 40%;
@@ -256,6 +265,7 @@ body {
   justify-content: space-around;
   align-items: center;
 }
+
 .bform .errTips {
   display: block;
   width: 50%;
@@ -264,6 +274,7 @@ body {
   font-size: 0.7em;
   margin-left: 1em;
 }
+
 .bform input {
   width: 50%;
   height: 40px;
@@ -273,6 +284,7 @@ body {
   padding-left: 2em;
   background-color: #f0f0f0;
 }
+
 .bform input:focus {
   box-shadow: inset 4px 4px 4px #d1d9e6, inset -4px -4px 4px #f9f9f9;
 }
@@ -289,6 +301,7 @@ body {
   border-top-left-radius: inherit;
   border-bottom-left-radius: inherit;
 }
+
 .small-contain {
   width: 100%;
   height: 100%;
@@ -297,11 +310,13 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 .stitle {
   font-size: 1.5em;
   font-weight: bold;
   color: #fff;
 }
+
 .scontent {
   font-size: 0.8em;
   color: #fff;
@@ -314,6 +329,7 @@ body {
   left: 0;
   transition: all 0.5s;
 }
+
 .small-box.active {
   left: 100%;
   border-top-left-radius: 0;
@@ -324,3 +340,4 @@ body {
   transition: all 1s;
 }
 </style>
+
