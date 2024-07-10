@@ -162,7 +162,7 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-    // 点击详情页，进行跳转
+    // 点击详情页，进行跳转,并携带参数：点击的帖子的id
     toDetail(item) {
       // this.$router.push({name:"post",params:{postItem: item}});
       this.$router.push({

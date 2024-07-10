@@ -17,7 +17,7 @@
                 <span>发现</span>
               </template>
             </el-menu-item>
-            
+
             <el-menu-item index="3" @click="goTo('publish')">
               <i class="el-icon-document"></i>
               <template v-slot:title>
@@ -25,9 +25,9 @@
               </template>
             </el-menu-item>
             <el-menu-item index="4">
-              <i class="el-icon-setting"></i>
+              <i class="el-icon-setting" @click="goTo('judge')"></i>
               <template v-slot:title>
-                <span>设置</span>
+                <span>作者</span>
               </template>
             </el-menu-item>
           </el-menu>
@@ -92,6 +92,7 @@
               alt="头像"
               width="46"
               height="46"
+              @click="clickAvatar"
             />
             <div class="right">
               <div class="name">昵称：{{ this.ownerInfo.nickname }}</div>
@@ -121,7 +122,7 @@ export default {
   name: "PostPage",
   data() {
     return {
-      //帖子用户的id
+      //帖子用户的部分信息
       ownerInfo: {
         nickname: "",
         avatar: "",
@@ -149,7 +150,8 @@ export default {
       this.$router.push({ name: name });
     },
     //初始化帖子所属用户的信息
-    getUserInfo(id) {//
+    getUserInfo(id) {
+      //
       request
         .get("/user/info", { params: { postUserId: id } })
         .then((response) => {
@@ -159,7 +161,7 @@ export default {
           console.log(err);
         });
     },
-    //根据id获取帖子内容
+    //根据帖子id获取帖子内容
     getPostInfo() {
       request
         .get("/post", { params: { id: this.postItem.postId } })
@@ -171,11 +173,15 @@ export default {
           console.log(err);
         });
     },
+    //点击头像跳转当前帖子主人的主页
+    clickAvatar() {
+      this.$router.push({ name: "mine", query: { id: this.postItem.userId } });
+    },
   },
   created() {
     //获取到当前页面的帖子
     // this.postItem = this.$route.params.postItem;
-    this.postItem.postId = this.$route.query.id;//获取上个页面传过来的帖子id
+    this.postItem.postId = this.$route.query.id; //获取上个页面传过来的帖子id
     //根据帖子id获取帖子内容
     this.getPostInfo();
   },
