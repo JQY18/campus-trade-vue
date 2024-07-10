@@ -53,7 +53,7 @@
           :on-change="handleChange"
           :file-list="files"
           :on-remove="handleRemoveFromComponent"
-          :on-error="handleExceed"
+          :on-exceed="handleExceed"
           :limit="1"
         >
           <i slot="default" class="el-icon-plus"></i>
@@ -187,10 +187,11 @@ export default {
       console.log("用户信息已更新:", this.userInfo);
     },
     handleAvatarSuccess(response, file) {
+      console.log("Avatar uploaded successfully:", response, file);
       this.imageUrl = URL.createObjectURL(file.raw);
     },
     handleExceed(files, fileList) {
-      console.log("jj", files, fileList);
+      console.log("Exceed limit:", files, fileList);
       this.$message.warning("只能上传一张图片！");
     },
     updatePassword() {
