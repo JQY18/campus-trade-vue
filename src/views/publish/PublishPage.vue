@@ -4,19 +4,14 @@
       <el-row class="tac">
         <el-col :span="12">
           <img :src="require('@/assets/logo3.png')" />
-          <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
-          >
+          <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
             <el-menu-item index="1">
               <i class="el-icon-menu"></i>
               <template v-slot:title>
                 <span>发现</span>
               </template>
             </el-menu-item>
-            
+
             <el-menu-item index="3">
               <i class="el-icon-document"></i>
               <template v-slot:title>
@@ -35,51 +30,33 @@
     </el-aside>
 
     <el-main>
-      <el-input
-        type="textarea"
-        autosize
-        placeholder="请输入标题"
-        v-model="title"
-        style="width: 400px"
-      >
+      
+      <el-input type="textarea" autosize placeholder="请输入标题" v-model="title" style="width: 400px">
       </el-input>
+      <el-select  placeholder="请选择">
+        <!-- 选择类别 -->
+        <el-option v-for="(item, index) in Category[0].category" :key="index" :label="item" :value="index"></el-option>
+
+      </el-select>
       <div style="margin: 20px 0"></div>
-      <el-input
-        type="textarea"
-        :autosize="{ minRows: 5, maxRows: 6 }"
-        placeholder="请输入内容"
-        v-model="content"
-        style="width: 400px"
-      >
+      <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 6 }" placeholder="请输入内容" v-model="content"
+        style="width: 400px">
+
       </el-input>
+      
       <!-- 多文件上传 -->
-      <el-upload
-        ref="uploadRef"
-        list-type="picture-card"
-        :auto-upload="false"
-        :http-request="handlePublish"
-        :multiple="true"
-        :on-change="handleChange"
-        :file-list="files"
-        :on-submit="handleSubmit"
-        :on-remove="handleRemoveFromComponent"
-      >
+      <el-upload ref="uploadRef" list-type="picture-card" :auto-upload="false" :http-request="handlePublish"
+        :multiple="true" :on-change="handleChange" :file-list="files" :on-submit="handleSubmit"
+        :on-remove="handleRemoveFromComponent">
         <i slot="default" class="el-icon-plus"></i>
         <div slot="file" slot-scope="{ file }">
           <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
           <span class="el-upload-list__item-actions">
-            <span
-              class="el-upload-list__item-preview"
-              @click="handlePictureCardPreview(file)"
-            >
+            <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
               <i class="el-icon-zoom-in"></i>
             </span>
 
-            <span
-              v-if="!disabled"
-              class="el-upload-list__item-delete"
-              @click="handleRemove(file)"
-            >
+            <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
               <i class="el-icon-delete"></i>
             </span>
           </span>
@@ -91,17 +68,17 @@
       <el-dialog :visible.sync="dialogVisible">
         <img width="100%" :src="dialogImageUrl" alt="" />
       </el-dialog>
-      <el-button type="primary" class="btn" @click="handlePublish"
-        >发布</el-button
-      >
+      <el-button type="primary" class="btn" @click="handlePublish">发布</el-button>
     </el-main>
   </el-container>
 </template>
 <script>
+import * as Category from "@/utils/category";
 import request from "@/utils/axiosInstance";
 export default {
   data() {
     return {
+      Category: [],
       files: [], // 用于存储上传文件的信息
       userId: 2,
       title: "",
@@ -110,6 +87,9 @@ export default {
       dialogVisible: false,
       disabled: false,
     };
+  },
+  mounted() {
+    this.Category = Category.comment.data;
   },
   methods: {
     showMessage(msg, type) {
@@ -229,6 +209,7 @@ export default {
 .btn {
   float: left;
 }
+
 .file-upload-form {
   width: fit-content;
   height: fit-content;
@@ -317,13 +298,13 @@ export default {
 }
 
 /* Input field:focus styles */
-.input-field:focus + .input-label {
+.input-field:focus+.input-label {
   top: -20px;
   font-size: 12px;
   color: #007bff;
 }
 
-.input-field:focus + .input-label + .input-highlight {
+.input-field:focus+.input-label+.input-highlight {
   width: 100%;
 }
 

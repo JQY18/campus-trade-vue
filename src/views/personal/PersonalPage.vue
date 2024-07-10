@@ -47,9 +47,8 @@
               placeholder="请选择"
               @change="handleChange"
             >
-              <el-option label="餐厅名" value="1"></el-option>
-              <el-option label="订单号" value="2"></el-option>
-              <el-option label="用户电话" value="3"></el-option>
+            <el-option v-for="(item, index) in Category[0].category" :key="index" :label="item"
+            :value="index"></el-option>
             </el-select>
             <el-button
               slot="append"
@@ -120,10 +119,12 @@
 </template>
 
 <script>
+import * as Category from "@/utils/category";
 import request from "@/utils/axiosInstance";
 export default {
   data() {
     return {
+      Category:[],
       userId: 1, //当前会话的用户id
       search: "",
       select: "",
@@ -228,7 +229,9 @@ export default {
     this.getUserInfo(this.ownerInfo.id);
     this.getData();
   },
-  mounted() {},
+  mounted() {
+    this.Category = Category.comment.data;
+  },
 };
 </script>
 
@@ -236,10 +239,13 @@ export default {
 .el-select .el-input {
   width: 130px;
 }
+
 .input-with-select .el-input-group__prepend {
   background-color: #fff;
 }
+
 #userName {
+  font-weight: bolder;
   margin-top: 0px;
   margin-bottom: 0px;
 }
