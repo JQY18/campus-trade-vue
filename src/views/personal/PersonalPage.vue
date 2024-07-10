@@ -16,7 +16,7 @@
                 <span>发现</span>
               </template>
             </el-menu-item>
-            
+
             <el-menu-item index="3" @click="goTo('publish')">
               <i class="el-icon-document"></i>
               <template v-slot:title>
@@ -33,18 +33,26 @@
         </el-col>
       </el-row>
     </el-aside>
-  <el-container>
-    <el-header>
-      <div style="margin-top: 15px; width: 600px;">
-  <el-input placeholder="请输入内容" v-model="input3" class="input-with-select">
-    <el-select v-model="select" slot="prepend" placeholder="请选择">
-      <el-option label="餐厅名" value="1"></el-option>
-      <el-option label="订单号" value="2"></el-option>
-      <el-option label="用户电话" value="3"></el-option>
-    </el-select>
-    <el-button slot="append" icon="el-icon-search"></el-button>
-  </el-input>
-</div>
+    <el-container>
+      <el-header>
+        <div style="margin-top: 15px; width: 600px">
+          <el-input
+            placeholder="请输入内容"
+            v-model="search"
+            class="input-with-select"
+          >
+            <el-select v-model="select" slot="prepend" placeholder="请选择" @change="handleChange">
+              <el-option label="餐厅名" value="1"></el-option>
+              <el-option label="订单号" value="2"></el-option>
+              <el-option label="用户电话" value="3"></el-option>
+            </el-select>
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              @click="searchData"
+            ></el-button>
+          </el-input>
+        </div>
 
         <router-link :to="{ name: 'login' }"><button>登录</button></router-link>
 
@@ -99,7 +107,7 @@
             </div>
           </el-col>
         </el-row>
-    </el-main>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -109,23 +117,33 @@ import request from "@/utils/axiosInstance";
 export default {
   data() {
     return {
-      input3: '',
-      select: '',
+      search: "",
+      select: "",
+      selectedValue: "0",
       dataList: [
         {
           id: -1, //帖子的主键id
           userId: 1, //帖子的主人id
+          category: 0, // 帖子的分类
           title: "", //帖子标题
           content: "", //内容
           createTime: "", //发布时间
           images: [], //图片
         },
       ],
-      
+
       currentDate: new Date(),
     };
   },
   methods: {
+    handleChange(value) {
+      console.log("选中的值为:", value);
+      // 可以将选中的值赋给组件中的一个变量
+      this.selectedValue = value;
+
+      // 根据具体需求做相应的逻辑处理
+      // 例如根据不同的选项值，展示不同的内容或者触发不同的操作
+    },
     goTo(name) {
       this.$router
         .push({ name: name, params: { information: this.information } })
@@ -146,7 +164,7 @@ export default {
     },
     getData() {
       request
-        .get("/post/all",{ params: { userId: this.userId } })
+        .get("/post/all", { params: { userId: this.userId } })
         .then((res) => {
           this.dataList = res.data.data;
           console.log(res);
@@ -158,7 +176,14 @@ export default {
     searchData() {
       // 在这里实现搜索逻辑
       request
-        .get("/post/search", { params: { search: this.search } })
+        .get("/post/search", {
+          params: {
+            userId: this.userId,
+            category: this.selectedValue,
+            title: this.search,
+            content: this.search,
+          },
+        })
         .then((res) => {
           this.dataList = res.data.data;
           console.log(res);
@@ -168,20 +193,20 @@ export default {
         });
     },
   },
-  created() { 
+  created() {
     this.getData();
   },
-  mounted() { },
+  mounted() {},
 };
 </script>
 
 <style>
 .el-select .el-input {
-    width: 130px;
-  }
-  .input-with-select .el-input-group__prepend {
-    background-color: #fff;
-  }
+  width: 130px;
+}
+.input-with-select .el-input-group__prepend {
+  background-color: #fff;
+}
 #userName {
   font-weight: bolder;
   margin-top: 0px;
