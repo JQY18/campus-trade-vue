@@ -16,33 +16,7 @@
                 <span>发现</span>
               </template>
             </el-menu-item>
-            <el-submenu index="2">
-              <template v-slot:title>
-                <i class="el-icon-location"></i>
-                <span>分类</span>
-              </template>
-              <!-- <el-menu-item-group> -->
-              <!-- 无法选中的文字 -->
-              <!-- <template v-slot:title>分组一</template> -->
-              <!-- 可选的选项，如：精选，鞋类，潮服，数码，美妆，家居，手表，包袋，配饰，潮玩，女装 -->
-              <el-menu-item index="1-1">鞋类</el-menu-item>
-              <el-menu-item index="1-2">潮服</el-menu-item>
-
-
-              <el-menu-item index="1-3">数码</el-menu-item>
-
-              <el-submenu index="1-4">
-                <template v-slot:title>美妆</template>
-                <!-- <el-menu-item index="1-4-1">选项1</el-menu-item> -->
-              </el-submenu>
-              <el-menu-item index="1-5">家居</el-menu-item>
-              <el-menu-item index="1-6">手表</el-menu-item>
-              <el-menu-item index="1-7">包袋</el-menu-item>
-              <el-menu-item index="1-8">配饰</el-menu-item>
-              <el-menu-item index="1-9">潮玩</el-menu-item>
-              <el-menu-item index="1-10">女装</el-menu-item>
-
-            </el-submenu>
+            
             <el-menu-item index="3" @click="goTo('publish')">
               <i class="el-icon-document"></i>
               <template v-slot:title>
@@ -61,16 +35,16 @@
     </el-aside>
   <el-container>
     <el-header>
-      <div class="group">
-        <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
-          <g>
-            <path
-                d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
-              ></path>
-          </g>
-        </svg>
-        <input class="input" type="search" placeholder="Search" />
-      </div>
+      <div style="margin-top: 15px; width: 600px;">
+  <el-input placeholder="请输入内容" v-model="input3" class="input-with-select">
+    <el-select v-model="select" slot="prepend" placeholder="请选择">
+      <el-option label="餐厅名" value="1"></el-option>
+      <el-option label="订单号" value="2"></el-option>
+      <el-option label="用户电话" value="3"></el-option>
+    </el-select>
+    <el-button slot="append" icon="el-icon-search"></el-button>
+  </el-input>
+</div>
 
       <router-link :to="{ name: 'login' }"><button>登录</button></router-link>
 
@@ -98,22 +72,31 @@
       </div>
 
       <el-main style="margin-top: 30px">
-      <el-row :gutter="20">
-        <el-col :span="6" v-for="(image, index) in images" :key="index">
-          <div class="card-container">
-            <el-card :body-style="{ padding: '0px', margin: '10px' }">
-              <img :src="getImagePath(image)" class="image" />
-              <div style="padding: 14px">
-                  <span>珠宝</span>
-                <div class="bottom clearfix">
-                  <time class="time">{{ currentDate }}</time>
-                    <el-button type="text" class="button">查看详情</el-button>
+        <el-row :gutter="20">
+          <el-col :span="6" v-for="(item, index) in dataList" :key="index">
+            <div class="card-container">
+              <el-card
+                :body-style="{ padding: '0px', margin: '10px' }"
+                shadow="hover"
+                class="rounded-card"
+              >
+                <img :src="item.images[0]" class="image" />
+                <div style="padding: 14px">
+                  <span>{{ item.title }}</span>
+                  <div class="bottom clearfix">
+                    <time class="time">{{ item.createTime }}</time>
+                    <el-button
+                      type="text"
+                      class="button"
+                      @click="toDetail(item)"
+                      >查看详情</el-button
+                    >
+                  </div>
                 </div>
-              </div>
-            </el-card>
-          </div>
-        </el-col>
-      </el-row>
+              </el-card>
+            </div>
+          </el-col>
+        </el-row>
     </el-main>
     </el-container>
   </el-container>
@@ -121,32 +104,23 @@
 </template>
 
 <script>
+import request from "@/utils/axiosInstance";
 export default {
   data() {
     return {
-      information: {
-        //用户id
-        userId: "123456",
-        //用户名
-        username: "陈剑锋",
-        //学校
-        school: "师专",
-        //头像url
-        avatarUrl: "",
-        //昵称
-        nickName: "杀我自动下载第五人格",
-        //性别
-        sex: "",
-      },
-      images: [
-        "Boghossian Kissing Air 帕拉伊巴钻石珠宝套装 (2).jpg",
-        "Boucheron Chromatique 花朵珠宝套装 (1).jpg",
-        "Boucheron Chromatique 花朵珠宝套装 (3).jpg",
-        "Chopard Floral 黑欧泊戒指.jpg",
-        "Dior Dentelle Satin Émeraude 祖母绿戒指.jpg",
-        "Van Cleef & Arpels 梵克雅宝 Panache Mystérieux 白金胸针.jpg",
-        "Van Cleef & Arpels 梵克雅宝 Secret des Amoureux 胸针.jpg",
+      input3: '',
+      select: '',
+      dataList: [
+        {
+          id: -1, //帖子的主键id
+          userId: 1, //帖子的主人id
+          title: "", //帖子标题
+          content: "", //内容
+          createTime: "", //发布时间
+          images: [], //图片
+        },
       ],
+      
       currentDate: new Date(),
     };
   },
@@ -159,13 +133,51 @@ export default {
       // 使用 require 动态加载图片
       return require(`@/assets/${image}`);
     },
+    toDetail(item) {
+      // this.$router.push({name:"post",params:{postItem: item}});
+      this.$router.push({
+        name: "post",
+        query: { id: item.id },
+      });
+    },
+    getData() {
+      request
+        .get("/post/all",{ params: { userId: this.userId } })
+        .then((res) => {
+          this.dataList = res.data.data;
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    searchData() {
+      // 在这里实现搜索逻辑
+      request
+        .get("/post/search", { params: { search: this.search } })
+        .then((res) => {
+          this.dataList = res.data.data;
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
-  created() { },
+  created() { 
+    this.getData();
+  },
   mounted() { },
 };
 </script>
 
 <style>
+.el-select .el-input {
+    width: 130px;
+  }
+  .input-with-select .el-input-group__prepend {
+    background-color: #fff;
+  }
 #userName {
   font-weight: bolder;
   margin-top: 0px;
