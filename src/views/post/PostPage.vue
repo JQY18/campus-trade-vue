@@ -17,33 +17,7 @@
                 <span>发现</span>
               </template>
             </el-menu-item>
-            <el-submenu index="2">
-              <template v-slot:title>
-                <i class="el-icon-location"></i>
-                <span>分类</span>
-              </template>
-              <!-- <el-menu-item-group> -->
-              <!-- 无法选中的文字 -->
-              <!-- <template v-slot:title>分组一</template> -->
-              <!-- 可选的选项，如：精选，鞋类，潮服，数码，美妆，家居，手表，包袋，配饰，潮玩，女装 -->
-              <el-menu-item index="1-1" @click="goTo('home')"
-                >鞋类</el-menu-item
-              >
-              <el-menu-item index="1-2">潮服</el-menu-item>
-
-              <el-menu-item index="1-3">数码</el-menu-item>
-
-              <el-submenu index="1-4">
-                <template v-slot:title>美妆</template>
-                <!-- <el-menu-item index="1-4-1">选项1</el-menu-item> -->
-              </el-submenu>
-              <el-menu-item index="1-5">家居</el-menu-item>
-              <el-menu-item index="1-6">手表</el-menu-item>
-              <el-menu-item index="1-7">包袋</el-menu-item>
-              <el-menu-item index="1-8">配饰</el-menu-item>
-              <el-menu-item index="1-9">潮玩</el-menu-item>
-              <el-menu-item index="1-10">女装</el-menu-item>
-            </el-submenu>
+            
             <el-menu-item index="3" @click="goTo('publish')">
               <i class="el-icon-document"></i>
               <template v-slot:title>
@@ -175,7 +149,7 @@ export default {
       this.$router.push({ name: name });
     },
     //初始化帖子所属用户的信息
-    getUserInfo(id) {
+    getUserInfo(id) {//
       request
         .get("/user/info", { params: { postUserId: id } })
         .then((response) => {
@@ -201,7 +175,7 @@ export default {
   created() {
     //获取到当前页面的帖子
     // this.postItem = this.$route.params.postItem;
-    this.postItem.postId = this.$route.query.id;
+    this.postItem.postId = this.$route.query.id;//获取上个页面传过来的帖子id
     //根据帖子id获取帖子内容
     this.getPostInfo();
   },

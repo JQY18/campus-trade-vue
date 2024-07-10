@@ -17,28 +17,7 @@
                 <span>发现</span>
               </template>
             </el-menu-item>
-            <el-submenu index="2">
-              <template v-slot:title>
-                <i class="el-icon-location"></i>
-                <span>分类</span>
-              </template>
-              <!-- <el-menu-item-group> -->
-              <!-- 无法选中的文字 -->
-              <!-- <template v-slot:title>分组一</template> -->
-              <!-- 可选的选项，如：精选，鞋类，潮服，数码，美妆，家居，手表，包袋，配饰，潮玩，女装 -->
-              <el-menu-item index="1-1">鞋类</el-menu-item>
-              <el-menu-item index="1-2">潮服</el-menu-item>
-
-              <el-menu-item index="1-3">数码</el-menu-item>
-              <el-menu-item index="1-4">美妆</el-menu-item>
-
-              <el-menu-item index="1-5">家居</el-menu-item>
-              <el-menu-item index="1-6">手表</el-menu-item>
-              <el-menu-item index="1-7">包袋</el-menu-item>
-              <el-menu-item index="1-8">配饰</el-menu-item>
-              <el-menu-item index="1-9">潮玩</el-menu-item>
-              <el-menu-item index="1-10">女装</el-menu-item>
-            </el-submenu>
+            
 
             <el-menu-item index="3" @click="goTo('publish')">
               <i class="el-icon-document"></i>
@@ -67,21 +46,16 @@
        <img :src="require('@/assets/logo3.png')" />
       </el-aside>
       <el-main> -->
-        <div class="group">
-          <svg viewBox="0 0 24 24" aria-hidden="true" class="icon">
-            <g>
-              <path
-                d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
-              ></path>
-            </g>
-          </svg>
-          <input
-            class="input"
-            type="search"
-            placeholder="Search"
-            v-model="search"
-          />
-        </div>
+        <div style="margin-top: 15px; width: 600px;">
+  <el-input placeholder="请输入内容" v-model="input3" class="input-with-select" >
+    <el-select v-model="select" slot="prepend" placeholder="请选择" @change="handleChange">
+      <el-option label="餐厅名" value="1"></el-option>
+      <el-option label="订单号" value="2"></el-option>
+      <el-option label="用户电话" value="3"></el-option>
+    </el-select>
+    <el-button slot="append" icon="el-icon-search" @click="submit"></el-button>
+  </el-input>
+</div>
 
         <router-link :to="!isLogin ? '/mine' : '/login'">
           <button class="userbtn">
@@ -134,6 +108,9 @@ import request from "@/utils/axiosInstance";
 export default {
   data() {
     return {
+      selectedValue:'0',
+      input3: '',
+      select: '',
       search: "",
       //帖子列表
       dataList: [
@@ -156,6 +133,14 @@ export default {
     this.getData();
   },
   methods: {
+    handleChange(value) {
+    console.log('选中的值为:', value);
+    // 可以将选中的值赋给组件中的一个变量
+    this.selectedValue = value;
+    
+    // 根据具体需求做相应的逻辑处理
+    // 例如根据不同的选项值，展示不同的内容或者触发不同的操作
+  },
     getImagePath(image) {
       // 使用 require 动态加载图片
       return require(`@/assets/${image}`);
@@ -206,6 +191,12 @@ export default {
 };
 </script>
 <style>
+.el-select .el-input {
+    width: 130px;
+  }
+  .input-with-select .el-input-group__prepend {
+    background-color: #fff;
+  }
 .userbtn,
 .loginbtn {
   width: 110px;
