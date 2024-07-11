@@ -32,7 +32,8 @@
         @mouseleave="resetText"
         >任鹏宇</i
       >
-      <div v-if="hoverText" class="hover-text">{{ hoverText }}</div>
+
+      <div v-if="hoverText" class="hover-text"><br />{{ hoverText }}</div>
     </div>
     <router-link to="/static-page"><button>我们的制作日志</button></router-link>
   </div>

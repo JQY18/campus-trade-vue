@@ -32,6 +32,12 @@
           <el-form-item label="昵称">
             <el-input v-model="userInfo.nickname"></el-input>
           </el-form-item>
+          <el-form-item label="性别">
+            <el-input v-model="userInfo.sex"></el-input>
+          </el-form-item>
+          <el-form-item label="年龄">
+            <el-input v-model="userInfo.age"></el-input>
+          </el-form-item>
           <el-form-item label="学校">
             <el-input v-model="userInfo.school"></el-input>
           </el-form-item>
@@ -129,6 +135,8 @@ export default {
         id: -1,
         username: "",
         nickname: "",
+        sex: "",
+        age: "",
         school: "",
       },
       files: [], // 存储已上传的文件
@@ -205,19 +213,16 @@ export default {
       if (
         this.userInfo.username === "" ||
         this.userInfo.nickname === "" ||
-        this.userInfo.school === ""
+        this.userInfo.school === "" ||
+        this.userInfo.sex === "" ||
+        this.userInfo.age === ""
       ) {
         this.$message.error("请填写完整信息！");
         return;
       }
       //发送请求
       request
-        .post("/user/update", {
-          id: this.userInfo.id,
-          username: this.userInfo.username,
-          nickname: this.userInfo.nickname,
-          school: this.userInfo.school,
-        })
+        .post("/user/update", this.userInfo)
         .then((response) => {
           console.log("User info updated successfully:", response);
           this.$message.success("信息更新成功！");

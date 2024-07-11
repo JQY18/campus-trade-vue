@@ -3,13 +3,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/other',
-    name: 'other',
-    component: () => import('../views/OtherView.vue')
-  },
-  {
+const routes = [{
     path: '/profile',
     name: 'profile',
     component: () => import('../views/personal/ProfileView.vue')
@@ -57,30 +51,25 @@ const routes = [
     name: 'column',
     component: () => import('../views/manage/ColumnView.vue')
   },
-  
+
   {
     path: '/radar',
     name: 'radar',
     component: () => import('../views/manage/RadarView.vue')
   },
-  
+
   {
     path: '/post',
     name: 'post',
     component: () => import('../views/post/PostPage.vue')
   },
-  
+
   // 首页
-  
+
   {
     path: '/login',
     name: 'login',
     component: () => import('../views/login/LoginPage.vue')
-  },
-  {
-    path: '/user',
-    name: 'user',
-    component: () => import('../views/personal/PersonalDiv.vue')
   },
   {
     path: '/publish',

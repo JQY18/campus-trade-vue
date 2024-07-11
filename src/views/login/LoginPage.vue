@@ -64,9 +64,18 @@ export default {
       },
     };
   },
-  created() {},
+  created() {
+    this.tryLogin();
+  },
   mounted() {},
   methods: {
+    tryLogin() {
+      request.get("/user/authentic").then((res) => {
+        if (res.data.code == 1) {
+          this.$router.push("/");
+        }
+      });
+    },
     showMessage(msg, type) {
       this.$message({
         message: msg,
@@ -228,7 +237,6 @@ body {
   background-color: rgba(255, 255, 255, 0.5); /* 使用半透明背景 */
   border-radius: 20px;
   box-shadow: 0 0 3px #f0f0f0, 0 0 6px #f0f0f0;
-
 }
 
 .big-box {
