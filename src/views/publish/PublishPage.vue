@@ -35,33 +35,61 @@
     </el-aside>
 
     <el-main>
-      
-      <el-input type="textarea" autosize placeholder="请输入标题" v-model="title" style="width: 400px">
+      <el-input
+        type="textarea"
+        autosize
+        placeholder="请输入标题"
+        v-model="title"
+        style="width: 400px"
+      >
       </el-input>
-      <el-select  v-model="select" placeholder="请选择" @change="handleChange1">
+      <el-select v-model="select" placeholder="请选择" @change="handleChange1">
         <!-- 选择类别 -->
-        <el-option v-for="(item, index) in Category[0].category" :key="index" :label="item" :value="index+1"></el-option>
-
+        <el-option
+          v-for="(item, index) in Category[0].category"
+          :key="index"
+          :label="item"
+          :value="index + 1"
+        ></el-option>
       </el-select>
       <div style="margin: 20px 0"></div>
-      <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 6 }" placeholder="请输入内容" v-model="content"
-        style="width: 400px">
-
+      <el-input
+        type="textarea"
+        :autosize="{ minRows: 5, maxRows: 6 }"
+        placeholder="请输入内容"
+        v-model="content"
+        style="width: 400px"
+      >
       </el-input>
-      
+
       <!-- 多文件上传 -->
-      <el-upload ref="uploadRef" list-type="picture-card" :auto-upload="false" :http-request="handlePublish"
-        :multiple="true" :on-change="handleChange" :file-list="files" :on-submit="handleSubmit"
-        :on-remove="handleRemoveFromComponent">
+      <el-upload
+        ref="uploadRef"
+        list-type="picture-card"
+        :auto-upload="false"
+        :http-request="handlePublish"
+        :multiple="true"
+        :on-change="handleChange"
+        :file-list="files"
+        :on-submit="handleSubmit"
+        :on-remove="handleRemoveFromComponent"
+      >
         <i slot="default" class="el-icon-plus"></i>
         <div slot="file" slot-scope="{ file }">
           <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
           <span class="el-upload-list__item-actions">
-            <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
+            <span
+              class="el-upload-list__item-preview"
+              @click="handlePictureCardPreview(file)"
+            >
               <i class="el-icon-zoom-in"></i>
             </span>
 
-            <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
+            <span
+              v-if="!disabled"
+              class="el-upload-list__item-delete"
+              @click="handleRemove(file)"
+            >
               <i class="el-icon-delete"></i>
             </span>
           </span>
@@ -73,7 +101,9 @@
       <el-dialog :visible.sync="dialogVisible">
         <img width="100%" :src="dialogImageUrl" alt="" />
       </el-dialog>
-      <el-button type="primary" class="btn" @click="handlePublish">发布</el-button>
+      <el-button type="primary" class="btn" @click="handlePublish"
+        >发布</el-button
+      >
     </el-main>
   </el-container>
 </template>
@@ -95,10 +125,24 @@ export default {
       selectedValue: "0",
     };
   },
-  mounted() {
+  created() {
+    // 从会话中获取登录的用户
+    this.getUserId();
     this.Category = Category.comment.data;
   },
+  mounted() {},
   methods: {
+    // 获取登录的userId
+    getUserId() {
+      request
+        .get("/user/authentic")
+        .then((res) => {
+          this.userId = res.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     handleChange1(value) {
       console.log("选中的值为:", value);
       // 可以将选中的值赋给组件中的一个变量
@@ -111,7 +155,7 @@ export default {
       this.$message({
         message: msg,
         type: type, // 消息类型，可选值：success / warning / info / error
-        duration: 3 * 1000, // 显示时间，单位毫秒，默认是 3000
+        duration: 2 * 1000, // 显示时间，单位毫秒，默认是 3000
       });
     },
     handleChange(file, fileList) {
@@ -189,7 +233,11 @@ export default {
         })
         .then((response) => {
           this.clearFiles();
-          this.showMessage("发布成功", "success");
+          if (response.data.code === 1) {
+            this.showMessage("发布成功", "success");
+          } else {
+            this.showMessage("发布失败", "error");
+          }
           console.log("Files uploaded successfully:", response.data);
         })
         .catch((error) => {
@@ -318,13 +366,13 @@ export default {
 }
 
 /* Input field:focus styles */
-.input-field:focus+.input-label {
+.input-field:focus + .input-label {
   top: -20px;
   font-size: 12px;
   color: #007bff;
 }
 
-.input-field:focus+.input-label+.input-highlight {
+.input-field:focus + .input-label + .input-highlight {
   width: 100%;
 }
 

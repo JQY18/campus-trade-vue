@@ -238,7 +238,7 @@ export default {
     // 刷新评论区
     fresh() {
       request
-        .get(`/comments/${this.postId}`, { params: { userId: 2 } })
+        .get(`/comments/${this.postId}`, { params: { userId: this.userId } })
         .then((res) => {
           this.comments = res.data.data;
         })
@@ -251,12 +251,25 @@ export default {
     avatarClick(id) {
       this.$router.push({ name: "mine", query: { id: id } });
     },
+
+    // 获取登录的userId
+    getUserId() {
+      request
+        .get("/user/authentic")
+        .then((res) => {
+          this.userId = res.data.data;
+          this.postId = this.id;
+          this.fresh();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
+
   created() {
-    // this.userId = sessionStorage.getItem("userId");
-    this.userId = 2;
-    this.postId = this.id;
-    this.fresh();
+    // 从服务端session会话中获取当前登录的用户id
+    this.getUserId();
   },
   mounted() {},
 };

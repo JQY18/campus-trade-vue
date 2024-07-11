@@ -47,8 +47,12 @@
               placeholder="请选择"
               @change="handleChange"
             >
-            <el-option v-for="(item, index) in Category[0].category" :key="index" :label="item"
-            :value="index+1"></el-option>
+              <el-option
+                v-for="(item, index) in Category[0].category"
+                :key="index"
+                :label="item"
+                :value="index"
+              ></el-option>
             </el-select>
             <el-button
               slot="append"
@@ -58,7 +62,10 @@
           </el-input>
         </div>
 
-        <router-link :to="{ name: 'login' }"><button>登录</button></router-link>
+        <!-- <router-link :to="{ name: 'login' }"><button>登录</button></router-link> -->
+        <button v-if="this.userId == this.ownerInfo.id" @click="logout">
+          退出登录
+        </button>
 
         <div class="div1">
           <div class="div2">
@@ -127,7 +134,7 @@ import request from "@/utils/axiosInstance";
 export default {
   data() {
     return {
-      Category:[],
+      Category: [],
       userId: 1, //当前会话的用户id
       search: "",
       select: "",
@@ -162,7 +169,17 @@ export default {
       // 根据具体需求做相应的逻辑处理
       // 例如根据不同的选项值，展示不同的内容或者触发不同的操作
     },
-
+    // 获取登录的userId
+    getUserId() {
+      request
+        .get("/user/authentic")
+        .then((res) => {
+          this.userId = res.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     //初始化主页所属用户的信息
     getUserInfo(id) {
       request
@@ -220,12 +237,20 @@ export default {
           console.log(err);
         });
     },
+    //退出登录
+    logout() {
+      // 删除token
+      localStorage.removeItem("token");
+    
+      this.$router.push({ name: "login" });
+    },
   },
   created() {
     //从查询串中获取当前主页的主人的id
     this.ownerInfo.id = this.$route.query.id;
-    //this.userId = sessionStorage.getItem("userId");
-    this.userId = 1;
+    // 从session会话中获取当前登录的用户id
+    this.getUserId();
+    //this.userId = 1;
     //this.ownerInfo.id = 1;
     this.getUserInfo(this.ownerInfo.id);
     this.getData();

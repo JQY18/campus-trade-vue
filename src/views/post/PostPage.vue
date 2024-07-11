@@ -4,7 +4,7 @@
       <!-- 侧边导航菜单 -->
       <el-row class="tac">
         <el-col :span="8">
-          <img :src="require('@/assets/logo3.png')" alt="logo"/>
+          <img :src="require('@/assets/logo3.png')" alt="logo" />
           <el-menu
             default-active="1"
             class="el-menu-vertical-demo"
@@ -41,26 +41,36 @@
        <img :src="require('@/assets/logo3.png')" />
       </el-aside>
       <el-main> -->
-        <div style="margin-top: 15px; width: 600px;">
-          <el-input placeholder="请输入内容" v-model="input3" class="input-with-select" disabled>
+        <div style="margin-top: 15px; width: 600px">
+          <el-input
+            placeholder="请输入内容"
+            v-model="input3"
+            class="input-with-select"
+            disabled
+          >
             <el-select v-model="select" slot="prepend" placeholder="请选择">
             </el-select>
             <el-button slot="append" icon="el-icon-search" disabled></el-button>
           </el-input>
         </div>
-
-        <router-link :to="!isLogin ? '/mine' : '/login'">
+<!-- 
+        <router-link
+          :to="
+            userId != -1 ? { path: 'mine', query: { id: userId } } : '/login'
+          "
+        >
           <button>
             <img
               :src="require('@/assets/用户.png')"
               style="width: 20px; height: 20px"
             />
           </button>
-        </router-link>
+        </router-link> -->
 
-        <router-link v-if="!isLogin" :to="{ name: 'login' }">
+        <!--         <router-link v-if="!isLogin" :to="{ name: 'login' }">
           <button>登录</button>
-        </router-link>
+        </router-link> -->
+
         <!-- <router-link :to="{name:'login'}">登录</router-link> -->
         <!-- <router-link :to="{name:'login'}">登录</router-link> -->
         <!-- <router-link :to="{name:'login'}">登录</router-link> -->

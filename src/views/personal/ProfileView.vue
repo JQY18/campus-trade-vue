@@ -126,7 +126,7 @@ export default {
     return {
       activeMenu: "personalInfo",
       userInfo: {
-        id: 1,
+        id: -1,
         username: "",
         nickname: "",
         school: "",
@@ -140,6 +140,18 @@ export default {
     };
   },
   methods: {
+    // 获取登录的userId
+    getUserId() {
+      request
+        .get("/user/authentic")
+        .then((res) => {
+          this.userInfo.id = res.data.data;
+          this.getUserInfo(this.userInfo.id);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     handleChange(file, fileList) {
       if (this.files.length >= 1) {
         this.$message.error("只能上传一张图片！");
@@ -215,9 +227,9 @@ export default {
         });
     },
     //初始化主页所属用户的信息
-    getUserInfo(id) {
+    getUserInfo() {
       request
-        .get("/user/info", { params: { postUserId: id } })
+        .get("/user/info", { params: { postUserId: this.userInfo.id } })
         .then((response) => {
           this.userInfo = response.data.data;
         })
@@ -292,10 +304,8 @@ export default {
     },
   },
   created() {
-    //从sesstionStorage中获取用户id
-    //this.userId = JSON.parse(sessionStorage.getItem("user")).id;
-    this.userInfo.id = 1;
-    this.getUserInfo(this.userInfo.id);
+    //从session中获取用户id
+    this.getUserId();
   },
 };
 </script>

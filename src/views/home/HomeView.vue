@@ -1,12 +1,16 @@
 <template>
   <el-container>
-
     <el-aside>
       <!-- 侧边导航菜单 -->
       <el-row class="tac">
         <el-col :span="8">
           <img :src="require('@/assets/logo3.png')" />
-          <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+          <el-menu
+            default-active="1"
+            class="el-menu-vertical-demo"
+            @open="handleOpen"
+            @close="handleClose"
+          >
             <el-menu-item index="1" @click="goTo('home')">
               <i class="el-icon-menu"></i>
               <template v-slot:title>
@@ -41,24 +45,47 @@
       </el-aside>
       <el-main> -->
         <div style="margin-top: 15px; width: 600px">
-          <el-input placeholder="请输入内容" v-model="search" class="input-with-select">
-            <el-select v-model="select" slot="prepend" placeholder="请选择" @change="handleChange">
+          <el-input
+            placeholder="请输入内容"
+            v-model="search"
+            class="input-with-select"
+          >
+            <el-select
+              v-model="select"
+              slot="prepend"
+              placeholder="请选择"
+              @change="handleChange"
+            >
               <!-- 选择类别 -->
-              <el-option v-for="(item, index) in Category[0].category" :key="index" :label="item"
-                :value="index+1"></el-option>
-              
+              <el-option
+                v-for="(item, index) in Category[0].category"
+                :key="index"
+                :label="item"
+                :value="index"
+              ></el-option>
             </el-select>
-            <el-button slot="append" icon="el-icon-search" @click="searchData"></el-button>
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              @click="searchData"
+            ></el-button>
           </el-input>
         </div>
 
-        <router-link :to="!isLogin ? '/mine' : '/login'">
+        <router-link
+          :to="
+            userId != -1 ? { path: 'mine', query: { id: userId } } : '/login'
+          "
+        >
           <button class="userbtn">
-            <img :src="require('@/assets/用户.png')" style="width: 20px; height: 20px" />
+            <img
+              :src="require('@/assets/用户.png')"
+              style="width: 20px; height: 20px"
+            />
           </button>
         </router-link>
 
-        <router-link v-if="!isLogin" :to="{ name: 'login' }">
+        <router-link v-if="userId == -1" :to="{ name: 'login' }">
           <button class="loginbtn">登录</button>
         </router-link>
       </el-header>
@@ -67,13 +94,22 @@
         <el-row :gutter="20">
           <el-col :span="6" v-for="(item, index) in dataList" :key="index">
             <div class="card-container">
-              <el-card :body-style="{ padding: '0px', margin: '10px' }" shadow="hover" class="rounded-card">
+              <el-card
+                :body-style="{ padding: '0px', margin: '10px' }"
+                shadow="hover"
+                class="rounded-card"
+              >
                 <img :src="item.images[0]" class="image" />
                 <div style="padding: 14px">
                   <span>{{ item.title }}</span>
                   <div class="bottom clearfix">
                     <time class="time">{{ item.createTime }}</time>
-                    <el-button type="text" class="button" @click="toDetail(item)">查看详情</el-button>
+                    <el-button
+                      type="text"
+                      class="button"
+                      @click="toDetail(item)"
+                      >查看详情</el-button
+                    >
                   </div>
                 </div>
               </el-card>
@@ -92,6 +128,7 @@ import request from "@/utils/axiosInstance";
 export default {
   data() {
     return {
+      userId: -1,
       Category: [],
       selectedValue: "0",
       select: "",
@@ -117,9 +154,21 @@ export default {
     this.Category = Category.comment.data;
   },
   created() {
+    this.getUserId();
     this.getData();
   },
   methods: {
+    // 获取登录的userId
+    getUserId() {
+      request
+        .get("/user/authentic")
+        .then((res) => {
+          this.userId = res.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     handleChange(value) {
       console.log("选中的值为:", value);
       // 可以将选中的值赋给组件中的一个变量
