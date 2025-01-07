@@ -22,6 +22,7 @@
     </el-aside>
 
     <el-main>
+      <!-- 第一个页面 -->
       <div v-if="activeMenu === 'personalInfo'">
         <h2>编辑个人信息</h2>
         <hr />
@@ -33,7 +34,7 @@
             <el-input v-model="userInfo.nickname"></el-input>
           </el-form-item>
           <el-form-item label="性别">
-            <el-input v-model="userInfo.sex"></el-input>
+            <el-input v-model="userInfo.gender"></el-input>
           </el-form-item>
           <el-form-item label="年龄">
             <el-input v-model="userInfo.age"></el-input>
@@ -46,7 +47,7 @@
           </el-form-item>
         </el-form>
       </div>
-
+      <!-- 第二个页面 -->
       <div v-if="activeMenu === 'changeAvatar'">
         <h2>修改头像</h2>
         <hr />
@@ -92,7 +93,7 @@
         </el-upload>
         <el-button type="primary" @click="saveAvatar">保存</el-button>
       </div>
-
+      <!-- 第三个页面 -->
       <div v-if="activeMenu === 'changePassword'">
         <h2>修改密码</h2>
         <hr />
@@ -135,7 +136,7 @@ export default {
         id: -1,
         username: "",
         nickname: "",
-        sex: "",
+        gender: "",
         age: "",
         school: "",
       },
@@ -214,7 +215,7 @@ export default {
         this.userInfo.username === "" ||
         this.userInfo.nickname === "" ||
         this.userInfo.school === "" ||
-        this.userInfo.sex === "" ||
+        this.userInfo.gender === "" ||
         this.userInfo.age === ""
       ) {
         this.$message.error("请填写完整信息！");

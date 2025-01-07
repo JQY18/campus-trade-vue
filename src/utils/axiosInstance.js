@@ -4,9 +4,10 @@ import router from '../router';
 
 const instance = axios.create({
     // 设置基础URL，这将被添加到每个请求的URL前
+    // baseURL: 'api',
     baseURL: 'http://localhost:8080',
     // 设置超时时间
-    timeout: 1000,
+    timeout: 5000,
 
 });
 
@@ -34,23 +35,27 @@ instance.interceptors.response.use(
                 case 401:
                     // 未授权
                     localStorage.removeItem('token');
-                    return router.push({
+                    router.push({
                         name: 'login'
-                    });
+                    }).catch(() => {});
+                    break;
                 case 404:
                     // 资源未找到
-                    return router.push({
+                    router.push({
                         name: 'error404'
                     });
+                    break;
                 case 500:
                     // 内部服务器错误
-                    return router.push({
+                    router.push({
                         name: 'error500'
                     });
+                    break;
                 default:
                     // 其他错误状态码
                     break;
             }
+            return error.response;
         }
         return Promise.reject(error);
     }

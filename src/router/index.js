@@ -63,7 +63,12 @@ const routes = [{
     name: 'post',
     component: () => import('../views/post/PostPage.vue')
   },
+  {
+    path: '/list',
+    name: 'list',
+    component: () => import('../views/manage/UsersList.vue')
 
+  },
   // 首页
 
   {

@@ -26,7 +26,7 @@
               size="small"
             ></el-input>
           </el-form-item>
-          
+
           <el-form-item label="密码" prop="password" style="margin-top: 12px">
             <el-input
               style="width: 200px"
@@ -54,13 +54,14 @@
             >
           </el-form-item>
         </div>
-
       </div>
     </el-form>
   </div>
 </template>
 
 <script>
+import request from "@/utils/axiosInstance";
+
 export default {
   data() {
     return {
@@ -69,26 +70,34 @@ export default {
     };
   },
   methods: {
-    goTo(name) {
+    goTo() {
       // 验证用户名和密码
       if (this.username === "" || this.password === "") {
-        alert("请输入用户名和密码");
+        this.$message.error("请输入用户名和密码");
         return;
       }
 
-      if (this.password.length < 8 || this.password.length > 15) {
-        alert("密码长度必须在8到15之间");
+      if (this.password.length < 6 || this.password.length > 15) {
+        this.$message.error("密码长度应在6-20位之间");
         return;
       }
-      if (this.username !== "admin" || this.password !== "admin123") {
-        alert("用户名或密码错误");
-        return;
-      }
+
       // 跳转到管理员页面
-
-      this.$router.push({ name: name }).catch((err) => {
-        err;
-      });
+      request
+        .get("/admin/login", {
+          params: { username: this.username, password: this.password },
+        })
+        .then((res) => {
+          if (res.data.code === 1) {
+            this.$message.success("登录成功");
+            this.$router.push({ name: "list" });
+          } else {
+            this.$message.error("登录失败");
+          }
+        })
+        .catch((err) => {
+          console.info(err);
+        });
     },
     // 跳转到商家页面
     // 执行路由跳转

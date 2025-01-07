@@ -49,7 +49,7 @@
           v-for="(item, index) in Category[0].category"
           :key="index"
           :label="item"
-          :value="index + 1"
+          :value="index"
         ></el-option>
       </el-select>
       <div style="margin: 20px 0"></div>

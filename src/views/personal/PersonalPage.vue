@@ -80,8 +80,8 @@
           <div class="div3">
             <p id="userName">用户名:</p>
             &nbsp;&nbsp;&nbsp;{{ ownerInfo.username }}
-            <p id="nickname">昵称:{{ ownerInfo.nickname }}</p>
-            <p id="school">学校:{{ ownerInfo.school }}</p>
+            <p id="nickname">昵称:&nbsp;&nbsp;{{ ownerInfo.nickname }}</p>
+            <p id="school">学校:&nbsp;&nbsp;{{ ownerInfo.school }}</p>
           </div>
 
           <router-link
